@@ -94,29 +94,17 @@ const ProductForm = () => {
     // 키워드 삭제 함수
     const deleteKeyword = (e) => {
         if (e.currentTarget.parentElement) {
-            const deleteTagItem =
-                e.currentTarget.parentElement.firstChild?.textContent;
+            const deleteTagItem = e.currentTarget.parentElement.firstChild?.textContent;
             if (deleteTagItem) {
-                const filteredTagList = keywordList.filter(
-                    (tagItem) => tagItem !== deleteTagItem
-                );
+                const filteredTagList = keywordList.filter((tagItem) => tagItem !== deleteTagItem);
                 setKeywordList(filteredTagList);
             }
         }
     };
+
     // 상품 등록 버튼 함수
     const handleAddBtn = () => {
-        console.log(
-            name,
-            category,
-            price,
-            remaining,
-            content,
-            keywordList,
-            imgURL1,
-            imgURL2,
-            imgURL3
-        );
+        console.log(name, category, price, remaining, content, keywordList, imgURL1, imgURL2, imgURL3);
     };
 
     // 취소 버튼 함수
@@ -137,17 +125,8 @@ const ProductForm = () => {
                         ref={imgRef1}
                         onChange={(e) => handleImageUpload(e, 1)}
                     />
-                    <button
-                        className="img-btn"
-                        type="button"
-                        onClick={() => handleImageBtnClick(1)}
-                    >
-                        <img
-                            src={imgURL1}
-                            width={300}
-                            height={300}
-                            alt="이미지1"
-                        />
+                    <button className="img-btn" type="button" onClick={() => handleImageBtnClick(1)}>
+                        <img src={imgURL1} width={300} height={300} alt="이미지1" />
                     </button>
                     <div className="img-box2">
                         <input
@@ -156,17 +135,8 @@ const ProductForm = () => {
                             ref={imgRef2}
                             onChange={(e) => handleImageUpload(e, 2)}
                         />
-                        <button
-                            className="img-btn"
-                            type="button"
-                            onClick={() => handleImageBtnClick(2)}
-                        >
-                            <img
-                                src={imgURL2}
-                                width={145}
-                                height={145}
-                                alt="이미지2"
-                            />
+                        <button className="img-btn" type="button" onClick={() => handleImageBtnClick(2)}>
+                            <img src={imgURL2} width={145} height={145} alt="이미지2" />
                         </button>
                         <input
                             type="file"
@@ -174,37 +144,19 @@ const ProductForm = () => {
                             ref={imgRef3}
                             onChange={(e) => handleImageUpload(e, 3)}
                         />
-                        <button
-                            className="img-btn"
-                            type="button"
-                            onClick={() => handleImageBtnClick(3)}
-                        >
-                            <img
-                                src={imgURL3}
-                                width={145}
-                                height={145}
-                                alt="이미지3"
-                            />
+                        <button className="img-btn" type="button" onClick={() => handleImageBtnClick(3)}>
+                            <img src={imgURL3} width={145} height={145} alt="이미지3" />
                         </button>
                     </div>
                 </div>
                 <div className="input-box">
                     <div className="input">
                         <label for="title-id">상품 제목 : </label>
-                        <TextField
-                            id="title-id"
-                            size="small"
-                            onChange={(e) => setName(e.target.value)}
-                        />
+                        <TextField id="title-id" size="small" onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className="input">
                         <label>카테고리 : </label>
-                        <Select
-                            id="select"
-                            value={category}
-                            onChange={handleCateory}
-                            size="small"
-                        >
+                        <Select id="select" value={category} onChange={handleCateory} size="small">
                             <MenuItem value={10}>None</MenuItem>
                             <MenuItem value={20}>남성 상의</MenuItem>
                             <MenuItem value={30}>남성 하의</MenuItem>
@@ -228,19 +180,13 @@ const ProductForm = () => {
                             id="count_id"
                             size="small"
                             onChange={(e) => {
-                                setRemaining(
-                                    e.target.value.replace(/[^0-9]/g, "")
-                                );
+                                setRemaining(e.target.value.replace(/[^0-9]/g, ""));
                             }}
                         />
                     </div>
                     <div className="input">
                         <label for="content_id">상품 설명 : </label>
-                        <TextField
-                            id="content_id"
-                            size="small"
-                            onChange={(e) => setContent(e.target.value)}
-                        />
+                        <TextField id="content_id" size="small" onChange={(e) => setContent(e.target.value)} />
                     </div>
                     <div className="keyword-box" onClick={handleKeyword}>
                         <label>상품 키워드 : </label>
@@ -249,10 +195,7 @@ const ProductForm = () => {
                                 return (
                                     <div className="keyword-item" key={index}>
                                         <span className="text">{tagItem}</span>
-                                        <button
-                                            className="keyword-del-btn"
-                                            onClick={deleteKeyword}
-                                        >
+                                        <button className="keyword-del-btn" onClick={deleteKeyword}>
                                             X
                                         </button>
                                     </div>
@@ -270,8 +213,12 @@ const ProductForm = () => {
                         </div>
                     </div>
                     <div className="btn-box">
-                        <button onClick={handleAddBtn}>상품 등록</button>
-                        <button onClick={handleCancleBtn}>취소</button>
+                        <button className="add-btn" onClick={handleAddBtn}>
+                            상품 등록
+                        </button>
+                        <button className="cancle-btn" onClick={handleCancleBtn}>
+                            취소
+                        </button>
                     </div>
                 </div>
             </div>
