@@ -1,0 +1,109 @@
+label {
+    font-weight: bold;
+    display: block;
+    width: 100px;
+    margin: 0;
+}
+
+.box {
+    display: flex;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 100px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+}
+
+.img-box2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.img-btn {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
+.keyword-box {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.keyword-input-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 40px;
+    padding: 0 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+
+    &:focus-within {
+        border-color: rgb(71, 132, 255);
+    }
+}
+
+.keyword-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    padding: 5px;
+    background-color: rgb(65, 87, 252);
+    border-radius: 5px;
+    color: white;
+    font-size: 13px;
+}
+
+.keyword-del-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+    border: 0;
+    background-color: transparent;
+    color: red;
+}
+
+.keyword-del-btn:hover {
+    cursor: pointer;
+}
+
+.keyword-input {
+    display: inline-flex;
+    max-width: 100px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: text;
+}
+
+.add-btn {
+    width: 150px;
+    height: 60px;
+    border: 0;
+    background-color: #06F;
+    font-weight: bold;
+    color: white;
+}
+
+.cancle-btn {
+    width: 150px;
+    height: 60px;
+    border: 0;
+    background-color: #FACACA;
+    font-weight: bold;
+    margin-left: 30px;
+}
