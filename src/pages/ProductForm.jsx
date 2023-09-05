@@ -216,7 +216,6 @@ const ProductForm = () => {
                             id="price_id"
                             size="small"
                             type="number"
-                            inputProps={{ step: "0.1", lang: "en-US" }}
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
