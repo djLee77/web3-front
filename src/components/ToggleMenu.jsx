@@ -1,35 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 
 const ToggleMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSecondOpen, setIsSecondOpen] = useState(false);
-  const [secondList, setSecondList] = useState([]);
   const [isThirdOpen, setIsThirdOpen] = useState(false);
+
+  const [mainList, setMainList] = useState([]);
+  const [secondLists, setSecondLists] = useState({});
+  const [thirdLists, setThirdLists] = useState({});
+
+  const [secondList, setSecondList] = useState([]);
   const [thirdList, setThirdList] = useState([]);
 
-  // 첫 번째 리스트
-  const mainList = [
-    "패션의류/잡화", "뷰티", "출산/유아동", "식품", "주방용품",
-    "생활용품", "홈인테리어", "가전디지털", "스포츠레저", "자동차용품", "헬스/건강"
-  ];
+  useEffect(() => {
+    // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:4000/api/categories");
+      const data = await response.json();
+      const categories = data.data.categories[0].child;
 
-  // 첫 번째 리스트의 항목에 따른 두 번째 리스트
-  const secondLists = {
-    "패션의류/잡화": ["남성의류", "여성의류", "공용", "유아동"],
-    "뷰티": ["스킨케어", "클린/비건뷰티", "클렌징/필링", "메이크업", "향수", "헤어", "바디"],
-    "출산/유아동": ["유아동패션", "기저귀", "물티슈", "분유/어린이식품", "카시트", "유모차", "수유용품"],
-    "식품": ["유기농", "과일", "견과", "채소", "쌀/잡곡", "축산/계란", "수산물/건어물", "생수/음료"],
-    "주방용품": ["주방가전", "냄비/프라이팬", "주방조리도구", "그릇/홈세트", "수저/커트러리", "컵/텀블러/와인용품"],
-  };
+      const mainListTemp = [];
+      const secondListsTemp = {};
+      const thirdListsTemp = {};
 
-  const thirdLists = {
-    "남성의류": ["의류", "속옷/잠옷", "신발", "가방/잡화"],
-    "여성의류": ["의류", "속옷/잠옷", "신발", "가방/잡화"],
-    "공용": ["티셔츠", "맨트맨/후드티", "셔츠", "바지", "트레이닝복", "후드집업/집업류", "니트류/조끼", "아우터", "테마의류"],
-    "유아동": ["베이비", "여아", "남아"],
-  }
+      categories.forEach((cat) => {
+        mainListTemp.push(cat.name);
+
+        if (cat.child && cat.child.length > 0) {
+          secondListsTemp[cat.name] = cat.child.map((child) => child.name);
+
+          cat.child.forEach((subCat) => {
+            if (subCat.child && subCat.child.length > 0) {
+              thirdListsTemp[subCat.name] = subCat.child.map(
+                (child) => child.name
+              );
+            }
+          });
+        }
+      });
+
+      setMainList(mainListTemp);
+      setSecondLists(secondListsTemp);
+      setThirdLists(thirdListsTemp);
+    };
+
+    fetchData();
+  }, []);
 
   const ToggleSidebar = () => {
     setIsOpen(!isOpen);
