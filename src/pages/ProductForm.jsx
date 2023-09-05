@@ -101,7 +101,6 @@ const ProductForm = () => {
             }
         }
     };
-
     // 상품 등록 버튼 함수
     const handleAddBtn = () => {
         console.log(name, category, price, remaining, content, keywordList, imgURL1, imgURL2, imgURL3);
@@ -168,6 +167,7 @@ const ProductForm = () => {
                             id="price_id"
                             size="small"
                             type="number"
+                            inputProps={{ step: "0.1", lang: "en-US" }}
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
@@ -213,12 +213,8 @@ const ProductForm = () => {
                         </div>
                     </div>
                     <div className="btn-box">
-                        <button className="add-btn" onClick={handleAddBtn}>
-                            상품 등록
-                        </button>
-                        <button className="cancle-btn" onClick={handleCancleBtn}>
-                            취소
-                        </button>
+                        <button onClick={handleAddBtn}>상품 등록</button>
+                        <button onClick={handleCancleBtn}>취소</button>
                     </div>
                 </div>
             </div>
