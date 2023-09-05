@@ -1,13 +1,18 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
 import "../css/NavBar.css"
+import "../components/SearchBar"
+import SearchBar from "../components/SearchBar";
+
 const NavBar = () => {
   return (
     <div className="body">
       <div>
-        <ToggleMenu />
+        <ToggleMenu/>
       </div>
-      <h1>검색창 자리</h1>
+      <div>
+        <SearchBar/>
+      </div>
     </div>
   );
 };
