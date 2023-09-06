@@ -47,6 +47,7 @@ export default function SelectCategoryModal({ category, setCategory }) {
             const secondListsTemp = {};
             const thirdListsTemp = {};
 
+            // 1번째 카테고리 목록 저장
             const mainListTemp = categories.map((cat) => ({
                 categoryId: cat.categoryId,
                 name: cat.name,
@@ -54,12 +55,14 @@ export default function SelectCategoryModal({ category, setCategory }) {
 
             categories.forEach((cat) => {
                 if (cat.child && cat.child.length > 0) {
+                    // 2번째 카테고리 목록 저장
                     secondListsTemp[cat.name] = cat.child.map((child) => ({
                         categoryId: child.categoryId,
                         name: child.name,
                     }));
 
                     cat.child.forEach((subCat) => {
+                        // 3번째 카테고리 목록 저장
                         if (subCat.child && subCat.child.length > 0) {
                             thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
                                 categoryId: child.categoryId,
@@ -78,11 +81,13 @@ export default function SelectCategoryModal({ category, setCategory }) {
         fetchData();
     }, []);
 
+    // 선택된 첫번째 카테고리의 맞는 두번째 카테고리 목록 저장 함수
     const ToggleSecondSidebar = (subject) => {
         setPickedSecondList(secondList[subject] || []);
         setIsSecondOpen(true);
     };
 
+    // 선택된 두번째 카테고리의 맞는 세번째 카테고리 목록 저장 함수
     const ToggleThirdSidebar = (subject) => {
         setPickedThirdList(thirdList[subject] || []);
         setIsThirdOpen(true);
