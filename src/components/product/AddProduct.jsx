@@ -1,14 +1,16 @@
 import { MenuItem, Select, TextField } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../../css/AddProduct.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import SelectCategoryModal from "./modal/SelectCategoryModal";
 
 const AddProduct = () => {
     const [imgURL1, setImgURL1] = useState("/imgs/defaultAddImg.png"); // 이미지1
     const [imgURL2, setImgURL2] = useState("/imgs/defaultAddImg.png"); // 이미지2
     const [imgURL3, setImgURL3] = useState("/imgs/defaultAddImg.png"); // 이미지3
     const [name, setName] = useState(""); // 상풍명
-    const [category, setCategory] = useState(""); // 카테고리
+    const [category, setCategory] = useState({}); // 카테고리
     const [price, setPrice] = useState(0); // 가격
     const [remaining, setRemaining] = useState(0); // 수량
     const [content, setContent] = useState(""); // 상품 상세 내용
@@ -103,7 +105,7 @@ const AddProduct = () => {
     };
     // 상품 등록 버튼 함수
     const handleAddBtn = () => {
-        console.log(name, category, price, remaining, content, keywordList, imgURL1, imgURL2, imgURL3);
+        console.log(name, category.categoryId, price, remaining, content, keywordList, imgURL1, imgURL2, imgURL3);
     };
 
     // 취소 버튼 함수
@@ -115,6 +117,7 @@ const AddProduct = () => {
 
     return (
         <div className="box">
+            {/* 이미지 선택 영역 */}
             <div className="img-box1">
                 <input
                     type="file"
@@ -146,19 +149,22 @@ const AddProduct = () => {
                     </button>
                 </div>
             </div>
+
             <div className="input-box">
+                {/* 상품 제목 */}
                 <div className="input">
                     <label htmlFor="title-id">상품 제목 : </label>
                     <TextField id="title-id" size="small" onChange={(e) => setName(e.target.value)} />
                 </div>
+
+                {/* 카테고리 */}
                 <div className="input">
                     <label>카테고리 : </label>
-                    <Select id="select" value={category} onChange={handleCateory} size="small">
-                        <MenuItem value={10}>None</MenuItem>
-                        <MenuItem value={20}>남성 상의</MenuItem>
-                        <MenuItem value={30}>남성 하의</MenuItem>
-                    </Select>
+                    <SelectCategoryModal category={category} setCategory={setCategory} />
+                    <span>{category.name}</span>
                 </div>
+
+                {/* 상품 가격 */}
                 <div className="input">
                     <label htmlFor="price_id">상품 가격 : </label>
                     <TextField
@@ -169,6 +175,8 @@ const AddProduct = () => {
                         onChange={(e) => setPrice(e.target.value)}
                     />
                 </div>
+
+                {/* 상품 수량 */}
                 <div className="input">
                     <label htmlFor="count_id">상품 수량 : </label>
                     <TextField
@@ -182,10 +190,14 @@ const AddProduct = () => {
                         }}
                     />
                 </div>
+
+                {/* 상품 설명 */}
                 <div className="input">
                     <label htmlFor="content_id">상품 설명 : </label>
                     <TextField id="content_id" size="small" onChange={(e) => setContent(e.target.value)} />
                 </div>
+
+                {/* 상품 키워드 */}
                 <div className="keyword-box" onClick={handleKeyword}>
                     <label>상품 키워드 : </label>
                     <div className="keyword-input-box">
@@ -210,6 +222,8 @@ const AddProduct = () => {
                         />
                     </div>
                 </div>
+
+                {/* 버튼 영역 */}
                 <div className="btn-box">
                     <button className="add-btn" onClick={handleAddBtn}>
                         상품 등록

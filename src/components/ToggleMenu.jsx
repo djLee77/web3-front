@@ -45,6 +45,7 @@ const ToggleMenu = () => {
         };
 
         fetchData();
+        console.log(mainList, secondList, thirdList);
     }, []);
 
     const ToggleSidebar = () => {
