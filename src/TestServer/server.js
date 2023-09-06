@@ -97,3 +97,44 @@ app.get("/api/categories", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+const cartData = {
+    code: 200,
+    message: "",
+    data: {
+        carts: [
+            {
+                cartId: 1000,
+                itemId: 10010,
+                name: "이쁜 옷1",
+                count: 1,
+                price: 30000,
+                image: "imageUrl",
+                remaining: "",
+            },
+            {
+                cartId: 1001,
+                itemId: 10011,
+                name: "이쁜 옷2",
+                count: 1,
+                price: 50000,
+                image: "imageUrl",
+                remaining: "",
+            },
+            {
+                cartId: 1002,
+                itemId: 10012,
+                name: "이쁜 옷3",
+                count: 1,
+                price: 40000,
+                image: "imageUrl",
+                remaining: "",
+            },
+        ],
+        total: 120000,
+    },
+};
+
+app.get("/api/carts", (req, res) => {
+    res.json(cartData);
+});
