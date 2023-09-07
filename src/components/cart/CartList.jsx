@@ -11,7 +11,6 @@ import {
     Checkbox,
 } from "@mui/material";
 import { Button } from "@mui/material";
-import { useEffect } from "react";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems }) {
     // 상품 전체 선택 함수
