@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
-import "../../css/Card.module.css";
+import "../../css/Card.css";
 
 const Card = ({ product }) => {
     const [rating, setRating] = useState(product.rate); // 별점 상태 저장

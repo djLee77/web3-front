@@ -20,19 +20,9 @@
 .navbar {
     border-radius: 5px;
 }
-.sidebar{
-    width: 140x;
-    min-height: 100vh;
-    box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
-    background-color: #fff;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    z-index: 1;
-    transition: 0.5s;
-}
-.second-sidebar{
-    width: 140px;
+
+.sidebar {
+    width: 280px;
     min-height: 100vh;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
     background-color: #fff;
@@ -43,8 +33,20 @@
     transition: 0.5s;
 }
 
-.third-sidebar{
-    width: 140px;
+.second-sidebar {
+    width: 280px;
+    min-height: 100vh;
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.third-sidebar {
+    width: 280px;
     min-height: 100vh;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
     background-color: #fff;
@@ -59,12 +61,12 @@
     left: 0;
 }
 
-.second-sidebar.active{
-    left: 160px;
+.second-sidebar.active {
+    left: 280px;
 }
 
-.third-sidebar.active{
-    left: 300px;
+.third-sidebar.active {
+    left: 560px;
 }
 
 .sd-header {
