@@ -1,6 +1,6 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
-import "../css/NavBar.css"
+import "../css/NavBar.module.css"
 import "../components/SearchBar"
 import SearchBar from "../components/SearchBar";
 

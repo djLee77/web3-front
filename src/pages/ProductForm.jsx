@@ -1,6 +1,6 @@
 import { MenuItem, Select } from "@mui/material";
 import { useRef, useState } from "react";
-import "../css/ProductForm.css";
+import "../css/ProductForm.module.css";
 
 const ProductForm = () => {
     const [name, setName] = useState(""); // 상풍명

@@ -75,7 +75,7 @@ const mockData = {
                     "child": []
                   },
                   {
-                    "categoryId": 1123315,
+                    "categoryId": 1123316,
                     "name": "가방/잡화",
                     "status": "ACTIVE",
                     "child": []

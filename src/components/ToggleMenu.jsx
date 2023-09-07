@@ -11,8 +11,8 @@ const ToggleMenu = () => {
   const [secondLists, setSecondLists] = useState({});
   const [thirdLists, setThirdLists] = useState({});
 
-  const [secondList, setSecondList] = useState([]);
-  const [thirdList, setThirdList] = useState([]);
+  const [pickedSecondList, setPickedSecondList] = useState([]);
+  const [pickedThirdList, setPickedThirdList] = useState([]);
 
   useEffect(() => {
     // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
@@ -21,21 +21,27 @@ const ToggleMenu = () => {
       const data = await response.json();
       const categories = data.data.categories[0].child;
 
-      const mainListTemp = [];
       const secondListsTemp = {};
       const thirdListsTemp = {};
 
-      categories.forEach((cat) => {
-        mainListTemp.push(cat.name);
+      const mainListTemp = categories.map((cat) => ({
+        categoryId: cat.categoryId,
+        name: cat.name,
+      }));
 
+      categories.forEach((cat) => {
         if (cat.child && cat.child.length > 0) {
-          secondListsTemp[cat.name] = cat.child.map((child) => child.name);
+          secondListsTemp[cat.name] = cat.child.map((child) => ({
+            categoryId: child.categoryId,
+            name: child.name,
+          }));
 
           cat.child.forEach((subCat) => {
             if (subCat.child && subCat.child.length > 0) {
-              thirdListsTemp[subCat.name] = subCat.child.map(
-                (child) => child.name
-              );
+              thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
+                categoryId: child.categoryId,
+                name: child.name,
+              }));
             }
           });
         }
@@ -54,18 +60,18 @@ const ToggleMenu = () => {
   };
 
   const ToggleSecondSidebar = (subject) => {
-    setSecondList(secondLists[subject] || []);
+    setPickedSecondList(secondLists[subject] || []);
     setIsSecondOpen(true);
   };
 
   const ToggleThirdSidebar = (subject) => {
-    setThirdList(thirdLists[subject] || []);
+    setPickedThirdList(thirdLists[subject] || []);
     setIsThirdOpen(true);
   };
 
   return (
     <div style={{ float: "left" }}>
-      <div className="btn btn-primary" onClick={ToggleSidebar}>
+      <div className="btn-primary" onClick={ToggleSidebar}>
         <DensityMediumIcon />
       </div>
       <div className={`sidebar ${isOpen ? "active" : ""}`}>
@@ -75,8 +81,8 @@ const ToggleMenu = () => {
         <div className="sd-body">
           <ul>
             {mainList.map((subject, index) => (
-              <li key={index} onClick={() => ToggleSecondSidebar(subject)}>
-                <a className="sd-link">{subject}</a>
+              <li key={index} onClick={() => ToggleSecondSidebar(subject.name)}>
+                <a className="sd-link">{subject.name}</a>
               </li>
             ))}
           </ul>
@@ -91,9 +97,9 @@ const ToggleMenu = () => {
         <div className="sd-header"></div>
         <div className="sd-body">
           <ul>
-            {secondList.map((subject, index) => (
-              <li key={index} onClick={() => ToggleThirdSidebar(subject)}>
-                <a className="sd-link">{subject}</a>
+            {pickedSecondList.map((subject, index) => (
+              <li key={index} onClick={() => ToggleThirdSidebar(subject.name)}>
+                <a className="sd-link">{subject.name}</a>
               </li>
             ))}
           </ul>
@@ -111,9 +117,9 @@ const ToggleMenu = () => {
         <div className="sd-header"></div>
         <div className="sd-body">
           <ul>
-            {thirdList.map((item, index) => (
+            {pickedThirdList.map((item, index) => (
               <li key={index}>
-                <a className="sd-link">{item}</a>
+                <a className="sd-link">{item.name}</a>
               </li>
             ))}
           </ul>

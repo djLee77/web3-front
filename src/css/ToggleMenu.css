@@ -18,7 +18,7 @@
   border-radius: 5px;
 }
 .sidebar{
-    width: 280px;
+    width: 140x;
     min-height: 100vh;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
     background-color: #fff;
@@ -29,7 +29,7 @@
     transition: 0.5s;
 }
 .second-sidebar{
-    width: 280px;
+    width: 140px;
     min-height: 100vh;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
     background-color: #fff;
@@ -41,7 +41,7 @@
 }
 
 .third-sidebar{
-    width: 280px;
+    width: 140px;
     min-height: 100vh;
     box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
     background-color: #fff;
@@ -57,11 +57,11 @@
 }
 
 .second-sidebar.active{
-    left: 280px;
+    left: 160px;
 }
 
 .third-sidebar.active{
-    left: 560px;
+    left: 300px;
 }
 
 .sd-header{
