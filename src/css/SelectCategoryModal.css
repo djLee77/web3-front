@@ -1,0 +1,33 @@
+.category-box {
+    display: flex;
+    height: 200px;
+}
+
+.category-ul {
+    list-style-type: none;
+    padding: 0;
+    margin-right: 50px;
+}
+
+.test-li {
+    font-weight: bold;
+}
+
+.clicked {
+    background-color: #e26262;
+    color: #fff;
+    font-weight: 600;
+}
+
+.category-ul li:hover {
+    cursor: pointer;
+}
+
+.selected-category-box {
+    margin-top: 30px;
+}
+
+.btn-box {
+    float: right;
+    margin-top: 30px;
+}
