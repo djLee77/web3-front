@@ -1,8 +1,7 @@
-import { MenuItem, Select, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import "../../css/AddProduct.css";
+import style from "../../css/AddProduct.module.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import SelectCategoryModal from "./modal/SelectCategoryModal";
 
 const AddProduct = () => {
@@ -63,11 +62,6 @@ const AddProduct = () => {
         }
     };
 
-    // 카테고리 설정하는 함수
-    const handleCateory = (event) => {
-        setCategory(event.target.value);
-    };
-
     // 키워드 박스 눌렀을 때 키워드 입력할 수 있도록 하는 함수
     const handleKeyword = () => {
         if (keywordRef.current) {
@@ -116,26 +110,26 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="box">
+        <div className={style.box}>
             {/* 이미지 선택 영역 */}
-            <div className="img-box1">
+            <div className={style.imgBox}>
                 <input
                     type="file"
                     style={{ display: "none" }}
                     ref={imgRef1}
                     onChange={(e) => handleImageUpload(e, 1)}
                 />
-                <button className="img-btn" type="button" onClick={() => handleImageBtnClick(1)}>
+                <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(1)}>
                     <img src={imgURL1} width={300} height={300} alt="이미지1" />
                 </button>
-                <div className="img-box2">
+                <div className={style.imgBox2}>
                     <input
                         type="file"
                         style={{ display: "none" }}
                         ref={imgRef2}
                         onChange={(e) => handleImageUpload(e, 2)}
                     />
-                    <button className="img-btn" type="button" onClick={() => handleImageBtnClick(2)}>
+                    <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(2)}>
                         <img src={imgURL2} width={145} height={145} alt="이미지2" />
                     </button>
                     <input
@@ -144,28 +138,28 @@ const AddProduct = () => {
                         ref={imgRef3}
                         onChange={(e) => handleImageUpload(e, 3)}
                     />
-                    <button className="img-btn" type="button" onClick={() => handleImageBtnClick(3)}>
+                    <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(3)}>
                         <img src={imgURL3} width={145} height={145} alt="이미지3" />
                     </button>
                 </div>
             </div>
 
-            <div className="input-box">
+            <div className={style.inputBox}>
                 {/* 상품 제목 */}
-                <div className="input">
+                <div className={style.input}>
                     <label htmlFor="title-id">상품 제목 : </label>
                     <TextField id="title-id" size="small" onChange={(e) => setName(e.target.value)} />
                 </div>
 
                 {/* 카테고리 */}
-                <div className="input">
+                <div className={style.input}>
                     <label>카테고리 : </label>
                     <SelectCategoryModal category={category} setCategory={setCategory} />
                     <span>{category.name}</span>
                 </div>
 
                 {/* 상품 가격 */}
-                <div className="input">
+                <div className={style.input}>
                     <label htmlFor="price_id">상품 가격 : </label>
                     <TextField
                         id="price_id"
@@ -177,7 +171,7 @@ const AddProduct = () => {
                 </div>
 
                 {/* 상품 수량 */}
-                <div className="input">
+                <div className={style.input}>
                     <label htmlFor="count_id">상품 수량 : </label>
                     <TextField
                         type="text"
@@ -192,18 +186,18 @@ const AddProduct = () => {
                 </div>
 
                 {/* 상품 설명 */}
-                <div className="input">
+                <div className={style.input}>
                     <label htmlFor="content_id">상품 설명 : </label>
                     <TextField id="content_id" size="small" onChange={(e) => setContent(e.target.value)} />
                 </div>
 
                 {/* 상품 키워드 */}
-                <div className="keyword-box" onClick={handleKeyword}>
+                <div className={style.keywordBox} onClick={handleKeyword}>
                     <label>상품 키워드 : </label>
-                    <div className="keyword-input-box">
+                    <div className={style.keywordInputBox}>
                         {keywordList.map((tagItem, index) => {
                             return (
-                                <div className="keyword-item" key={index}>
+                                <div className={style.keywordItem} key={index}>
                                     <span className="text">{tagItem}</span>
                                     <button className="keyword-del-btn" onClick={deleteKeyword}>
                                         X
@@ -213,7 +207,7 @@ const AddProduct = () => {
                         })}
                         <input
                             ref={keywordRef}
-                            className="keyword-input"
+                            className={style.keywordInput}
                             type="text"
                             tabIndex={2}
                             onChange={(e) => setKeywrod(e.target.value)}
@@ -224,11 +218,11 @@ const AddProduct = () => {
                 </div>
 
                 {/* 버튼 영역 */}
-                <div className="btn-box">
-                    <button className="add-btn" onClick={handleAddBtn}>
+                <div className={style.btnBox}>
+                    <button className={style.addBtn} onClick={handleAddBtn}>
                         상품 등록
                     </button>
-                    <button className="cancle-btn" onClick={handleCancleBtn}>
+                    <button className={style.cancleBtn} onClick={handleCancleBtn}>
                         취소
                     </button>
                 </div>

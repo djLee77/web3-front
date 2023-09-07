@@ -1,11 +1,11 @@
 .box {
     display: flex;
-    flex-direction: column;
     align-items: center;
     margin-top: 30px;
+    flex-direction: column;
 }
 
-.total-box {
+.totalBox {
     display: flex;
     width: 900px;
     height: 100px;
@@ -22,11 +22,11 @@
     margin-left: 10px;
 }
 
-.cart-btn-box {
+.cartBtnBox {
     margin-top: 30px;
 }
 
-.pay-btn {
+.payBtn {
     width: 150px;
     height: 60px;
     border: 0;
@@ -36,7 +36,7 @@
     margin-right: 30px;
 }
 
-.back-btn {
+.backBtn {
     width: 150px;
     height: 60px;
     border: 0;
