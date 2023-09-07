@@ -11,8 +11,8 @@ const ToggleMenu = () => {
   const [secondLists, setSecondLists] = useState({});
   const [thirdLists, setThirdLists] = useState({});
 
-  const [secondList, setSecondList] = useState([]);
-  const [thirdList, setThirdList] = useState([]);
+  const [pickedSecondList, setSecondList] = useState([]);
+  const [pickedThirdList, setThirdList] = useState([]);
 
   useEffect(() => {
     // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
@@ -110,7 +110,6 @@ const ToggleMenu = () => {
         <div className="sd-header"></div>
         <div className="sd-body">
           <ul>
-            {pickedThirdList.map((item, index) => (
             {pickedThirdList.map((item, index) => (
               <li key={index}>
                 <a className="sd-link">{item.name}</a>
