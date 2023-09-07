@@ -3,66 +3,62 @@ import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 
 const ToggleMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isSecondOpen, setIsSecondOpen] = useState(false);
-    const [isThirdOpen, setIsThirdOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSecondOpen, setIsSecondOpen] = useState(false);
+  const [isThirdOpen, setIsThirdOpen] = useState(false);
 
-    const [mainList, setMainList] = useState([]);
-    const [secondLists, setSecondLists] = useState({});
-    const [thirdLists, setThirdLists] = useState({});
+  const [mainList, setMainList] = useState([]);
+  const [secondLists, setSecondLists] = useState({});
+  const [thirdLists, setThirdLists] = useState({});
 
-  const [pickedSecondList, setPickedSecondList] = useState([]);
-  const [pickedThirdList, setPickedThirdList] = useState([]);
+  const [pickedSecondList, setSecondList] = useState([]);
+  const [pickedThirdList, setThirdList] = useState([]);
 
-    useEffect(() => {
-        // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:4000/api/categories");
-            const data = await response.json();
-            const categories = data.data.categories[0].child;
+  useEffect(() => {
+    // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:4000/api/categories');
+      const data = await response.json();
+      const categories = data.data.categories[0].child;
 
       const mainListTemp = [];
       const secondListsTemp = {};
       const thirdListsTemp = {};
 
-      categories.forEach((cat) => {
-        if (cat.child && cat.child.length > 0) {
-          secondListsTemp[cat.name] = cat.child.map((child) => ({
-            categoryId: child.categoryId,
-            name: child.name,
-          }));
+      categories.forEach(cat => {
+        mainListTemp.push(cat.name);
 
-          cat.child.forEach((subCat) => {
+        if (cat.child && cat.child.length > 0) {
+          secondListsTemp[cat.name] = cat.child.map(child => child.name);
+
+          cat.child.forEach(subCat => {
             if (subCat.child && subCat.child.length > 0) {
-              thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
-                categoryId: child.categoryId,
-                name: child.name,
-              }));
+              thirdListsTemp[subCat.name] = subCat.child.map(child => child.name);
             }
           });
         }
       });
 
-            setMainList(mainListTemp);
-            setSecondLists(secondListsTemp);
-            setThirdLists(thirdListsTemp);
-        };
-
-        fetchData();
-        console.log(mainList, secondList, thirdList);
-    }, []);
-
-    const ToggleSidebar = () => {
-        setIsOpen(!isOpen);
+      setMainList(mainListTemp);
+      setSecondLists(secondListsTemp);
+      setThirdLists(thirdListsTemp);
     };
 
+    fetchData();
+    console.log()
+  }, []);
+
+  const ToggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   const ToggleSecondSidebar = (subject) => {
-    setPickedSecondList(secondLists[subject] || []);
+    setSecondList(secondLists[subject] || []);
     setIsSecondOpen(true);
   };
 
   const ToggleThirdSidebar = (subject) => {
-    setPickedThirdList(thirdLists[subject] || []);
+    setThirdList(thirdLists[subject] || []);
     setIsThirdOpen(true);
   };
 
