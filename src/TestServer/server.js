@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 const PORT = 4000;
-const cors = require('cors');
-
-app.use(cors());
 
 const mockData = {
   "code": 200,
@@ -27,56 +24,7 @@ const mockData = {
                 "child": [
                   {
                     "categoryId": 1123313,
-                    "name": "의류",
-                    "status": "ACTIVE",
-                    "child": []
-                  },
-                  {
-                    "categoryId": 1123314,
-                    "name": "속옷/잠옷",
-                    "status": "ACTIVE",
-                    "child": [] 
-                  },
-                  {
-                    "categoryId": 1123315,
-                    "name": "신발",
-                    "status": "ACTIVE",
-                    "child": []
-                  },
-                  {
-                    "categoryId": 1123315,
-                    "name": "가방/잡화",
-                    "status": "ACTIVE",
-                    "child": []
-                  }
-                ]
-              },
-              {
-                "categoryId": 1123313,
-                "name": "여성의류",
-                "status": "ACTIVE",
-                "child": [
-                  {
-                    "categoryId": 1123313,
-                    "name": "의류",
-                    "status": "ACTIVE",
-                    "child": []
-                  },
-                  {
-                    "categoryId": 1123314,
-                    "name": "속옷/잠옷",
-                    "status": "ACTIVE",
-                    "child": [] 
-                  },
-                  {
-                    "categoryId": 1123315,
-                    "name": "신발",
-                    "status": "ACTIVE",
-                    "child": []
-                  },
-                  {
-                    "categoryId": 1123315,
-                    "name": "가방/잡화",
+                    "name": "속옷/잠",
                     "status": "ACTIVE",
                     "child": []
                   }
