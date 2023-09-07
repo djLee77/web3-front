@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
-import Card from "../components/product/card";
+import Card from "../components/product/Card";
 
 const Home = () => {
     const [balance, setBalance] = useState(""); // 토큰
