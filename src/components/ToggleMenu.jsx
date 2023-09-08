@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
+import axios from "axios";
 
 const ToggleMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,37 +15,40 @@ const ToggleMenu = () => {
     const [secondList, setSecondList] = useState([]);
     const [thirdList, setThirdList] = useState([]);
 
+    const getCategories = async () => {
+        const response = await axios.get("/api/categories", {
+            headers: {
+                "ngrok-skip-browser-warning": "1234",
+            },
+        });
+        console.log("data:", response.data.data[0]);
+        const categories = response.data.data[0].child;
+
+        const mainListTemp = [];
+        const secondListsTemp = {};
+        const thirdListsTemp = {};
+
+        categories.forEach((cat) => {
+            mainListTemp.push(cat.name);
+
+            if (cat.child && cat.child.length > 0) {
+                secondListsTemp[cat.name] = cat.child.map((child) => child.name);
+
+                cat.child.forEach((subCat) => {
+                    if (subCat.child && subCat.child.length > 0) {
+                        thirdListsTemp[subCat.name] = subCat.child.map((child) => child.name);
+                    }
+                });
+            }
+        });
+
+        setMainList(mainListTemp);
+        setSecondLists(secondListsTemp);
+        setThirdLists(thirdListsTemp);
+    };
+
     useEffect(() => {
-        // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:4000/api/categories");
-            const data = await response.json();
-            const categories = data.data.categories[0].child;
-
-            const mainListTemp = [];
-            const secondListsTemp = {};
-            const thirdListsTemp = {};
-
-            categories.forEach((cat) => {
-                mainListTemp.push(cat.name);
-
-                if (cat.child && cat.child.length > 0) {
-                    secondListsTemp[cat.name] = cat.child.map((child) => child.name);
-
-                    cat.child.forEach((subCat) => {
-                        if (subCat.child && subCat.child.length > 0) {
-                            thirdListsTemp[subCat.name] = subCat.child.map((child) => child.name);
-                        }
-                    });
-                }
-            });
-
-            setMainList(mainListTemp);
-            setSecondLists(secondListsTemp);
-            setThirdLists(thirdListsTemp);
-        };
-
-        fetchData();
+        // getCategories();
         console.log(mainList, secondList, thirdList);
     }, []);
 

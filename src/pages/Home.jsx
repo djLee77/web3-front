@@ -77,6 +77,7 @@ const Home = () => {
             if ("/No Ethereum provider was found on window.ethereum/".test(error)) {
                 window.open("https://metamask.io/download.html");
             }
+            console.log("injected", injected);
         });
     };
 
