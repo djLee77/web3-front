@@ -27,6 +27,22 @@
     margin-left: 100px;
 }
 
+.rateBox {
+    display: flex;
+}
+
+.rateBox span {
+    font-size: 12px;
+    display: block;
+    margin-left: 5px;
+    margin-top: 7px;
+    color: #0066FF;
+}
+
+.rateBox span:hover {
+    cursor: pointer;
+}
+
 .title {
     font-size: 32px;
     margin-top: 10px;

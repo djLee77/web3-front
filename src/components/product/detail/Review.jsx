@@ -37,10 +37,10 @@ const Review = forwardRef((props, ref) => {
         },
     };
     return (
-        <div className="review" ref={ref}>
-            <div>
+        <div ref={ref}>
+            <div className={style.totalBox}>
                 <h4>총 평점</h4>
-                <StarRating rate={props.rate} size={24} space={2} />
+                <StarRating rate={props.rate} size={32} space={2} />
                 <span>({props.reviewCount})</span>
             </div>
             <hr />

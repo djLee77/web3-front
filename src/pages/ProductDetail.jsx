@@ -25,7 +25,7 @@ export default function ProductDetail() {
     const [contentPosition, setContentPosition] = useState(0); // 스크롤 위치
     const contentRef = useRef(null); // 상품 상세 Ref
     const reviewRef = useRef(null); // 리뷰 ref
-    const { id } = useParams();
+    const { id } = useParams(); // 상품 ID (url 파라미터)
 
     // 탭 클릭했을 때 맞는 위치로 이동하는 함수
     const onTabClick = (tab) => {
@@ -48,7 +48,7 @@ export default function ProductDetail() {
 
     return (
         <div>
-            <Header product={product} />
+            <Header product={product} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
                 <div onClick={() => onTabClick(contentRef)} className={style.tab}>
                     <span>상품상세</span>

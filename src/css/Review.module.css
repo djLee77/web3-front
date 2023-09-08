@@ -1,3 +1,7 @@
+.totalBox span {
+    margin-left: 10px;
+}
+
 .headerBox {
     display: flex;
 }
