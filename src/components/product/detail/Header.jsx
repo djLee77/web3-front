@@ -2,22 +2,7 @@ import { TextField } from "@mui/material";
 import style from "../../../css/ProductDetail.module.css";
 import StarRatings from "react-star-ratings";
 
-export default function Detail() {
-    const product = {
-        data: {
-            itemId: 100110,
-            categoryId: 10001,
-            name: "이쁜 옷",
-            image1: "image1",
-            image2: "image2",
-            image3: "image3",
-            content: "판매 내용",
-            price: 100,
-            rate: 4,
-            reviewCount: 10,
-            remaining: "",
-        },
-    };
+export default function Detail({ product }) {
     return (
         <div>
             <div className={style.box}>

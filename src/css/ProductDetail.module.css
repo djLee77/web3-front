@@ -64,6 +64,15 @@
     background-color: gray;
 }
 
+.tabBoxFixed {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    background-color: gray;
+}
+
 .tab {
     width: 50%;
     text-align: center;
