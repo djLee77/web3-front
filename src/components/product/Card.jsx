@@ -1,6 +1,5 @@
 import { useState } from "react";
-import StarRatings from "react-star-ratings";
-import "../../css/Card.css";
+import style from "../../css/Card.module.css";
 import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
 
@@ -15,16 +14,20 @@ const Card = ({ product }) => {
     return (
         <>
             <Link to={`/product/detail/${product.itemId}`}>
-                <div className="card-box">
-                    <div className="img">
-                        <img src="https://cdn.discordapp.com/attachments/1136307485398007878/1147779261319618560/facebook.png"></img>
+                <div className={style.cardBox}>
+                    <div classNam={style.cardImg}>
+                        <img
+                            src="https://cdn.discordapp.com/attachments/1136307485398007878/1147779261319618560/facebook.png"
+                            width={160}
+                            height={160}
+                        ></img>
                     </div>
-                    <div className="content-box">
-                        <span className="title">{product.name}</span>
-                        <span className="price">{product.price}원</span>
-                        <span className="rate">
+                    <div className={style.contentBox}>
+                        <span className={style.title}>{product.name}</span>
+                        <span className={style.price}>{product.price}원</span>
+                        <span className={style.rate}>
                             <StarRating rate={product.rate} size={12} space={2} />
-                            <span className="">({product.reviewCount})</span>
+                            <span>({product.reviewCount})</span>
                         </span>
                     </div>
                 </div>

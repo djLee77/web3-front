@@ -1,15 +1,21 @@
-.card-box {
+.cardBox {
     width: 160px;
 }
 
-.card-box:hover {
+.cardBox:hover {
     cursor: pointer;
     box-shadow: 0px 0px 10px #b5b5b5
 }
 
-.img img {
+.cardImg {
     width: 160px;
     height: 160px;
+}
+
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
 }
 
 .title {
@@ -36,11 +42,6 @@
 }
 
 .rate span {
+    margin-top: 5px;
     margin-left: 5px;
-}
-
-.content-box {
-    display: flex;
-    flex-direction: column;
-    height: 120px;
 }
