@@ -1,4 +1,3 @@
-// SearchResult.js
 import React, { useState, useEffect } from 'react';
 import Card from '../components/product/Card';
 import axios from 'axios';
@@ -10,18 +9,19 @@ const SearchResult = () => {
     const query = new URLSearchParams(location.search).get('query');
 
     useEffect(() => {
-        // API 호출
-        axios.get(`http://localhost:4000/api/items?query=${query}`)
-            .then(response => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.post('http://localhost:4000/api/items', { query: query });
+                
                 if (response.data.code === 200) {
                     setProducts(response.data.data.items);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error("Error fetching the products:", error);
-            });
+            }
+        };
 
-            console.log(products);
+        fetchData();
     }, [query]);
 
     return (

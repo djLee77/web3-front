@@ -1,4 +1,6 @@
+import React from "react";
 import Card from "../components/product/Card";
+import SlideImg from "../components/SildeImg";
 
 const Home = () => {
     const testProductList = {
@@ -66,6 +68,9 @@ const Home = () => {
 
     return (
         <div>
+            <div>
+                <SlideImg />
+            </div>
             <div className="card-list">
                 {testProductList.data.items.map((product) => (
                     <Card key={product.itemId} product={product} />
