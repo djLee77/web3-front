@@ -47,7 +47,7 @@ export default function ProductDetail() {
     }, []);
 
     return (
-        <div>
+        <div className={style.box}>
             <Header product={product} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
                 <div onClick={() => onTabClick(contentRef)} className={style.tab}>

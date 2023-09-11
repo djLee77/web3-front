@@ -1,5 +1,14 @@
 .box {
+    width: 980px;
     display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.headerBox {
+    display: flex;
+    justify-content: center;
 }
 
 .mainImg {
@@ -74,8 +83,8 @@
 }
 
 .payBtn {
-    width: 180px;
-    height: 60px;
+    width: 160px;
+    height: 40px;
     border: 0;
     background-color: #0066FF;
     font-weight: bold;
@@ -84,8 +93,8 @@
 }
 
 .cartBtn {
-    width: 180px;
-    height: 60px;
+    width: 160px;
+    height: 40px;
     border: 0;
     background-color: #FACACA;
     font-weight: bold;
@@ -94,21 +103,24 @@
 
 .tabBox {
     display: flex;
-    background-color: gray;
+    border-top: 2px solid black;
+    border-bottom: 1px solid gray;
 }
 
 .tabBoxFixed {
     position: fixed;
     top: 0px;
-    width: 100%;
+    width: 980px;
     z-index: 1;
     display: flex;
-    background-color: gray;
+    border-top: 2px solid black;
 }
 
 .tab {
     width: 50%;
     text-align: center;
+    border: 0.5px solid gray;
+    background-color: #fff;
 }
 
 .tab:hover {

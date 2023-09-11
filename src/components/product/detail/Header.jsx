@@ -44,7 +44,7 @@ export default function Detail({ product, reviewRef }) {
 
     return (
         <div>
-            <div className={style.box}>
+            <div className={style.headerBox}>
                 <div className={style.subImgBox}>
                     <div className={style.subImg} onMouseOver={() => onMouseOverImg(product.data.image1)}>
                         <img src={product.data.image1} alt="이미지1" />
@@ -88,7 +88,7 @@ export default function Detail({ product, reviewRef }) {
                         {/* 상품 수량 */}
                         <TextField
                             type="number"
-                            inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "50px", height: "40px" } }}
+                            inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "40px", height: "24px" } }}
                             value={quantity}
                             id="count_id"
                             size="small"
