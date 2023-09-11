@@ -10,19 +10,19 @@
     right: 0%;
     width: 400px;
     height: 500px;
-    border-radius: 16px;
 }
 
 .header {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    background-color: rgba(30, 90, 255, 0.36);
+    background-color: rgb(70, 119, 255);
     align-items: center;
 }
 
 .header h4 {
     margin: 0;
+    margin-left: 10px;
     color: white;
 }
 

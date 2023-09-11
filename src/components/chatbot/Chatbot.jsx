@@ -1,8 +1,11 @@
 import { IconButton } from "@mui/material";
 import style from "../../css/ChatBot.module.css";
 import ClearIcon from "@mui/icons-material/Clear";
+import Message from "./Message";
+import { useState } from "react";
 
 export default function Chatbot({ setIsOpen, isOpen }) {
+    const [messageList, setMessageList] = useState([]); // 메시지 리스트 배열
     return (
         <div className={style.box}>
             <div className={style.header}>
@@ -12,7 +15,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                 </IconButton>
             </div>
             <div className={style.contentBox}>
-                <span>채팅 내용 보여줄 예정</span>
+                <Message />
             </div>
             <div className={style.inputBox}>
                 <input type="text" placeholder="무엇이든 물어보세요"></input>
