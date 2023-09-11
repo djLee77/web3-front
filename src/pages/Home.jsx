@@ -2,9 +2,11 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
 import Card from "../components/product/Card";
+import axios from "axios";
 
 const Home = () => {
     const [balance, setBalance] = useState(""); // 토큰
+    const [list, setList] = useState([]);
 
     // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
     const chainIds = {
@@ -92,6 +94,24 @@ const Home = () => {
             // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
         }
     }, [account]);
+
+    const getList = async () => {
+        try {
+            const res = await axios.get(`/api/public/categories/${300001}/items`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getList();
+    }, []);
 
     const testProductList = {
         code: 200,
