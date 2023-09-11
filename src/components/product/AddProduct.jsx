@@ -11,10 +11,10 @@ const AddProduct = () => {
     const [name, setName] = useState(""); // 상풍명
     const [category, setCategory] = useState({}); // 카테고리
     const [price, setPrice] = useState(0); // 가격
-    const [remaining, setRemaining] = useState(0); // 수량
+    const [stock, setStock] = useState(0); // 수량
     const [content, setContent] = useState(""); // 상품 상세 내용
-    const [keywordList, setKeywordList] = useState([]); // 태그 리스트
-    const [keywrod, setKeywrod] = useState(""); // 태그
+    const [keywordList, setKeywordList] = useState([]); // 키워드 리스트
+    const [keywrod, setKeywrod] = useState(""); // 키워드
 
     const keywordRef = useRef(null); // 키워드 인풋창 ref
     const imgRef1 = useRef(null); // 이미지 인풋창1 ref
@@ -99,7 +99,8 @@ const AddProduct = () => {
     };
     // 상품 등록 버튼 함수
     const handleAddBtn = () => {
-        console.log(name, category.categoryId, price, remaining, content, keywordList, imgURL1, imgURL2, imgURL3);
+        // 상품 등록할 때 키워드 배열안에 제목도 같이 넣어서 보내주기
+        console.log(name, category.categoryId, price, stock, content, keywordList, imgURL1, imgURL2, imgURL3);
     };
 
     // 취소 버튼 함수
@@ -180,7 +181,7 @@ const AddProduct = () => {
                         id="count_id"
                         size="small"
                         onChange={(e) => {
-                            setRemaining(e.target.value.replace(/[^0-9]/g, ""));
+                            setStock(e.target.value.replace(/[^0-9]/g, ""));
                         }}
                     />
                 </div>

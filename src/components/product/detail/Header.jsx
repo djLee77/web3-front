@@ -4,14 +4,15 @@ import StarRating from "../../StarRating";
 import { useState } from "react";
 
 export default function Detail({ product, reviewRef }) {
-    const [mainImg, setMainImg] = useState(product.data.image1);
+    const [mainImg, setMainImg] = useState(product.data.image1); // 메인 이미지
+    const [quantity, setQuantity] = useState(1); // 상품 수량
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
         reviewRef.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
     };
 
-    // 서브 이미지에 마우스 올리면 메인이미지에 이미지 보이도록 하는 함수
+    // 서브 이미지에 마우스 올리면 메인이   미지에 이미지 보이도록 하는 함수
     const onMouseOverImg = (img) => {
         setMainImg(img);
     };
@@ -22,8 +23,23 @@ export default function Detail({ product, reviewRef }) {
     };
 
     // 구매 버튼 클릭 함수
-    const onClickPayBtn = (productId) => {
-        alert(productId + "구매하기  구현 중");
+    const onClickPayBtn = (productId, quantity) => {
+        alert("상품 ID: " + productId + " 수량 : " + quantity);
+    };
+
+    // 상품 개수 바꾸는 함수
+    const onChangeQuantity = (e) => {
+        let value = parseInt(e.target.value);
+
+        if (isNaN(value)) {
+            // 숫자가 아닌 경우 1로 설정
+            value = 1;
+        } else {
+            // 숫자인 경우 범위 체크
+            value = Math.min(Math.max(1, value), 99);
+        }
+
+        setQuantity(value);
     };
 
     return (
@@ -62,7 +78,9 @@ export default function Detail({ product, reviewRef }) {
 
                     {/* 상품 가격 */}
                     <div className={style.price}>
-                        <span>{product.data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
+                        <span>
+                            {(product.data.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                        </span>
                     </div>
 
                     {/* 버튼 영역 */}
@@ -70,13 +88,15 @@ export default function Detail({ product, reviewRef }) {
                         {/* 상품 수량 */}
                         <TextField
                             type="number"
-                            inputProps={{ maxLength: 2, style: { width: "50px", height: "40px" } }}
-                            defaultValue={1}
+                            inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "50px", height: "40px" } }}
+                            value={quantity}
                             id="count_id"
                             size="small"
-                            onChange={(e) => {}}
+                            onChange={(e) => {
+                                onChangeQuantity(e);
+                            }}
                         />
-                        <button className={style.payBtn} onClick={() => onClickPayBtn(product.data.itemId)}>
+                        <button className={style.payBtn} onClick={() => onClickPayBtn(product.data.itemId, quantity)}>
                             바로 구매하기
                         </button>
                         <button className={style.cartBtn} onClick={() => onClickCartBtn(product.data.itemId)}>
