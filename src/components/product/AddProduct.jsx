@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import style from "../../css/AddProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import SelectCategoryModal from "./modal/SelectCategoryModal";
+import axios from "axios";
 
 const AddProduct = () => {
     const [imgURL1, setImgURL1] = useState("/imgs/defaultAddImg.png"); // 이미지1
@@ -14,7 +15,7 @@ const AddProduct = () => {
     const [stock, setStock] = useState(0); // 수량
     const [content, setContent] = useState(""); // 상품 상세 내용
     const [keywordList, setKeywordList] = useState([]); // 키워드 리스트
-    const [keywrod, setKeywrod] = useState(""); // 키워드
+    const [keyword, setKeyword] = useState(""); // 키워드
 
     const keywordRef = useRef(null); // 키워드 인풋창 ref
     const imgRef1 = useRef(null); // 이미지 인풋창1 ref
@@ -82,8 +83,8 @@ const AddProduct = () => {
         if (keywordList.length >= 5) {
             alert("태그는 최대 5개까지 생성 가능합니다.");
         } else {
-            setKeywordList([...keywordList, keywrod]);
-            setKeywrod("");
+            setKeywordList([...keywordList, keyword]);
+            setKeyword("");
         }
     };
 
@@ -98,9 +99,38 @@ const AddProduct = () => {
         }
     };
     // 상품 등록 버튼 함수
-    const handleAddBtn = () => {
+    const handleAddBtn = async () => {
         // 상품 등록할 때 키워드 배열안에 제목도 같이 넣어서 보내주기
         console.log(name, category.categoryId, price, stock, content, keywordList, imgURL1, imgURL2, imgURL3);
+        try {
+            const res = await axios.post(
+                "/api/sellers/items",
+                {
+                    sellerId: 1,
+                    name: name,
+                    categoryId: category.categoryId,
+                    price: price,
+                    stock: stock,
+                    content: content,
+                    image1: "이미지1",
+                    image2: "이미지2",
+                    image3: "이미지3",
+                    keywords: keywordList,
+                },
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+            console.log(res);
+            if (res.data.code == 201) {
+                alert("상품 등록 완료!");
+                navigate("/");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // 취소 버튼 함수
@@ -211,8 +241,8 @@ const AddProduct = () => {
                             className={style.keywordInput}
                             type="text"
                             tabIndex={2}
-                            onChange={(e) => setKeywrod(e.target.value)}
-                            value={keywrod}
+                            onChange={(e) => setKeyword(e.target.value)}
+                            value={keyword}
                             onKeyPress={onKeyPress}
                         />
                     </div>

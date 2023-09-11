@@ -39,7 +39,7 @@ export default function SelectCategoryModal({ category, setCategory }) {
     };
 
     const getCategrories = async () => {
-        const response = await axios.get("/api/categories", {
+        const response = await axios.get("/api/public/categories", {
             headers: {
                 "ngrok-skip-browser-warning": "1234",
             },
