@@ -2,34 +2,32 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
 import Card from "../components/product/Card";
-import axios from "axios";
 
 const Home = () => {
-    const [balance, setBalance] = useState(""); // 토큰
-    const [list, setList] = useState([]);
+  const [balance, setBalance] = useState(""); // 토큰
 
-    // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
-    const chainIds = {
-        1: { name: "Ethereum mainnet", symbol: "ETH" },
-        3: { name: "Ropsten", symbol: "RopstenETH" },
-        4: { name: "Rinkeby", symbol: "RinkebyETH" },
-        5: { name: "Goerli", symbol: "GoerliETH" },
-        42: { name: "Kovan", symbol: "KovanETH" },
-        11155111: { name: "Sepolia", symbol: "SepoliaETH" },
-        56: { name: "Binance Smart Chain Mainnet", symbol: "BNB" },
-        97: { name: "Binance Smart Chain Testnet", symbol: "tBNB" },
-        43114: { name: "Avalanche C-Chain", symbol: "AVAX" },
-        137: { name: "Polygon Mainnet", symbol: "MATIC" },
-        80001: { name: "Mumbai", symbol: "MATIC" },
-        42161: { name: "Arbitrum One", symbol: "ETH" },
-        10: { name: "Optimism", symbol: "ETH" },
-        250: { name: "Fantom Opera", symbol: "FTM" },
-        8217: { name: "Klaytn Mainnet Cypress", symbol: "KLAY" },
-        1001: { name: "baobob", symbol: "KLAY" },
-        61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
-    };
+  // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
+  const chainIds = {
+    1: { name: "Ethereum mainnet", symbol: "ETH" },
+    3: { name: "Ropsten", symbol: "RopstenETH" },
+    4: { name: "Rinkeby", symbol: "RinkebyETH" },
+    5: { name: "Goerli", symbol: "GoerliETH" },
+    42: { name: "Kovan", symbol: "KovanETH" },
+    11155111: { name: "Sepolia", symbol: "SepoliaETH" },
+    56: { name: "Binance Smart Chain Mainnet", symbol: "BNB" },
+    97: { name: "Binance Smart Chain Testnet", symbol: "tBNB" },
+    43114: { name: "Avalanche C-Chain", symbol: "AVAX" },
+    137: { name: "Polygon Mainnet", symbol: "MATIC" },
+    80001: { name: "Mumbai", symbol: "MATIC" },
+    42161: { name: "Arbitrum One", symbol: "ETH" },
+    10: { name: "Optimism", symbol: "ETH" },
+    250: { name: "Fantom Opera", symbol: "FTM" },
+    8217: { name: "Klaytn Mainnet Cypress", symbol: "KLAY" },
+    1001: { name: "baobob", symbol: "KLAY" },
+    61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
+  };
 
-    /* web3 react에서 제공하는 함수와 변수들
+  /* web3 react에서 제공하는 함수와 변수들
     const [balance, setBalance] = useState(""); // 토큰
 
     // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
@@ -62,7 +60,9 @@ const Home = () => {
         activate: dapp 월렛 연결 기능 수행함수
         deactivate: dapp 월렛 해제 수행함수
     */
-    const { chainId, account, library, active, activate, deactivate } = useWeb3React();
+    const { chainId, account, library, active, activate, deactivate } =
+        useWeb3React();
+    console.log(injected);
 
     // 연결 버튼 눌렀을 때 대준 내 목소리가 들려??
     const handdleConnect = () => {
@@ -75,10 +75,13 @@ const Home = () => {
         // 메타마스크 계정
         activate(injected, (error) => {
             // 크롬 익스텐션 없을 경우 오류 핸들링
-            if ("/No Ethereum provider was found on window.ethereum/".test(error)) {
+            if (
+                "/No Ethereum provider was found on window.ethereum/".test(
+                    error
+                )
+            ) {
                 window.open("https://metamask.io/download.html");
             }
-            console.log("injected", injected);
         });
     };
 
@@ -93,24 +96,6 @@ const Home = () => {
             // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
         }
     }, [account]);
-
-    const getList = async () => {
-        try {
-            const res = await axios.get(`/api/public/categories/${300001}/items`, {
-                headers: {
-                    "ngrok-skip-browser-warning": "1234",
-                },
-            });
-
-            console.log("상품 목록 : ", res);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getList();
-    }, []);
 
     const testProductList = {
         code: 200,
@@ -180,7 +165,10 @@ const Home = () => {
             <div>
                 <p>Account: {account}</p>
                 <p>ChainId: {chainIds[chainId]?.name}</p>
-                <p>Balance : {active ? balance + " " + chainIds[chainId]?.symbol : ""}</p>
+                <p>
+                    Balance :{" "}
+                    {active ? balance + " " + chainIds[chainId]?.symbol : ""}
+                </p>
             </div>
             <div>
                 <button type="button" onClick={handdleConnect}>
@@ -189,12 +177,12 @@ const Home = () => {
             </div>
 
             <div className="card-list">
-                {testProductList.data.items.map((product, idx) => (
-                    <Card key={idx} product={product} />
+                {testProductList.data.items.map((product) => (
+                    <Card key={product.itemId} product={product} />
                 ))}
             </div>
 
-            <style jsx="true">{`
+            <style jsx>{`
                 .card-list {
                     display: grid;
                     grid-template-columns: repeat(5, 1fr);

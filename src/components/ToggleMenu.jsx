@@ -52,8 +52,7 @@ const ToggleMenu = () => {
     };
 
     useEffect(() => {
-        // getCategories();
-        console.log(mainList, secondList, thirdList);
+        getCategories();
     }, []);
 
     const ToggleSidebar = () => {
