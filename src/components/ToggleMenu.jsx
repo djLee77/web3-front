@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import axios from "axios";
-import axios from "axios";
 
 const ToggleMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSecondOpen, setIsSecondOpen] = useState(false);
-  const [isThirdOpen, setIsThirdOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSecondOpen, setIsSecondOpen] = useState(false);
+    const [isThirdOpen, setIsThirdOpen] = useState(false);
 
-  const [mainList, setMainList] = useState([]);
-  const [secondLists, setSecondLists] = useState({});
-  const [thirdLists, setThirdLists] = useState({});
+    const [mainList, setMainList] = useState([]);
+    const [secondLists, setSecondLists] = useState({});
+    const [thirdLists, setThirdLists] = useState({});
 
-    const [pickedSecondList, setPickedSecondList] = useState([]);
-    const [pickedThirdList, setPickedThirdList] = useState([]);
+    const [secondList, setSecondList] = useState([]);
+    const [thirdList, setThirdList] = useState([]);
 
     const getCategories = async () => {
         const response = await axios.get("/api/public/categories", {
@@ -25,28 +24,19 @@ const ToggleMenu = () => {
         console.log("data:", response.data.data[0]);
         const categories = response.data.data[0].child;
 
-        // 1번째 카테고리 목록 저장
-        const mainListTemp = categories.map((cat) => ({
-            categoryId: cat.categoryId,
-            name: cat.name,
-        }));
-
+        const mainListTemp = [];
         const secondListsTemp = {};
         const thirdListsTemp = {};
 
         categories.forEach((cat) => {
+            mainListTemp.push(cat.name);
+
             if (cat.child && cat.child.length > 0) {
-                secondListsTemp[cat.name] = cat.child.map((child) => ({
-                    categoryId: child.categoryId,
-                    name: child.name,
-                }));
+                secondListsTemp[cat.name] = cat.child.map((child) => child.name);
 
                 cat.child.forEach((subCat) => {
                     if (subCat.child && subCat.child.length > 0) {
-                        thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
-                            categoryId: child.categoryId,
-                            name: child.name,
-                        }));
+                        thirdListsTemp[subCat.name] = subCat.child.map((child) => child.name);
                     }
                 });
             }
@@ -59,25 +49,26 @@ const ToggleMenu = () => {
 
     useEffect(() => {
         getCategories();
+        console.log(mainList, secondList, thirdList);
     }, []);
 
-  const ToggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+    const ToggleSidebar = () => {
+        setIsOpen(!isOpen);
+    };
 
     const ToggleSecondSidebar = (subject) => {
-        setPickedSecondList(secondLists[subject] || []);
+        setSecondList(secondLists[subject] || []);
         setIsSecondOpen(true);
     };
 
     const ToggleThirdSidebar = (subject) => {
-        setPickedThirdList(thirdLists[subject] || []);
+        setThirdList(thirdLists[subject] || []);
         setIsThirdOpen(true);
     };
 
     return (
         <div style={{ float: "left" }}>
-            <div className="btn-primary" onClick={ToggleSidebar}>
+            <div className="btn btn-primary" onClick={ToggleSidebar}>
                 <DensityMediumIcon />
             </div>
             <div className={`sidebar ${isOpen ? "active" : ""}`}>
@@ -87,8 +78,8 @@ const ToggleMenu = () => {
                 <div className="sd-body">
                     <ul>
                         {mainList.map((subject, index) => (
-                            <li key={index} onClick={() => ToggleSecondSidebar(subject.name)}>
-                                <a className="sd-link">{subject.name}</a>
+                            <li key={index} onClick={() => ToggleSecondSidebar(subject)}>
+                                <a className="sd-link">{subject}</a>
                             </li>
                         ))}
                     </ul>
@@ -100,9 +91,9 @@ const ToggleMenu = () => {
                 <div className="sd-header"></div>
                 <div className="sd-body">
                     <ul>
-                        {pickedSecondList.map((subject, index) => (
-                            <li key={index} onClick={() => ToggleThirdSidebar(subject.name)}>
-                                <a className="sd-link">{subject.name}</a>
+                        {secondList.map((subject, index) => (
+                            <li key={index} onClick={() => ToggleThirdSidebar(subject)}>
+                                <a className="sd-link">{subject}</a>
                             </li>
                         ))}
                     </ul>
@@ -120,9 +111,9 @@ const ToggleMenu = () => {
                 <div className="sd-header"></div>
                 <div className="sd-body">
                     <ul>
-                        {pickedThirdList.map((item, index) => (
+                        {thirdList.map((item, index) => (
                             <li key={index}>
-                                <a className="sd-link">{item.name}</a>
+                                <a className="sd-link">{item}</a>
                             </li>
                         ))}
                     </ul>
