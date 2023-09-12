@@ -102,6 +102,7 @@ const AddProduct = () => {
     const handleAddBtn = async () => {
         // 상품 등록할 때 키워드 배열안에 제목도 같이 넣어서 보내주기
         console.log(name, category.categoryId, price, stock, content, keywordList, imgURL1, imgURL2, imgURL3);
+        setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.post(
                 "/api/sellers/items",
