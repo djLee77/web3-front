@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import axios from "axios";
+import axios from "axios";
 
 const ToggleMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isSecondOpen, setIsSecondOpen] = useState(false);
-    const [isThirdOpen, setIsThirdOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSecondOpen, setIsSecondOpen] = useState(false);
+  const [isThirdOpen, setIsThirdOpen] = useState(false);
 
-    const [mainList, setMainList] = useState([]);
-    const [secondLists, setSecondLists] = useState({});
-    const [thirdLists, setThirdLists] = useState({});
+  const [mainList, setMainList] = useState([]);
+  const [secondLists, setSecondLists] = useState({});
+  const [thirdLists, setThirdLists] = useState({});
 
     const [pickedSecondList, setPickedSecondList] = useState([]);
     const [pickedThirdList, setPickedThirdList] = useState([]);
@@ -60,9 +61,9 @@ const ToggleMenu = () => {
         getCategories();
     }, []);
 
-    const ToggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+  const ToggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
     const ToggleSecondSidebar = (subject) => {
         setPickedSecondList(secondLists[subject] || []);

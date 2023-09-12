@@ -6,10 +6,10 @@ import StarRating from "../StarRating";
 const Card = ({ product }) => {
     const [rating, setRating] = useState(product.rate); // 별점 상태 저장
 
-    // 별점 변경하는 함수 (여기선 안 필요하고 사용자가 리뷰 남길 때 사용할 예정)
-    const handleRatingChange = (newRating) => {
-        setRating(newRating); // rating 업데이트
-    };
+  // 별점 변경하는 함수 (여기선 안 필요하고 사용자가 리뷰 남길 때 사용할 예정)
+  const handleRatingChange = (newRating) => {
+    setRating(newRating); // rating 업데이트
+  };
 
     return (
         <>

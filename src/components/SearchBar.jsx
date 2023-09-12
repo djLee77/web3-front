@@ -1,15 +1,28 @@
-import { React, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const SearchBar = () => {
-    const [search, setSearch] = useState("");
-    const onChange = (e) =>{
-        setSearch(e.target.value);
+function SearchBar() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchTerm) {
+      navigate(`/search-result?query=${searchTerm}`);
     }
-    return(
-        <div>
-            <input type="text" value={search} onChange={onChange}></input>
-        </div>
-    )
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search for a product..."
+      />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
 }
 
 export default SearchBar;
