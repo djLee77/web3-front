@@ -1,0 +1,55 @@
+.btnBox {
+    position: fixed;
+    bottom: 5%;
+    right: 5%
+}
+
+.box {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    width: 400px;
+    height: 500px;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: rgb(70, 119, 255);
+    align-items: center;
+}
+
+.header h4 {
+    margin: 0;
+    margin-left: 10px;
+    color: white;
+}
+
+.contentBox {
+    height: 430px;
+    background-color: lightpink;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.cancelBtn {
+    border: 0;
+    background-color: transparent;
+}
+
+.inputBox {
+    width: 100%;
+    background-color: orange;
+}
+
+.inputBox input {
+    width: 80%;
+    border: none;
+    outline: none;
+}
+
+.inputBox button {
+    width: 20%;
+    border: 0;
+}

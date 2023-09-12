@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import "../../../css/SelectCategoryModal.css";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 const style = {
     position: "absolute",
@@ -37,48 +38,51 @@ export default function SelectCategoryModal({ category, setCategory }) {
         setIsThirdOpen(false);
     };
 
+    const getCategrories = async () => {
+        const response = await axios.get("/api/public/categories", {
+            headers: {
+                "ngrok-skip-browser-warning": "1234",
+            },
+        });
+        console.log("data:", response.data.data[0]);
+        const categories = response.data.data[0].child;
+
+        const secondListsTemp = {};
+        const thirdListsTemp = {};
+
+        // 1번째 카테고리 목록 저장
+        const mainListTemp = categories.map((cat) => ({
+            categoryId: cat.categoryId,
+            name: cat.name,
+        }));
+
+        categories.forEach((cat) => {
+            if (cat.child && cat.child.length > 0) {
+                // 2번째 카테고리 목록 저장
+                secondListsTemp[cat.name] = cat.child.map((child) => ({
+                    categoryId: child.categoryId,
+                    name: child.name,
+                }));
+
+                cat.child.forEach((subCat) => {
+                    // 3번째 카테고리 목록 저장
+                    if (subCat.child && subCat.child.length > 0) {
+                        thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
+                            categoryId: child.categoryId,
+                            name: child.name,
+                        }));
+                    }
+                });
+            }
+        });
+
+        setMainList(mainListTemp);
+        setSecondList(secondListsTemp);
+        setThirdList(thirdListsTemp);
+    };
+
     useEffect(() => {
-        // 예제에서는 직접 데이터를 사용하지만 실제 환경에서는 API 호출을 사용해야 합니다.
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:4000/api/categories");
-            const data = await response.json();
-            const categories = data.data.categories[0].child;
-
-            const secondListsTemp = {};
-            const thirdListsTemp = {};
-
-            // 1번째 카테고리 목록 저장
-            const mainListTemp = categories.map((cat) => ({
-                categoryId: cat.categoryId,
-                name: cat.name,
-            }));
-
-            categories.forEach((cat) => {
-                if (cat.child && cat.child.length > 0) {
-                    // 2번째 카테고리 목록 저장
-                    secondListsTemp[cat.name] = cat.child.map((child) => ({
-                        categoryId: child.categoryId,
-                        name: child.name,
-                    }));
-
-                    cat.child.forEach((subCat) => {
-                        // 3번째 카테고리 목록 저장
-                        if (subCat.child && subCat.child.length > 0) {
-                            thirdListsTemp[subCat.name] = subCat.child.map((child) => ({
-                                categoryId: child.categoryId,
-                                name: child.name,
-                            }));
-                        }
-                    });
-                }
-            });
-
-            setMainList(mainListTemp);
-            setSecondList(secondListsTemp);
-            setThirdList(thirdListsTemp);
-        };
-
-        fetchData();
+        getCategrories();
     }, []);
 
     // 선택된 첫번째 카테고리의 맞는 두번째 카테고리 목록 저장 함수

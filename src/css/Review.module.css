@@ -1,0 +1,25 @@
+.totalBox span {
+    margin-left: 10px;
+}
+
+.headerBox {
+    display: flex;
+}
+
+.userBox {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.createAt {
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.imgBox {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100px;
+    height: 120px;
+}
