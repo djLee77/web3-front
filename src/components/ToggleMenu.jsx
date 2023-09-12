@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import axios from "axios";
-import axios from "axios";
 
 const ToggleMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
