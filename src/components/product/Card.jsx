@@ -15,7 +15,7 @@ const Card = ({ product }) => {
         <>
             <Link to={`/product/detail/${product.itemId}`}>
                 <div className={style.cardBox}>
-                    <div classNam={style.cardImg}>
+                    <div className={style.cardImg}>
                         <img
                             src="https://cdn.discordapp.com/attachments/1136307485398007878/1147779261319618560/facebook.png"
                             width={160}

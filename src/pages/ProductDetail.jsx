@@ -4,9 +4,10 @@ import Header from "../components/product/detail/Header";
 import Content from "../components/product/detail/Content";
 import Review from "../components/product/detail/Review";
 import style from "../css/ProductDetail.module.css";
+import axios from "axios";
 
 export default function ProductDetail() {
-    const product = {
+    const testProduct = {
         data: {
             itemId: 100110,
             categoryId: 10001,
@@ -21,6 +22,7 @@ export default function ProductDetail() {
             remaining: "",
         },
     };
+    const [product, setProduct] = useState([]); // 상품 정보
     const [scrollPosition, setScrollPosition] = useState(0); // 스크롤 위치
     const [contentPosition, setContentPosition] = useState(0); // 스크롤 위치
     const contentRef = useRef(null); // 상품 상세 Ref
@@ -37,9 +39,27 @@ export default function ProductDetail() {
         setScrollPosition(window.scrollY || document.documentElement.scrollTop);
     };
 
+    // 상품 정보 가져오는 함수
+    const getProductInfo = async (id) => {
+        try {
+            const res = await axios.get(`/api/public/items/${id}`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+
+            console.log("상품 정보 : ", res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
+        // 첫 마운트 될 때
         console.log(id); // 상품 id
-        setContentPosition(contentRef.current?.offsetTop);
+        getProductInfo(id); // 상품 정보 가져오기
+
+        setContentPosition(contentRef.current?.offsetTop); // 상품상세 위치 값 저장
         window.addEventListener("scroll", updateScroll, { capture: true }); // 스크롤 이벤트 등록
         return () => {
             window.removeEventListener("scroll", updateScroll); // 스크롤 이벤트 등록 제거(성능저하방지)
@@ -48,17 +68,17 @@ export default function ProductDetail() {
 
     return (
         <div className={style.box}>
-            <Header product={product} reviewRef={reviewRef} />
+            <Header product={testProduct} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
                 <div onClick={() => onTabClick(contentRef)} className={style.tab}>
                     <span>상품상세</span>
                 </div>
                 <div onClick={() => onTabClick(reviewRef)} className={style.tab}>
-                    <span>상품평 ({product.data.reviewCount})</span>
+                    <span>상품평 ({testProduct.data.reviewCount})</span>
                 </div>
             </div>
             <Content ref={contentRef} />
-            <Review ref={reviewRef} rate={product.data.rate} reviewCount={product.data.reviewCount} />
+            <Review ref={reviewRef} rate={testProduct.data.rate} reviewCount={testProduct.data.reviewCount} />
         </div>
     );
 }

@@ -7,44 +7,44 @@ import axios from "axios";
 
 export default function Chatbot({ setIsOpen, isOpen }) {
     const [messageList, setMessageList] = useState([]); // 메시지 리스트 배열
-    const [message, setMessage] = useState("");
+    const [inputMessage, setInputMessage] = useState("");
     const [result, setResult] = useState([]);
 
-    useEffect(() => {
-        const source = new EventSource("/donggun");
-
-        source.onmessage = function (event) {
-            // 결과를 화면에 표시하거나 상태(state)를 업데이트하는 등의 작업 수행
-            // 예: setResults(results => [...results, event.data]);
-            console.log("Received data:", event.data);
-            setResult((result) => [...result, event.data]);
-        };
-
-        // 컴포넌트가 언마운트될 때 EventSource 정리(clean-up)
-        return () => {
-            source.close();
-        };
-    }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
-
     // gpt 테스트
-    const onSendTest = async () => {
-        console.log("message : ", message);
-        setMessage("");
+    const sendMessage = async () => {
         try {
-            const res = await axios.post(
-                "/message",
-                { message },
-                {
-                    headers: {
-                        "ngrok-skip-browser-warning": "1234",
-                    },
-                }
-            );
-            console.log("res : ", res);
+            // const res = await axios.post(
+            //     "/message",
+            //     { message: inputMessage },
+            //     {
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //     }
+            // );
+            const res = await fetch("/message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: inputMessage }),
+            });
+
+            if (res.ok) {
+                const eventSource = new EventSource("/message");
+                eventSource.onmessage = function (event) {
+                    if (event.data === "[DONE]") {
+                        eventSource.close(); // 연결 종료
+                    } else {
+                        setResult((prevText) => prevText + event.data);
+                    }
+                };
+            } else {
+                console.error("Failed to send message");
+            }
         } catch (error) {
-            console.log("에러 : ", error);
+            console.error("Error:", error);
         }
     };
+
     return (
         <div className={style.box}>
             <div className={style.header}>
@@ -55,15 +55,15 @@ export default function Chatbot({ setIsOpen, isOpen }) {
             </div>
             <div className={style.contentBox}>
                 <Message />
-                {result}
+                <span>{result}</span>
             </div>
             <div className={style.inputBox}>
                 <input
                     type="text"
                     placeholder="무엇이든 물어보세요"
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={(e) => setInputMessage(e.target.value)}
                 ></input>
-                <button onClick={onSendTest}>보내기</button>
+                <button onClick={sendMessage}>보내기</button>
             </div>
         </div>
     );

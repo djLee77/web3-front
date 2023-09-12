@@ -63,7 +63,6 @@ const Home = () => {
         deactivate: dapp 월렛 해제 수행함수
     */
     const { chainId, account, library, active, activate, deactivate } = useWeb3React();
-    console.log(injected);
 
     // 연결 버튼 눌렀을 때 대준 내 목소리가 들려??
     const handdleConnect = () => {
@@ -103,7 +102,7 @@ const Home = () => {
                 },
             });
 
-            console.log(res);
+            console.log("상품 목록 : ", res);
         } catch (error) {
             console.log(error);
         }
@@ -190,12 +189,12 @@ const Home = () => {
             </div>
 
             <div className="card-list">
-                {testProductList.data.items.map((product) => (
-                    <Card key={product.itemId} product={product} />
+                {testProductList.data.items.map((product, idx) => (
+                    <Card key={idx} product={product} />
                 ))}
             </div>
 
-            <style jsx>{`
+            <style jsx="true">{`
                 .card-list {
                     display: grid;
                     grid-template-columns: repeat(5, 1fr);
