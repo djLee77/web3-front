@@ -175,7 +175,6 @@ const Home = () => {
                     {active ? "disconnect" : "connect"}
                 </button>
             </div>
-
             <div className="card-list">
                 {testProductList.data.items.map((product) => (
                     <Card key={product.itemId} product={product} />
