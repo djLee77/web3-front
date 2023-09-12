@@ -16,7 +16,7 @@ const ToggleMenu = () => {
     const [pickedThirdList, setPickedThirdList] = useState([]);
 
     const getCategories = async () => {
-        const response = await axios.get("/api/categories", {
+        const response = await axios.get("/api/public/categories", {
             headers: {
                 "ngrok-skip-browser-warning": "1234",
             },
@@ -24,7 +24,12 @@ const ToggleMenu = () => {
         console.log("data:", response.data.data[0]);
         const categories = response.data.data[0].child;
 
-        const mainListTemp = [];
+        // 1번째 카테고리 목록 저장
+        const mainListTemp = categories.map((cat) => ({
+            categoryId: cat.categoryId,
+            name: cat.name,
+        }));
+
         const secondListsTemp = {};
         const thirdListsTemp = {};
 
@@ -52,8 +57,7 @@ const ToggleMenu = () => {
     };
 
     useEffect(() => {
-        // getCategories();
-        console.log(mainList, secondList, thirdList);
+        getCategories();
     }, []);
 
     const ToggleSidebar = () => {

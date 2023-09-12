@@ -47,8 +47,8 @@ export default function ProductDetail() {
                     "ngrok-skip-browser-warning": "1234",
                 },
             });
-
             console.log("상품 정보 : ", res);
+            setProduct(res.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -68,17 +68,17 @@ export default function ProductDetail() {
 
     return (
         <div className={style.box}>
-            <Header product={testProduct} reviewRef={reviewRef} />
+            <Header product={product} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
                 <div onClick={() => onTabClick(contentRef)} className={style.tab}>
                     <span>상품상세</span>
                 </div>
                 <div onClick={() => onTabClick(reviewRef)} className={style.tab}>
-                    <span>상품평 ({testProduct.data.reviewCount})</span>
+                    <span>상품평 ({product.reviewCount})</span>
                 </div>
             </div>
             <Content ref={contentRef} />
-            <Review ref={reviewRef} rate={testProduct.data.rate} reviewCount={testProduct.data.reviewCount} />
+            <Review ref={reviewRef} rate={product.rate} reviewCount={product.reviewCount} />
         </div>
     );
 }

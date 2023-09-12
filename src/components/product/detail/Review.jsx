@@ -44,8 +44,8 @@ const Review = forwardRef((props, ref) => {
                 <span>({props.reviewCount})</span>
             </div>
             <hr />
-            {testReivew.data.reviews.map((review) => (
-                <div>
+            {testReivew.data.reviews.map((review, idx) => (
+                <div key={idx}>
                     <div className={style.headerBox}>
                         <Avatar sx={{ width: "48px", height: "48px" }} />
                         <div className={style.userBox}>
