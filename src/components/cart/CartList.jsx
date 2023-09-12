@@ -11,8 +11,9 @@ import {
     Checkbox,
 } from "@mui/material";
 import { Button } from "@mui/material";
+import axios from "axios";
 
-export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems }) {
+export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     // 상품 전체 선택 함수
     const handleSelectAll = (event) => {
         const checked = event.target.checked;
@@ -38,13 +39,36 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     };
 
     // 삭제 버튼 함수
-    const handleDelBtn = (id) => {
-        console.log(id, " 삭제");
+    const handleDelBtn = async (id) => {
+        try {
+            const res = await axios.delete(`/api/users/carts/${id}`);
+            console.log("삭제 : ", res);
+            getCartList();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // 상품 수량 변경 함수
-    const handleCountChange = (id, e) => {
-        alert(id + "를 " + e.target.value + "로 변경 구현 중");
+    const handleCountChange = async (id, e) => {
+        try {
+            const res = await axios.patch(
+                `/api/users/carts/${id}`,
+                {
+                    quantity: e.target.value,
+                },
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+
+            console.log("수량 변경 : ", res);
+            getCartList();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -83,7 +107,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                     </TableCell>
                                     <TableCell align="center">
                                         <Select
-                                            defaultValue={item.count}
+                                            defaultValue={item.quantity}
                                             onChange={(e) => handleCountChange(item.cartId, e)}
                                         >
                                             <MenuItem value={1}>1</MenuItem>
@@ -99,7 +123,8 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         </Select>
                                     </TableCell>
                                     <TableCell align="center" sx={{ fontSize: "16px", fontWeight: "bold" }}>
-                                        {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                                        {(item.quantity * item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                        원
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button onClick={() => handleDelBtn(item.cartId)}>x</Button>

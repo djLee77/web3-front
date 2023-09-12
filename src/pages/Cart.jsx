@@ -19,7 +19,7 @@ export default function Cart() {
         selectedItems.forEach((itemId) => {
             const selectedItem = cartList.find((item) => item.cartId === itemId);
             if (selectedItem) {
-                total += selectedItem.price;
+                total += selectedItem.price * selectedItem.quantity; // 선택한 상품의 수량과 가격 곱해서 토탈에 더함
             }
         });
         setTotal(total);
@@ -28,9 +28,13 @@ export default function Cart() {
     // 장바구니 목록 가져오는 함수
     const getCartList = async () => {
         try {
-            const res = await axios.get("http://localhost:4000/api/carts");
-            console.log("장바구니 : ", res.data.data.carts);
-            setCartList(res.data.data.carts);
+            const res = await axios.get(`/api/users/carts/${1}`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+            console.log("장바구니 : ", res.data.data);
+            setCartList(res.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -60,6 +64,7 @@ export default function Cart() {
                 setSelectAll={setSelectAll}
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
+                getCartList={getCartList}
             />
             <div className={style.box}>
                 <div className={style.totalBox}>

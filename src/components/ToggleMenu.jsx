@@ -16,7 +16,7 @@ const ToggleMenu = () => {
     const [thirdList, setThirdList] = useState([]);
 
     const getCategories = async () => {
-        const response = await axios.get("/api/categories", {
+        const response = await axios.get("/api/public/categories", {
             headers: {
                 "ngrok-skip-browser-warning": "1234",
             },
@@ -48,7 +48,7 @@ const ToggleMenu = () => {
     };
 
     useEffect(() => {
-        // getCategories();
+        getCategories();
         console.log(mainList, secondList, thirdList);
     }, []);
 
