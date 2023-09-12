@@ -1,7 +1,7 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
 import "../css/NavBar.module.css";
-import SearchBar from "./product/SearchBar";
+import SearchBar from "../components/SearchBar";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";

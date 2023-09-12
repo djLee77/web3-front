@@ -26,6 +26,7 @@
     "react-star-ratings": "^2.3.0",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "https://a0e6-221-154-89-98.ngrok-free.app/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

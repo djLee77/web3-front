@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 app.use(cors());
 
 const mockData = {
@@ -159,9 +161,9 @@ const allProducts = [
 
 app.use(express.json());
 
-app.get("/api/items", (req, res) => {
-  const searchTerm = req.query.query;
-
+app.post("/api/items", (req, res) => {
+  const searchTerm = req.body.query;
+  console.log(searchTerm);
   if (!searchTerm) {
     return res
       .status(400)
@@ -172,7 +174,6 @@ app.get("/api/items", (req, res) => {
   const matchedProducts = allProducts.filter((product) =>
     product.name.includes(searchTerm)
   );
-
   console.log(matchedProducts);
   res.send({
     code: 200,

@@ -15,42 +15,42 @@ const ToggleMenu = () => {
   const [secondList, setSecondList] = useState([]);
   const [thirdList, setThirdList] = useState([]);
 
-  // const getCategories = async () => {
-  //   const response = await axios.get("/api/categories", {
-  //     headers: {
-  //       "ngrok-skip-browser-warning": "1234",
-  //     },
-  //   });
-  //   console.log("data:", response.data.data[0]);
-  //   const categories = response.data.data[0].child;
+  const getCategories = async () => {
+    const response = await axios.get("/api/public/categories", {
+      headers: {
+        "ngrok-skip-browser-warning": "1234",
+      },
+    });
+    console.log("data:", response.data.data[0]);
+    const categories = response.data.data[0].child;
 
-  //   const mainListTemp = [];
-  //   const secondListsTemp = {};
-  //   const thirdListsTemp = {};
+    const mainListTemp = [];
+    const secondListsTemp = {};
+    const thirdListsTemp = {};
 
-  //   categories.forEach((cat) => {
-  //     mainListTemp.push(cat.name);
+    categories.forEach((cat) => {
+      mainListTemp.push(cat.name);
 
-  //     if (cat.child && cat.child.length > 0) {
-  //       secondListsTemp[cat.name] = cat.child.map((child) => child.name);
+      if (cat.child && cat.child.length > 0) {
+        secondListsTemp[cat.name] = cat.child.map((child) => child.name);
 
-  //       cat.child.forEach((subCat) => {
-  //         if (subCat.child && subCat.child.length > 0) {
-  //           thirdListsTemp[subCat.name] = subCat.child.map(
-  //             (child) => child.name
-  //           );
-  //         }
-  //       });
-  //     }
-  //   });
+        cat.child.forEach((subCat) => {
+          if (subCat.child && subCat.child.length > 0) {
+            thirdListsTemp[subCat.name] = subCat.child.map(
+              (child) => child.name
+            );
+          }
+        });
+      }
+    });
 
-  //   setMainList(mainListTemp);
-  //   setSecondLists(secondListsTemp);
-  //   setThirdLists(thirdListsTemp);
-  // };
+    setMainList(mainListTemp);
+    setSecondLists(secondListsTemp);
+    setThirdLists(thirdListsTemp);
+  };
 
   useEffect(() => {
-    // getCategories();
+    getCategories();
     console.log(mainList, secondList, thirdList);
   }, []);
 

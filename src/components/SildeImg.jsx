@@ -47,7 +47,7 @@ const SlideImg = () => {
   }
 
   return (
-    <div className="flex justify-center items-center py-5 px-3" style={{width: '1000px', height: 'auto'}}>
+    <div className="flex justify-center items-center py-5 px-3" style={{width: '800px', height: 'auto'}}>
       <Carousel
         showArrows={true}
         autoPlay={true}
