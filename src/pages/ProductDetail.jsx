@@ -77,7 +77,7 @@ export default function ProductDetail() {
                     <span>상품평 ({product.reviewCount})</span>
                 </div>
             </div>
-            <Content ref={contentRef} />
+            <Content ref={contentRef} content={product.content} />
             <Review ref={reviewRef} rate={product.rate} reviewCount={product.reviewCount} />
         </div>
     );
