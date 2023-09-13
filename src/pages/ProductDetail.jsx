@@ -78,7 +78,7 @@ export default function ProductDetail() {
                 </div>
             </div>
             <Content ref={contentRef} content={product.content} />
-            <Review ref={reviewRef} rate={product.rate} reviewCount={product.reviewCount} />
+            <Review ref={reviewRef} id={id} rate={product.rate} reviewCount={product.reviewCount} />
         </div>
     );
 }
