@@ -1,6 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 import Card from "../components/product/Card";
 import axios from "axios";
 
@@ -29,31 +30,7 @@ const Home = () => {
         61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
     };
 
-    /* web3 react에서 제공하는 함수와 변수들
-    const [balance, setBalance] = useState(""); // 토큰
-
-    // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
-    const chainIds = {
-        1: { name: "Ethereum mainnet", symbol: "ETH" },
-        3: { name: "Ropsten", symbol: "RopstenETH" },
-        4: { name: "Rinkeby", symbol: "RinkebyETH" },
-        5: { name: "Goerli", symbol: "GoerliETH" },
-        42: { name: "Kovan", symbol: "KovanETH" },
-        11155111: { name: "Sepolia", symbol: "SepoliaETH" },
-        56: { name: "Binance Smart Chain Mainnet", symbol: "BNB" },
-        97: { name: "Binance Smart Chain Testnet", symbol: "tBNB" },
-        43114: { name: "Avalanche C-Chain", symbol: "AVAX" },
-        137: { name: "Polygon Mainnet", symbol: "MATIC" },
-        80001: { name: "Mumbai", symbol: "MATIC" },
-        42161: { name: "Arbitrum One", symbol: "ETH" },
-        10: { name: "Optimism", symbol: "ETH" },
-        250: { name: "Fantom Opera", symbol: "FTM" },
-        8217: { name: "Klaytn Mainnet Cypress", symbol: "KLAY" },
-        1001: { name: "baobob", symbol: "KLAY" },
-        61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
-    };
-
-    /* web3 react에서 제공하는 함수와 변수들
+    /*  제공하는 함수와 변수들
         connector: 현재 dapp에 연결된 월렛의 connector 값
         library: web3 provider 제공
         chainId: dapp에 연결된 account의 chainId
@@ -82,9 +59,27 @@ const Home = () => {
         });
     };
 
+    // 로그인 하는 함수 (서버에 메타마스크 account와 암호화된 account를 보내줌)
+    const handleLogin = async (id, checkId) => {
+        console.log("계정 : ", id, checkId);
+        try {
+            const res = await axios.post(`/api/public/login/${id}`, {
+                checkId: checkId,
+            });
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         // 계정 연결 됐으면
         if (account) {
+            // AES256 암호화 ID 생성
+            const key = "0000000000@fsadqega#fkdlsaiqu1235";
+            const encryptedId = CryptoJS.AES.encrypt(account, key).toString(); // 암호화된 Id
+            handleLogin(account, encryptedId); // 로그인 하기
+
             // 계정에 연결된 네트워크 코인 가져오기
             library?.getBalance(account).then((result) => {
                 setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
@@ -137,33 +132,6 @@ const Home = () => {
                 },
                 {
                     itemId: 100113,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 100114,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 200115,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 300110,
                     name: "이쁜 옷3",
                     image1: "image1",
                     price: 100,
