@@ -1,10 +1,11 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
-import "../css/NavBar.module.css";
+import style from "../css/NavBar.module.css";
 import SearchBar from "../components/SearchBar";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
+
 const NavBar = () => {
   const [balance, setBalance] = useState(""); // 토큰
 
@@ -62,35 +63,32 @@ const NavBar = () => {
   }, [account]);
 
   return (
-    <div className="body">
-      <div>
-        <ToggleMenu />
-      </div>
-      <div style={{ float: "right" }}>
-        <div style={{ float: "left" }}>
+    <div>
+      <div className={style.body}>
+        <div style={{float: "left" , margin : "20px"}}>
+          <ToggleMenu />
+        </div>
+        <div>
+          <img src="imgs/logo.png"></img>
+        </div>
+        <div style={{ float: "right" }}>
           <div style={{ float: "left" }}>
-            <SearchBar />
-          </div>
-          <div style={{ float: "right" }}>
             <div>
-              <div style={{ float: "left" }}>
-                <button type="button" onClick={handdleConnect}>
-                  {active ? "disconnect" : "connect"}
-                </button>
-              </div>
-              <div style= {{float :"right"}}>
-                <p>Account: {account}</p>
-                {/* <p>ChainId: {chainIds[chainId]?.name}</p> */}
-                <p>
-                  Balance :{" "}
-                  {active ? balance + " " + chainIds[chainId]?.symbol : ""}
-                </p>
+              <SearchBar />
+            </div>
+            <div style={{ float: "right" }}>
+              <div>
+                <div style={{ float: "left" }}>
+                  <button type="button" onClick={handdleConnect}>
+                    {active ? "disconnect" : "connect"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div style={{ float: "right" }}>
-          <a href="/cart">Cart</a>
+          <div style={{ float: "right" }}>
+            <a href="/cart">Cart</a>
+          </div>
         </div>
       </div>
     </div>

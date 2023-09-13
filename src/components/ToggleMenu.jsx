@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/ToggleMenu.css";
-import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import axios from "axios";
-
+import { Menu } from "@mui/icons-material";
 const ToggleMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSecondOpen, setIsSecondOpen] = useState(false);
@@ -76,8 +75,8 @@ const ToggleMenu = () => {
 
     return (
         <div style={{ float: "left" }}>
-            <div className="btn-primary" onClick={ToggleSidebar}>
-                <DensityMediumIcon />
+            <div style={{cursor: "pointer"}} onClick={ToggleSidebar}>
+                <Menu />
             </div>
             <div className={`sidebar ${isOpen ? "active" : ""}`}>
                 <div className="sd-header">

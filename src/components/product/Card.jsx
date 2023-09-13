@@ -17,7 +17,7 @@ const Card = ({ product }) => {
                 <div className={style.cardBox}>
                     <div className={style.cardImg}>
                         <img
-                            src="https://cdn.discordapp.com/attachments/1136307485398007878/1147779261319618560/facebook.png"
+                            src="https://image.msscdn.net/images/goods_img/20210204/1778404/1778404_1_320.jpg"
                             width={160}
                             height={160}
                         ></img>

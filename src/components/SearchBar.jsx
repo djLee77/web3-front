@@ -18,7 +18,7 @@ function SearchBar() {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search for a product..."
+        placeholder=""
       />
       <button onClick={handleSearch}>Search</button>
     </div>

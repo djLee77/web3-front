@@ -4,13 +4,12 @@
 
 /* ---Sidebar css */
 .text-primary {
-    color: #5a8dee !important;
+    cursor: pointer;
 }
 
 .btn-primary {
-    border-color: #5a8dee !important;
-    background-color: #5a8dee !important;
-    color: #fff;
+    background-color: white;
+    color : black;
 }
 
 .shadow-md {
