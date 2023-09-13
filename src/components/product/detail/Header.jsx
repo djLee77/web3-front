@@ -98,6 +98,10 @@ export default function Detail({ product, reviewRef }) {
                         <span>{(product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
                     </div>
 
+                    {/* 판매자 정보 */}
+                    <div className={style.sellerId}>
+                        <span>판매자 ID : {product.sellerId}</span>
+                    </div>
                     {/* 버튼 영역 */}
                     <div>
                         {/* 상품 수량 */}
