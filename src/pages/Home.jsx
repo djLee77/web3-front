@@ -75,9 +75,15 @@ const Home = () => {
     useEffect(() => {
         // 계정 연결 됐으면
         if (account) {
+            const key = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_KEY);
+            const iv = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_IV);
             // AES256 암호화 ID 생성
-            const key = "0000000000@fsadqega#fkdlsaiqu1235";
-            const encryptedId = CryptoJS.AES.encrypt(account, key).toString(); // 암호화된 Id
+            const encryptedId = CryptoJS.AES.encrypt(account, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7,
+            }).toString();
+
             handleLogin(account, encryptedId); // 로그인 하기
 
             // 계정에 연결된 네트워크 코인 가져오기
