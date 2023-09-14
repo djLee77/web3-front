@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import Card from "../components/product/Card";
 import axios from "axios";
+import cookie from "react-cookies";
 
 const Home = () => {
     const [balance, setBalance] = useState(""); // 토큰
@@ -45,6 +46,8 @@ const Home = () => {
     const handdleConnect = () => {
         // 만약 이미 연결 돼있으면 연결 해제
         if (active) {
+            cookie.remove("accessToken", { path: "/" });
+            cookie.remove("refreshToken", { path: "/" });
             deactivate();
             return;
         }
@@ -63,8 +66,22 @@ const Home = () => {
     const handleLogin = async (id, checkId) => {
         console.log("계정 : ", id, checkId);
         try {
-            const res = await axios.post(`/api/public/login/${id}`, {
-                checkId: checkId,
+            const res = await axios.post(
+                `/api/public/login/${id}`,
+                {
+                    checkId: checkId,
+                },
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+            cookie.save("accessToken", res.data.data.accessToken, {
+                path: "/",
+            });
+            cookie.save("refreshToken", res.data.data.refreshToken, {
+                path: "/",
             });
             console.log(res);
         } catch (error) {

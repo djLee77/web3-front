@@ -3,6 +3,7 @@ import style from "../../../css/ProductDetail.module.css";
 import StarRating from "../../StarRating";
 import { useState } from "react";
 import axios from "axios";
+import cookie from "react-cookies";
 
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(product.image1); // 메인 이미지
@@ -40,8 +41,26 @@ export default function Detail({ product, reviewRef }) {
     };
 
     // 구매 버튼 클릭 함수
-    const onClickPayBtn = (productId, quantity) => {
-        alert("상품 ID: " + productId + " 수량 : " + quantity);
+    const onClickPayBtn = async (productId, quantity) => {
+        console.log(cookie.load("accessToken"));
+        try {
+            const res = await axios.patch(
+                `/api/admin/users/${1}`,
+                {
+                    role: "SELLER",
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // 상품 개수 바꾸는 함수

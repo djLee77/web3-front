@@ -23,6 +23,7 @@
         "openai": "^4.6.0",
         "rc-input-number": "^8.0.4",
         "react": "^18.2.0",
+        "react-cookies": "^0.1.1",
         "react-dom": "^18.2.0",
         "react-markdown": "^8.0.7",
         "react-router-dom": "^6.15.0",
@@ -54,5 +55,5 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "https://6439-2001-e60-8818-5be2-ed4e-e430-66db-45c7.ngrok-free.app/"
+    "proxy": "https://eedc-221-154-89-96.ngrok-free.app/"
 }
