@@ -48,7 +48,7 @@ const ToggleMenu = () => {
     };
 
     useEffect(() => {
-        // getCategories();
+        getCategories();
         console.log(mainList, secondList, thirdList);
     }, []);
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "../css/Cart.module.css";
+import cookie from "react-cookies";
 
 export default function Cart() {
     const [cartList, setCartList] = useState([]); // 장바구니 목록
@@ -30,6 +31,7 @@ export default function Cart() {
         try {
             const res = await axios.get(`/api/users/carts/${1}`, {
                 headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
                 },
             });
@@ -50,13 +52,13 @@ export default function Cart() {
         alert("구현 중");
     };
 
-    // 취소 버튼 함수
+    // 돌아가기 버튼 함수
     const handleBackBtn = () => {
         navigate("/");
     };
 
     return (
-        <div>
+        <div className={style.box}>
             <h4>장바구니 목록</h4>
             <CartList
                 cartList={cartList}

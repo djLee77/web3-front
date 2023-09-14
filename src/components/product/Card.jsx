@@ -24,7 +24,9 @@ const Card = ({ product }) => {
                     </div>
                     <div className={style.contentBox}>
                         <span className={style.title}>{product.name}</span>
-                        <span className={style.price}>{product.price}원</span>
+                        <span className={style.price}>
+                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                        </span>
                         <span className={style.rate}>
                             <StarRating rate={product.rate} size={12} space={2} />
                             <span>({product.reviewCount})</span>

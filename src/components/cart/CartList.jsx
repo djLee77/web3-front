@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { useEffect } from "react";
+import cookie from "react-cookies";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     // 상품 전체 선택 함수
@@ -41,7 +43,12 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     // 삭제 버튼 함수
     const handleDelBtn = async (id) => {
         try {
-            const res = await axios.delete(`/api/users/carts/${id}`);
+            const res = await axios.delete(`/api/users/carts/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
             console.log("삭제 : ", res);
             getCartList();
         } catch (error) {
@@ -59,6 +66,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                 },
                 {
                     headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
                         "ngrok-skip-browser-warning": "1234",
                     },
                 }
@@ -74,14 +82,16 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     return (
         <div>
             {cartList.length === 0 ? (
-                <div>장바구니에 담은 상품이 없습니다.</div>
+                <div style={{ marginTop: "30px", marginBottom: "30px", fontSize: "24px" }}>
+                    장바구니에 담긴 상품이 없습니다.
+                </div>
             ) : (
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} sx={{ marginTop: "18px", marginBottom: "30px" }}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">
-                                    <Checkbox checked={selectAll} onChange={handleSelectAll} />
+                                    <Checkbox checked={selectAll} onChange={handleSelectAll} defaultChecked={true} />
                                 </TableCell>
                                 <TableCell align="center">상품 사진</TableCell>
                                 <TableCell align="center">상품명</TableCell>
@@ -95,6 +105,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                 <TableRow key={item.cartId}>
                                     <TableCell align="center">
                                         <Checkbox
+                                            defaultChecked={true}
                                             checked={selectedItems.includes(item.cartId)}
                                             onChange={(e) => handleSelectOne(e, item.cartId)}
                                         />
