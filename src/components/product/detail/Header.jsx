@@ -45,9 +45,9 @@ export default function Detail({ product, reviewRef }) {
         console.log(cookie.load("accessToken"));
         try {
             const res = await axios.patch(
-                `/api/admin/users/${1}`,
+                `/api/admin/users/${"6OuEWnVpBMOTGGUHcZZlb"}`,
                 {
-                    role: "SELLER",
+                    role: "ROLE_ADMIN",
                 },
                 {
                     headers: {
