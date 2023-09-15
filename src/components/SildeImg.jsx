@@ -47,7 +47,7 @@ const SlideImg = () => {
   }
 
   return (
-    <div className="flex justify-center items-center py-5 px-3" style={{width: '800px', height: 'auto'}}>
+    <div className="slide-banner" style={{marginLeft : "30px", marginRight : "30px"}}>
       <Carousel
         showArrows={true}
         autoPlay={true}

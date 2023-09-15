@@ -63,32 +63,24 @@ const NavBar = () => {
   }, [account]);
 
   return (
-    <div>
-      <div className={style.body}>
-        <div style={{float: "left" , margin : "20px"}}>
+    <div className={style.containerBg}>
+      <div className={style.logo}>
+        <img src="imgs/logo2.png" style={{width:"150px"}}></img>
+      </div>
+      <div className={style.container}>
+        <div className={style.item}>
           <ToggleMenu />
         </div>
-        <div>
-          <img src="imgs/logo.png"></img>
+        <div className={style.item}>
+          <SearchBar />
         </div>
-        <div style={{ float: "right" }}>
-          <div style={{ float: "left" }}>
-            <div>
-              <SearchBar />
-            </div>
-            <div style={{ float: "right" }}>
-              <div>
-                <div style={{ float: "left" }}>
-                  <button type="button" onClick={handdleConnect}>
-                    {active ? "disconnect" : "connect"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ float: "right" }}>
-            <a href="/cart">Cart</a>
-          </div>
+        <div className={style.item}>
+          <button type="button" onClick={handdleConnect}>
+            {active ? "disconnect" : "connect"}
+          </button>
+        </div>
+        <div className={style.item}>
+          <a href="/cart">Cart</a>
         </div>
       </div>
     </div>

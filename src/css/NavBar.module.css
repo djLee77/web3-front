@@ -1,5 +1,16 @@
-.body{
-    width: 100vb;
-    height: 70px;
+.containerBg{
+    display: flex;
+    flex-direction: column;
 }
 
+.container{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items : center;
+}
+
+.logo{
+    margin-left: 100px;
+    margin-top: 20px;
+}

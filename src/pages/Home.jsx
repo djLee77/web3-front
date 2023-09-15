@@ -125,7 +125,7 @@ const Home = () => {
 
     return (
         <div>
-            <div style={{display : "flex", justifyContent : "center"}}>
+            <div>
                 <SlideImg />
             </div>
             <div className="card-list">
