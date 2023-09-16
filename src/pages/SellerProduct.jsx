@@ -14,6 +14,7 @@ export default function SellerProduct() {
                 rate: 3.4,
                 reviewCount: 10,
                 stock: 9,
+                sellCnt: 10,
             },
             {
                 itemId: 100111,
@@ -23,6 +24,7 @@ export default function SellerProduct() {
                 rate: 4.5,
                 reviewCount: 10,
                 stock: 10,
+                sellCnt: 10,
             },
         ],
     };
@@ -50,7 +52,8 @@ export default function SellerProduct() {
                         >
                             <span>{product.name}</span>
                             <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-                            <span>수량 : {product.stock}</span>
+                            <span>남은 수량 : {product.stock}</span>
+                            <span>판매 수량 : {product.sellCnt}</span>
                             <span>
                                 <StarRating rate={product.rate} size={12} space={2} />
                                 <span>({product.reviewCount})</span>
