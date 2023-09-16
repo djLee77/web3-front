@@ -1,7 +1,7 @@
 import StarRating from "../components/StarRating";
 import NavBar from "../components/seller/NavBar";
 import style from "../css/SellerProduct.module.css";
-import { useNavigate, userNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SellerProduct() {
     const data = {
