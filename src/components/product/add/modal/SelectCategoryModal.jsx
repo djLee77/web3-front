@@ -82,7 +82,7 @@ export default function SelectCategoryModal({ category, setCategory }) {
     };
 
     useEffect(() => {
-        // getCategrories();
+        getCategrories();
     }, []);
 
     // 선택된 첫번째 카테고리의 맞는 두번째 카테고리 목록 저장 함수

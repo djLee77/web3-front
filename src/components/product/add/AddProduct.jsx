@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import style from "../../../css/AddProduct.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import SelectCategoryModal from "./modal/SelectCategoryModal";
 import axios from "axios";
 import Content from "./Content";
@@ -17,14 +17,45 @@ const AddProduct = () => {
     const [content, setContent] = useState(""); // 상품 상세 내용
     const [keywordList, setKeywordList] = useState([]); // 키워드 리스트
     const [keyword, setKeyword] = useState(""); // 키워드
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const navigate = useNavigate();
+
+    // 상품 정보 가져오는 함수
+    const getProductInfo = async (id) => {
+        try {
+            const res = await axios.get(`/api/public/items/${id}`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+            setImgURL1(res.data.data.image1);
+            setImgURL2(res.data.data.image2);
+            setImgURL3(res.data.data.image3);
+            setName(res.data.data.name);
+            setPrice(res.data.data.price);
+            setStock(res.data.data.stock);
+            setContent(res.data.data.content);
+
+            console.log("상품 정보 : ", res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        const itemId = searchParams.get("id");
+        if (itemId) {
+            getProductInfo(itemId);
+            console.log("gd");
+        }
+    }, []);
 
     const keywordRef = useRef(null); // 키워드 인풋창 ref
     const imgRef1 = useRef(null); // 이미지 인풋창1 ref
     const imgRef2 = useRef(null); // 이미지 인풋창2 ref
     const imgRef3 = useRef(null); // 이미지 인풋창3 ref
     const contentImgRef = useRef(null); // 상세 설명 이미지 인풋창 ref
-
-    const navigate = useNavigate();
 
     // 이미지 업로드 버튼 함수
     const handleImageBtnClick = (idx) => {
@@ -226,10 +257,10 @@ const AddProduct = () => {
                     <div className={style.keywordBox} onClick={handleKeyword}>
                         <label>상품 키워드 : </label>
                         <div className={style.keywordInputBox}>
-                            {keywordList.map((tagItem, index) => {
+                            {keywordList.map((keywordItem, index) => {
                                 return (
                                     <div className={style.keywordItem} key={index}>
-                                        <span className="text">{tagItem}</span>
+                                        <span className="text">{keywordItem}</span>
                                         <button className="keyword-del-btn" onClick={deleteKeyword}>
                                             X
                                         </button>

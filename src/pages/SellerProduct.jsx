@@ -34,6 +34,10 @@ export default function SellerProduct() {
     const onClickProduct = (id) => {
         navigate(`/product/detail/${id}`);
     };
+
+    const onClickModifyBtn = (id) => {
+        navigate(`/product/add?id=${id}`);
+    };
     return (
         <div>
             <NavBar />
@@ -62,7 +66,7 @@ export default function SellerProduct() {
                         <div className={style.btnBox}>
                             <button
                                 onClick={() => {
-                                    console.log("버튼");
+                                    onClickModifyBtn(product.itemId);
                                 }}
                             >
                                 수정
