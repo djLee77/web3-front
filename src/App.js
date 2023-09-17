@@ -8,6 +8,7 @@ import ProductDetail from "./pages/ProductDetail";
 import ChatbotBtn from "./components/fab/chatbotBtn";
 import SellerProduct from "./pages/SellerProduct";
 import SellerOrder from "./pages/SellerOrder";
+import UserOrder from "./pages/UserOrder";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/product/add" element={<ProductForm />} />
                     <Route path="/product/detail/:id" element={<ProductDetail />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/user/order" element={<UserOrder />} />
                     <Route path="/seller/product" element={<SellerProduct />} />
                     <Route path="/seller/order" element={<SellerOrder />} />
                 </Routes>
