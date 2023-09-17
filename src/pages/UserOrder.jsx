@@ -2,6 +2,7 @@ import style from "../css/Order.module.css";
 import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CreateReviewModal from "../components/review/modal/CreateReviewModal";
 export default function UserOrder() {
     const data = {
         items: [
@@ -73,11 +74,11 @@ export default function UserOrder() {
                     };
                     const orderState = orderStateByResult[product.result];
                     return (
-                        <div className={style.box}>
+                        <div className={style.box} key={idx}>
                             <div>
                                 <h4>{orderState}</h4>
                             </div>
-                            <div className={style.productBox} key={idx}>
+                            <div className={style.productBox}>
                                 <div className={style.imgBox}>
                                     <img src="" alt="상품 이미지"></img>
                                 </div>
@@ -88,11 +89,7 @@ export default function UserOrder() {
                                     <span>주문 개수 : {product.quantity}</span>
                                     <span></span>
                                 </div>
-                                {product.result === 3 && (
-                                    <div>
-                                        <button>리뷰 작성하기</button>
-                                    </div>
-                                )}
+                                {product.result === 3 && <CreateReviewModal product={product} />}
                             </div>
                         </div>
                     );

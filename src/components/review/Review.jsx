@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
-import StarRating from "../../StarRating";
+import StarRating from "../StarRating";
 import { Avatar, Pagination } from "@mui/material";
-import style from "../../../css/Review.module.css";
+import style from "../../css/Review.module.css";
 import axios from "axios";
 
 const Review = forwardRef((props, ref) => {
