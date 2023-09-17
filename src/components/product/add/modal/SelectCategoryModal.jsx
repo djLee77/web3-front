@@ -24,9 +24,9 @@ export default function SelectCategoryModal({ category, setCategory }) {
     const [isSecondOpen, setIsSecondOpen] = useState(false);
     const [isThirdOpen, setIsThirdOpen] = useState(false);
 
-    const [mainList, setMainList] = useState([]);
-    const [secondList, setSecondList] = useState({});
-    const [thirdList, setThirdList] = useState({});
+    const [mainList, setMainList] = useState([]); // 1번쨰 카테고리
+    const [secondList, setSecondList] = useState({}); // 2번째 카테고리
+    const [thirdList, setThirdList] = useState({}); // 3번째 카테고리
 
     const [pickedSecondList, setPickedSecondList] = useState([]);
     const [pickedThirdList, setPickedThirdList] = useState([]);
@@ -51,20 +51,20 @@ export default function SelectCategoryModal({ category, setCategory }) {
         const thirdListsTemp = {};
 
         // 1번째 카테고리 목록 저장
-        const mainListTemp = categories.map((cat) => ({
-            categoryId: cat.categoryId,
-            name: cat.name,
+        const mainListTemp = categories.map((category) => ({
+            categoryId: category.categoryId,
+            name: category.name,
         }));
 
-        categories.forEach((cat) => {
-            if (cat.child && cat.child.length > 0) {
+        categories.forEach((category) => {
+            if (category.child && category.child.length > 0) {
                 // 2번째 카테고리 목록 저장
-                secondListsTemp[cat.name] = cat.child.map((child) => ({
+                secondListsTemp[category.name] = category.child.map((child) => ({
                     categoryId: child.categoryId,
                     name: child.name,
                 }));
 
-                cat.child.forEach((subCat) => {
+                category.child.forEach((subCat) => {
                     // 3번째 카테고리 목록 저장
                     if (subCat.child && subCat.child.length > 0) {
                         thirdListsTemp[subCat.name] = subCat.child.map((child) => ({

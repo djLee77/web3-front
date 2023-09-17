@@ -5,19 +5,21 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import SelectCategoryModal from "./modal/SelectCategoryModal";
 import axios from "axios";
 import Content from "./Content";
+import cookie from "react-cookies";
 
 const AddProduct = () => {
     const [imgURL1, setImgURL1] = useState("/imgs/defaultAddImg.png"); // 이미지1
     const [imgURL2, setImgURL2] = useState("/imgs/defaultAddImg.png"); // 이미지2
     const [imgURL3, setImgURL3] = useState("/imgs/defaultAddImg.png"); // 이미지3
     const [name, setName] = useState(""); // 상풍명
-    const [category, setCategory] = useState({}); // 카테고리
+    const [category, setCategory] = useState({}); // 선택한 카테고리
     const [price, setPrice] = useState(0); // 가격
     const [stock, setStock] = useState(0); // 수량
     const [content, setContent] = useState(""); // 상품 상세 내용
     const [keywordList, setKeywordList] = useState([]); // 키워드 리스트
     const [keyword, setKeyword] = useState(""); // 키워드
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams(); // url 파라미터 값
+    const [isModify, setIsModify] = useState(false); // 상품 수정인지 확인
 
     const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ const AddProduct = () => {
             setPrice(res.data.data.price);
             setStock(res.data.data.stock);
             setContent(res.data.data.content);
+            setCategory({ ...category, categoryId: res.data.da.categoryId });
 
             console.log("상품 정보 : ", res);
         } catch (error) {
@@ -45,8 +48,10 @@ const AddProduct = () => {
 
     useEffect(() => {
         const itemId = searchParams.get("id");
+        // 만약 등록한 상품 수정이면 isModify True로 바꿔줌
         if (itemId) {
             getProductInfo(itemId);
+            setIsModify(true);
             console.log("gd");
         }
     }, []);
@@ -58,7 +63,7 @@ const AddProduct = () => {
     const contentImgRef = useRef(null); // 상세 설명 이미지 인풋창 ref
 
     // 이미지 업로드 버튼 함수
-    const handleImageBtnClick = (idx) => {
+    const onClickImgBtn = (idx) => {
         console.log("클릭", idx);
         if (idx === 1) {
             imgRef1.current.click();
@@ -134,9 +139,7 @@ const AddProduct = () => {
         }
     };
     // 상품 등록 버튼 함수
-    const handleAddBtn = async () => {
-        // 상품 등록할 때 키워드 배열안에 제목도 같이 넣어서 보내주기
-        console.log(name, category.categoryId, price, stock, content, keywordList, imgURL1, imgURL2, imgURL3);
+    const onClickAddBtn = async () => {
         setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.post(
@@ -155,6 +158,7 @@ const AddProduct = () => {
                 },
                 {
                     headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
                         "ngrok-skip-browser-warning": "1234",
                     },
                 }
@@ -169,8 +173,38 @@ const AddProduct = () => {
         }
     };
 
+    // 상품 수정 버튼 함수
+    const onClickModifyBtn = async () => {
+        const itemId = searchParams.get("id");
+        try {
+            const res = await axios.patch(
+                `/api/sellers/items/${itemId}`,
+                {
+                    sellerId: 1,
+                    name: name,
+                    categoryId: category.categoryId,
+                    price: price,
+                    stock: stock,
+                    content: content,
+                    image1: "이미지1",
+                    image2: "이미지2",
+                    image3: "이미지3",
+                    keywords: keywordList,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // 취소 버튼 함수
-    const handleCancleBtn = () => {
+    const onClickCancleBtn = () => {
         if (window.confirm("정말로 취소하시겠습니까?")) {
             navigate("/");
         }
@@ -187,7 +221,7 @@ const AddProduct = () => {
                         ref={imgRef1}
                         onChange={(e) => handleImageUpload(e, 1)}
                     />
-                    <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(1)}>
+                    <button className={style.imgBtn} type="button" onClick={() => onClickImgBtn(1)}>
                         <img src={imgURL1} width={300} height={300} alt="이미지1" />
                     </button>
                     <div className={style.imgBox2}>
@@ -197,7 +231,7 @@ const AddProduct = () => {
                             ref={imgRef2}
                             onChange={(e) => handleImageUpload(e, 2)}
                         />
-                        <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(2)}>
+                        <button className={style.imgBtn} type="button" onClick={() => onClickImgBtn(2)}>
                             <img src={imgURL2} width={145} height={145} alt="이미지2" />
                         </button>
                         <input
@@ -206,7 +240,7 @@ const AddProduct = () => {
                             ref={imgRef3}
                             onChange={(e) => handleImageUpload(e, 3)}
                         />
-                        <button className={style.imgBtn} type="button" onClick={() => handleImageBtnClick(3)}>
+                        <button className={style.imgBtn} type="button" onClick={() => onClickImgBtn(3)}>
                             <img src={imgURL3} width={145} height={145} alt="이미지3" />
                         </button>
                     </div>
@@ -287,15 +321,22 @@ const AddProduct = () => {
                 setContent={setContent}
                 inputRef={contentImgRef}
                 handleImageUpload={handleImageUpload}
-                handleImageBtnClick={handleImageBtnClick}
+                handleImageBtnClick={onClickImgBtn}
             />
 
             {/* 버튼 영역 */}
             <div className={style.btnBox}>
-                <button className={style.addBtn} onClick={handleAddBtn}>
-                    상품 등록
-                </button>
-                <button className={style.cancleBtn} onClick={handleCancleBtn}>
+                {isModify ? (
+                    <button className={style.addBtn} onClick={onClickModifyBtn}>
+                        상품 수정
+                    </button>
+                ) : (
+                    <button className={style.addBtn} onClick={onClickAddBtn}>
+                        상품 등록
+                    </button>
+                )}
+
+                <button className={style.cancleBtn} onClick={onClickCancleBtn}>
                     취소
                 </button>
             </div>
