@@ -31,6 +31,10 @@ export default function SellerProduct() {
 
     const navigate = useNavigate();
 
+    const onClickAddBtn = () => {
+        navigate("/product/add");
+    };
+
     const onClickProduct = (id) => {
         navigate(`/product/detail/${id}`);
     };
@@ -38,9 +42,11 @@ export default function SellerProduct() {
     const onClickModifyBtn = (id) => {
         navigate(`/product/add?id=${id}`);
     };
+
     return (
         <div>
             <NavBar />
+            <button onClick={onClickAddBtn}>상품 등록하기</button>
             <h4>등록 상품 목록</h4>
             <div>
                 {data.items.map((product) => (

@@ -198,6 +198,11 @@ const AddProduct = () => {
                     },
                 }
             );
+            console.log(res);
+            if (res.data.code == 201) {
+                alert("상품 수정 완료!");
+                navigate("/seller/product");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -206,7 +211,7 @@ const AddProduct = () => {
     // 취소 버튼 함수
     const onClickCancleBtn = () => {
         if (window.confirm("정말로 취소하시겠습니까?")) {
-            navigate("/");
+            navigate("/seller/product");
         }
     };
 
