@@ -48,12 +48,12 @@ export default function Cart() {
     }, []);
 
     // 결제 버튼 함수
-    const handlePayBtn = () => {
+    const onClickPayBtn = () => {
         alert("구현 중");
     };
 
     // 돌아가기 버튼 함수
-    const handleBackBtn = () => {
+    const onClickBackBtn = () => {
         navigate("/");
     };
 
@@ -76,10 +76,10 @@ export default function Cart() {
 
                 {/* 버튼 영역 */}
                 <div className={style.cartBtnBox}>
-                    <button className={style.payBtn} onClick={handlePayBtn}>
+                    <button className={style.payBtn} onClick={onClickPayBtn}>
                         결제하기
                     </button>
-                    <button className={style.backBtn} onClick={handleBackBtn}>
+                    <button className={style.backBtn} onClick={onClickBackBtn}>
                         계속 쇼핑하기
                     </button>
                 </div>

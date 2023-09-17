@@ -3,6 +3,7 @@ import style from "../css/SellerOrder.module.css";
 import { MenuItem, Select } from "@mui/material";
 import cookie from "react-cookies";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function SellerOrder() {
     const data = {
@@ -18,6 +19,7 @@ export default function SellerOrder() {
                 quantity: 10,
                 result: 1,
                 orderDate: "2023-09-16",
+                buyerId: "asdk123",
                 address: "인천 계양구",
             },
             {
@@ -31,10 +33,35 @@ export default function SellerOrder() {
                 quantity: 10,
                 result: 1,
                 orderDate: "2023-09-16",
+                buyerId: "asdk123",
                 address: "인천 계양구",
             },
         ],
     };
+
+    const [orders, setOrders] = useState([]); // 주문 목록
+
+    // 주문 목록 가져오는 함수
+    const getOrders = async () => {
+        try {
+            const res = await axios.get(`/api/sellers/orders/${1}`, {
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+
+            console.log(res);
+            setOrders(res.data.data.orders);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // 첫 마운트 될 때 주문 목록 가져오기
+    useEffect(() => {
+        getOrders();
+    }, []);
 
     // 주문 상품 상태 변경 함수
     const handleCountChange = async (id, e) => {
@@ -51,6 +78,8 @@ export default function SellerOrder() {
                     },
                 }
             );
+
+            getOrders();
         } catch (error) {
             console.log(error);
         }
@@ -71,6 +100,7 @@ export default function SellerOrder() {
                             <span>{product.name}</span>
                             <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
                             <span>주문 개수 : {product.quantity}</span>
+                            <span>구매자 ID : {product.buyerId}</span>
                             <span>배송지 : {product.address}</span>
                         </div>
                         <div className={style.btnBox}>

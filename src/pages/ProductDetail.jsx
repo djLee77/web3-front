@@ -30,7 +30,7 @@ export default function ProductDetail() {
     const { id } = useParams(); // 상품 ID (url 파라미터)
 
     // 탭 클릭했을 때 맞는 위치로 이동하는 함수
-    const onTabClick = (tab) => {
+    const onClickTab = (tab) => {
         tab.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
     };
 
@@ -70,10 +70,10 @@ export default function ProductDetail() {
         <div className={style.box}>
             <Header product={product} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
-                <div onClick={() => onTabClick(contentRef)} className={style.tab}>
+                <div onClick={() => onClickTab(contentRef)} className={style.tab}>
                     <span>상품상세</span>
                 </div>
-                <div onClick={() => onTabClick(reviewRef)} className={style.tab}>
+                <div onClick={() => onClickTab(reviewRef)} className={style.tab}>
                     <span>상품평 ({product.reviewCount})</span>
                 </div>
             </div>
