@@ -47,7 +47,7 @@ const SlideImg = () => {
   }
 
   return (
-    <div className="slide-banner" style={{marginLeft : "30px", marginRight : "30px"}}>
+    <div className="slide-banner" style={{ width : "90%", marginLeft : "30px", marginRight : "30px"}}>
       <Carousel
         showArrows={true}
         autoPlay={true}

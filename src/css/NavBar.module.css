@@ -1,6 +1,7 @@
 .containerBg{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .container{
@@ -8,9 +9,22 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items : center;
+    box-shadow: 1px 1px 2px grey;
+    width: fit-content;
 }
 
 .logo{
-    margin-left: 100px;
-    margin-top: 20px;
+    margin-right: 60%;
+}
+
+.item{
+    margin : 5px;
+}
+
+.item:nth-child(3):hover{
+    color: #0185FF;
+}
+
+.item:first-child{
+    margin-right: 100px;
 }

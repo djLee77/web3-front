@@ -1,135 +1,53 @@
-import { useWeb3React } from "@web3-react/core";
-import { injected } from "../lib/connectors";
-import { useEffect, useState } from "react";
-import Card from "../components/product/Card";
-import SlideImg from "../components/SildeImg"
+import { useState, useEffect } from 'react';
+import Card from '../components/product/Card';
+import SlideImg from '../components/SildeImg';
+import axios from 'axios';
+
 const Home = () => {
-  const [balance, setBalance] = useState(""); // 토큰
-
-  // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
-  const chainIds = {
-    1: { name: "Ethereum mainnet", symbol: "ETH" },
-    3: { name: "Ropsten", symbol: "RopstenETH" },
-    4: { name: "Rinkeby", symbol: "RinkebyETH" },
-    5: { name: "Goerli", symbol: "GoerliETH" },
-    42: { name: "Kovan", symbol: "KovanETH" },
-    11155111: { name: "Sepolia", symbol: "SepoliaETH" },
-    56: { name: "Binance Smart Chain Mainnet", symbol: "BNB" },
-    97: { name: "Binance Smart Chain Testnet", symbol: "tBNB" },
-    43114: { name: "Avalanche C-Chain", symbol: "AVAX" },
-    137: { name: "Polygon Mainnet", symbol: "MATIC" },
-    80001: { name: "Mumbai", symbol: "MATIC" },
-    42161: { name: "Arbitrum One", symbol: "ETH" },
-    10: { name: "Optimism", symbol: "ETH" },
-    250: { name: "Fantom Opera", symbol: "FTM" },
-    8217: { name: "Klaytn Mainnet Cypress", symbol: "KLAY" },
-    1001: { name: "baobob", symbol: "KLAY" },
-    61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
-  };
-
-    const { chainId, account, library, active, activate, deactivate } =
-        useWeb3React();
-    console.log(injected);
-
-    const handdleConnect = () => {
-        if (active) {
-            deactivate();
-            return;
-        }
-
-        activate(injected, (error) => {
-            if (
-                "/No Ethereum provider was found on window.ethereum/".test(
-                    error
-                )
-            ) {
-                window.open("https://metamask.io/download.html");
-            }
-        });
-    };
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // 계정 연결 됐으면
-        if (account) {
-            // 계정에 연결된 네트워크 코인 가져오기
-            library?.getBalance(account).then((result) => {
-                setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
-                console.log("result : ", result);
-            });
-            // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
-        }
-    }, [account]);
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/public/items', {
+                    params: {
+                        search: "",  // 추후 검색기능 구현시 여기에 검색 키워드 입력
+                        sortType: "s",
+                        pageNum: 1,
+                        pageSize: 5
+                    },
+                    headers: {
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                });
 
-    const testProductList = {
-        code: 200,
-        message: "",
-        data: {
-            items: [
-                {
-                    itemId: 100111,
-                    name: "이쁜 옷1",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 100112,
-                    name: "이쁜 옷2",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 100113,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 100114,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 200115,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 300110,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-            ],
-        },
-    };
+                if (response.data.code === 200) {
+                    setProducts(response.data.data.items);
+                } else {
+                    console.error('Error fetching products:', response.data.message);
+                }
+            } catch (error) {
+                console.error('API call error:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <div>
-            <div>
+        <div className="container">
+            <div className="item">
                 <SlideImg />
             </div>
             <div className="card-list">
-                {testProductList.data.items.map((product) => (
+                {products.map((product) => (
                     <Card key={product.itemId} product={product} />
                 ))}
             </div>

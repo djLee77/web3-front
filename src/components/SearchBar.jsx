@@ -11,7 +11,7 @@ function SearchBar() {
 
   const handleSearch = () => {
     if (searchTerm) {
-      navigate(`/search-result?query=${searchTerm}`);
+      navigate(`/search?query=${searchTerm}`);
     }
   };
 

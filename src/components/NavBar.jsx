@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const NavBar = () => {
   const [balance, setBalance] = useState(""); // 토큰
@@ -75,12 +76,12 @@ const NavBar = () => {
           <SearchBar />
         </div>
         <div className={style.item}>
-          <button type="button" onClick={handdleConnect}>
-            {active ? "disconnect" : "connect"}
-          </button>
+          <a type="button" onClick={handdleConnect}>
+            로그인
+          </a>
         </div>
         <div className={style.item}>
-          <a href="/cart">Cart</a>
+          <a href="/cart"><ShoppingCartIcon /> </a>
         </div>
       </div>
     </div>
