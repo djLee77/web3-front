@@ -15,26 +15,54 @@ export default function Payment() {
     console.log(orders);
 
     return (
-        <div>
-            <div>
-                <h4>받는 사람 정보</h4>
+        <div style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", alignContent: "center" }}>
+            <div style={{ display: "flex" }}>
                 <div>
-                    <TextField helperText="받으실 분의 이름을 입력해주세요" label="이름" size="small" />
-                    <TextField helperText="받으실 분의 전화번호를 입력해주세요" label="전화번호" size="small" />
+                    <h4>배송지</h4>
+                    <div>
+                        <TextField
+                            helperText="받으실 분의 이름을 입력해주세요"
+                            label="이름"
+                            size="small"
+                            sx={{ marginRight: "10px" }}
+                        />
+                        <TextField helperText="받으실 분의 전화번호를 입력해주세요" label="전화번호" size="small" />
+                    </div>
+                    <div style={{ display: "flex", marginTop: "20px", marginBottom: "20px", alignItems: "center" }}>
+                        <TextField label="우편번호" size="small" value={zipCode} sx={{ marginRight: "10px" }} />
+                        <DaumPostCodeModal setZipcode={setZipcode} setRoadAddress={setRoadAddress} />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", width: "460px" }}>
+                        <TextField label="도로명 주소" size="small" value={roadAddress} sx={{ marginBottom: "20px" }} />
+                        <TextField
+                            label="상세 주소"
+                            size="small"
+                            value={detailAddress}
+                            onChange={(e) => setDetailAddress(e.target.value)}
+                        />
+                    </div>
                 </div>
-                <div style={{ display: "flex" }}>
-                    <TextField label="우편번호" size="small" value={zipCode} />
-                    <DaumPostCodeModal setZipcode={setZipcode} setRoadAddress={setRoadAddress} />
+                <div style={{ marginLeft: "80px" }}>
+                    <h4>주문 상품 목록</h4>
+                    <div style={{ width: "420px", height: "300px", overflow: "auto" }}>
+                        {orders.data.map((item) => (
+                            <div style={{ display: "flex" }}>
+                                <div>
+                                    <img src={item.image} alt="상품 이미지" width={180} height={180} />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <span>{item.itemName}</span>
+                                    <span>수량 : {item.quantity}</span>
+                                    <span>가격 : {item.price}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", width: "500px" }}>
-                    <TextField label="도로명 주소" size="small" value={roadAddress} />
-                    <TextField
-                        label="상세 주소"
-                        size="small"
-                        value={detailAddress}
-                        onChange={(e) => setDetailAddress(e.target.value)}
-                    />
-                </div>
+            </div>
+            <div>
+                <button>결제하기</button>
+                <button>취소</button>
             </div>
         </div>
     );
