@@ -4,11 +4,11 @@ import { useRef, useState } from "react";
 import StarRatings from "react-star-ratings";
 import cookie from "react-cookies";
 
-export default function CreateReviewModal({ product }) {
+export default function ModifyReviewModal({ id, review, getMyReviews }) {
     const [open, setOpen] = useState(false);
-    const [rate, setRate] = useState(1); // 별점
-    const [imgURL, setImgURL] = useState("/imgs/defaultAddImg.png"); // 이미지
-    const [content, setContent] = useState(""); // 내용
+    const [rate, setRate] = useState(review.rate); // 별점
+    const [imgURL, setImgURL] = useState(review.reviewImage); // 이미지
+    const [content, setContent] = useState(review.content); // 내용
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -51,16 +51,14 @@ export default function CreateReviewModal({ product }) {
         }
     };
 
-    // 리뷰 작성 버튼 함수
+    // 리뷰 수정 버튼 함수
     const onClickCreateReviewBtn = async () => {
-        console.log(product.itemId, content, rate, imgURL);
-        const id = cookie.load("id");
         console.log(id);
         try {
-            const res = await axios.post(
-                `/api/users/reviews/${id}`,
+            const res = await axios.patch(
+                `/api/users/reviews/${review.reviewId}`,
                 {
-                    itemId: product.itemId,
+                    userId: id,
                     content: content,
                     rate: rate,
                     image: imgURL,
@@ -75,8 +73,9 @@ export default function CreateReviewModal({ product }) {
 
             console.log(res);
             if (res.data.code === 200) {
-                alert("리뷰 작성 완료!");
+                alert("리뷰 수정 완료!");
                 setOpen(false);
+                getMyReviews(); // 수정된 목록 다시 불러오기
             }
         } catch (error) {
             console.log(error);
@@ -85,7 +84,7 @@ export default function CreateReviewModal({ product }) {
 
     return (
         <div>
-            <Button onClick={handleOpen}>리뷰 작성하기</Button>
+            <Button onClick={handleOpen}>리뷰 수정하기</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -93,12 +92,12 @@ export default function CreateReviewModal({ product }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h4>리뷰 작성</h4>
+                    <h4>리뷰 수정</h4>
                     <div>
                         <span>구매 상품</span>
                         <div>
-                            <img src={product.img} alt="상품 이미지" />
-                            <span>{product.name}</span>
+                            <img src={review.itemImage} alt="상품 이미지" width={160} height={160} />
+                            <span>{review.itemName}</span>
                         </div>
                         <hr />
                     </div>
@@ -137,12 +136,13 @@ export default function CreateReviewModal({ product }) {
                         <TextField
                             id="outlined-multiline-static"
                             multiline
+                            defaultValue={content}
                             rows={4}
                             onChange={(e) => setContent(e.target.value)}
                         />
                     </div>
                     <div>
-                        <Button onClick={onClickCreateReviewBtn}>작성</Button>
+                        <Button onClick={onClickCreateReviewBtn}>수정</Button>
                         <Button onClick={() => setOpen(false)}>취소</Button>
                     </div>
                 </Box>

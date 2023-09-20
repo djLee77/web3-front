@@ -3,13 +3,15 @@ import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CreateReviewModal from "../components/review/modal/CreateReviewModal";
+import NavBar from "../components/user/NavBar";
+
 export default function UserOrder() {
     const data = {
         items: [
             {
                 orderDetailId: 923183,
                 orderId: 12391,
-                itemId: 11001,
+                itemId: 2,
                 name: "이쁜옷1",
                 sellerId: "aF3ksj3",
                 image: "imageUrl",
@@ -22,8 +24,8 @@ export default function UserOrder() {
             },
             {
                 orderDetailId: 923182,
-                orderId: 12392,
-                itemId: 11001,
+                orderId: 3,
+                itemId: 3,
                 name: "이쁜옷1",
                 sellerId: "aF3ksj3",
                 image: "imageUrl",
@@ -41,8 +43,9 @@ export default function UserOrder() {
 
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
+        const id = cookie.load("id");
         try {
-            const res = await axios.get(`/api/users/orders/${1}`, {
+            const res = await axios.get(`/api/users/orders/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
@@ -63,6 +66,7 @@ export default function UserOrder() {
 
     return (
         <div>
+            <NavBar />
             <h4>주문 상품 목록</h4>
             <div>
                 {data.items.map((product, idx) => {

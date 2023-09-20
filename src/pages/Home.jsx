@@ -48,6 +48,7 @@ const Home = () => {
         if (active) {
             cookie.remove("accessToken", { path: "/" });
             cookie.remove("refreshToken", { path: "/" });
+            cookie.remove("id", { path: "/" });
             deactivate();
             return;
         }
@@ -77,10 +78,21 @@ const Home = () => {
                     },
                 }
             );
+
+            const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
+
+            // 쿠키에 액세스 토큰 저장
             cookie.save("accessToken", res.data.data.accessToken, {
                 path: "/",
             });
+
+            // 쿠키에 리프레쉬 토큰 저장
             cookie.save("refreshToken", res.data.data.refreshToken, {
+                path: "/",
+            });
+
+            // 토큰에 쇼핑몰 ID 저장
+            cookie.save("id", mallId, {
                 path: "/",
             });
             console.log(res);
