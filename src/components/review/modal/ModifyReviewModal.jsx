@@ -43,8 +43,13 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
             formData.append("file", file); // 폼 데이터에 저장
             console.log("imgFile : ", file);
             try {
-                const res = await axios.post("/server/api/uploads/images", formData);
-                setImgURL(res.data);
+                const res = await axios.post("/api/users/uploads/images", formData, {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                });
+                setImgURL(res.data.data);
             } catch (error) {
                 console.log(error);
             }
