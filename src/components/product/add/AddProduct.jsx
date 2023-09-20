@@ -85,16 +85,22 @@ const AddProduct = () => {
             formData.append("file", file); // 폼 데이터에 저장
             console.log("imgFile : ", file);
             try {
-                const response = await axios.post("/server/api/uploads/images", formData);
+                const res = await axios.post("/api/users/uploads/images", formData, {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                });
+                console.log(res);
                 if (idx === 1) {
-                    setImgURL1(1);
+                    setImgURL1(res.data.data);
                 } else if (idx === 2) {
-                    setImgURL2(2);
+                    setImgURL2(res.data.data);
                 } else if (idx === 3) {
-                    setImgURL3(3);
+                    setImgURL3(res.data.data);
                 } else {
                     // 내용에 이미지이면
-                    const imageURL = `![](${response.data})`; // 이미지 URL 마크다운 형식으로 변경
+                    const imageURL = `![](${res.data.data})`; // 이미지 URL 마크다운 형식으로 변경
                     setContent((prevContent) => prevContent + imageURL); // 기존 내용에다가 이미지 삽입
                 }
             } catch (error) {
