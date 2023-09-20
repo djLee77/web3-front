@@ -9,6 +9,8 @@ export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(product.image1); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
 
+    const id = cookie.load("id"); // 사용자 ID
+
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
         reviewRef.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
@@ -23,24 +25,29 @@ export default function Detail({ product, reviewRef }) {
     const onClickCartBtn = async (productId) => {
         try {
             const res = await axios.post(
-                "/api/users/carts",
+                `/api/users/carts/${id}`,
                 {
-                    userId: "1",
                     itemId: productId,
                     quantity: quantity,
                 },
                 {
                     headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
                         "ngrok-skip-browser-warning": "1234",
                     },
                 }
             );
 
             console.log(res);
-        } catch (error) {}
+            if (res.status === 200) {
+                alert("장바구니에 상품을 담았습니다.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    // 구매 버튼 클릭 함수
+    // 구매 버튼 클릭 함수 미완성임
     const onClickPayBtn = async (productId, quantity) => {
         console.log(cookie.load("accessToken"));
         try {

@@ -11,14 +11,15 @@ export default function Cart() {
     const [selectedItems, setSelectedItems] = useState([]); // 선택한 상품 목록
     const [total, setTotal] = useState(0); // 총 금액
 
+    const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
 
     // 토탈 가격 구하기
     useEffect(() => {
         // 선택된 아이템들의 price 값을 합산하여 totalPrice 업데이트
         let total = 0;
-        selectedItems.forEach((itemId) => {
-            const selectedItem = cartList.find((item) => item.cartId === itemId);
+        selectedItems.forEach((item) => {
+            const selectedItem = cartList.find((item) => item.itemId === item.itemId);
             if (selectedItem) {
                 total += selectedItem.price * selectedItem.quantity; // 선택한 상품의 수량과 가격 곱해서 토탈에 더함
             }
@@ -29,7 +30,7 @@ export default function Cart() {
     // 장바구니 목록 가져오는 함수
     const getCartList = async () => {
         try {
-            const res = await axios.get(`/api/users/carts/${1}`, {
+            const res = await axios.get(`/api/users/carts/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
@@ -47,9 +48,33 @@ export default function Cart() {
         getCartList();
     }, []);
 
+    // 주문서 데이터 생성
+    const createOrders = async () => {
+        try {
+            console.log(selectedItems);
+            const data = selectedItems.map(({ itemId, quantity }) => `${itemId}:${quantity}`).join(",");
+            console.log(data);
+            const res = await axios.get(`/api/users/form/orders/${id}`, {
+                params: {
+                    items: data,
+                },
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+
+            console.log(res);
+            const orders = res.data.data; // 주문서 저장
+            navigate("/payment", { state: { data: orders } }); // 결제 페이지에 주문서 데이터 보내주기
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // 결제 버튼 함수
     const onClickPayBtn = () => {
-        alert("구현 중");
+        createOrders();
     };
 
     // 돌아가기 버튼 함수
