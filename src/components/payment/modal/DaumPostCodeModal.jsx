@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
@@ -33,7 +34,9 @@ export default function DaumPostCodeModal({ setZipcode, setRoadAddress }) {
 
     return (
         <div>
-            <button onClick={handleOpen}>우편번호 검색</button>
+            <Button variant="contained" sx={{ marginRight: "20px" }} onClick={handleOpen}>
+                우편번호 검색
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}

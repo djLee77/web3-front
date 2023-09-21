@@ -1,0 +1,25 @@
+.box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.zipCodeBox {
+    display: flex;
+    margin-top: "20px";
+    margin-bottom: "20px";
+    align-items: "center";
+}
+
+.addressBox {
+    display: "flex";
+    flex-direction: column;
+    width: 460px;
+}
+
+.orderListBox {
+    width: 420px;
+    height: 300px;
+    overflow: auto;
+}
