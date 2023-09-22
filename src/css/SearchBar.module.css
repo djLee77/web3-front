@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: #ECECEC;
+    width: 550px;
+    border-radius: 30px;
+}
+
+
+.input:focus{
+    outline: none;
+    background-color: grey;
+}

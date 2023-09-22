@@ -1,13 +1,16 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
-import "../css/NavBar.module.css";
+import style from "../css/NavBar.module.css";
 import SearchBar from "../components/SearchBar";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
-const NavBar = () => {
-  const [balance, setBalance] = useState(""); // 토큰
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CryptoJS from "crypto-js";
+import cookie from "react-cookies";
+import axios from "axios";
 
+const NavBar = () => {
   // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
   const chainIds = {
     1: { name: "Ethereum mainnet", symbol: "ETH" },
@@ -29,13 +32,16 @@ const NavBar = () => {
     61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
   };
 
+  const [balance, setBalance] = useState("");
   const { chainId, account, library, active, activate, deactivate } =
     useWeb3React();
-  console.log(injected);
 
   const handdleConnect = () => {
     // 만약 이미 연결 돼있으면 연결 해제
     if (active) {
+      cookie.remove("accessToken", { path: "/" });
+      cookie.remove("refreshToken", { path: "/" });
+      cookie.remove("id", { path: "/" });
       deactivate();
       return;
     }
@@ -49,48 +55,87 @@ const NavBar = () => {
     });
   };
 
-  useEffect(() => {
-    // 계정 연결 됐으면
-    if (account) {
-      // 계정에 연결된 네트워크 코인 가져오기
-      library?.getBalance(account).then((result) => {
-        setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
-        console.log("result : ", result);
+  const handleLogin = async (id, checkId) => {
+    console.log("계정 : ", id, checkId);
+    try {
+      const res = await axios.post(
+        `/api/public/login/${id}`,
+        {
+          checkId: checkId,
+        },
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "1234",
+          },
+        }
+      );
+
+      const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
+
+      // 쿠키에 액세스 토큰 저장
+      cookie.save("accessToken", res.data.data.accessToken, {
+        path: "/",
       });
-      // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
+
+      // 쿠키에 리프레쉬 토큰 저장
+      cookie.save("refreshToken", res.data.data.refreshToken, {
+        path: "/",
+      });
+
+      // 토큰에 쇼핑몰 ID 저장
+      cookie.save("id", mallId, {
+        path: "/",
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
-  }, [account]);
+  };
+
+  // 계정 연결 됐으면
+    useEffect(() => {
+      if (account) {
+        const key = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_KEY);
+        const iv = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_IV);
+        // AES256 암호화 ID 생성
+        const encryptedId = CryptoJS.AES.encrypt(account, key, {
+          iv: iv,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7,
+        }).toString();
+
+        handleLogin(account, encryptedId); // 로그인 하기
+
+        // 계정에 연결된 네트워크 코인 가져오기
+        library?.getBalance(account).then((result) => {
+          setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
+          console.log("result : ", result);
+        });
+        // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
+      }
+    }, [account]);
 
   return (
-    <div className="body">
-      <div>
-        <ToggleMenu />
+    <div className={style.containerBg}>
+      <div className={style.logo}>
+        <img src="imgs/logo2.png" style={{ width: "150px" }}></img>
       </div>
-      <div style={{ float: "right" }}>
-        <div style={{ float: "left" }}>
-          <div style={{ float: "left" }}>
-            <SearchBar />
-          </div>
-          <div style={{ float: "right" }}>
-            <div>
-              <div style={{ float: "left" }}>
-                <button type="button" onClick={handdleConnect}>
-                  {active ? "disconnect" : "connect"}
-                </button>
-              </div>
-              <div style= {{float :"right"}}>
-                <p>Account: {account}</p>
-                {/* <p>ChainId: {chainIds[chainId]?.name}</p> */}
-                <p>
-                  Balance :{" "}
-                  {active ? balance + " " + chainIds[chainId]?.symbol : ""}
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className={style.container}>
+        <div className={style.item}>
+          <ToggleMenu />
         </div>
-        <div style={{ float: "right" }}>
-          <a href="/cart">Cart</a>
+        <div className={style.item}>
+          <SearchBar />
+        </div>
+        <div className={style.item}>
+          <a type="button" onClick={handdleConnect}>
+            {active ? "로그아웃" : "로그인"}
+          </a>
+        </div>
+        <div className={style.item}>
+          <a href="/cart">
+            <ShoppingCartIcon />{" "}
+          </a>
         </div>
       </div>
     </div>
