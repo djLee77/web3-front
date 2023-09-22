@@ -1,0 +1,24 @@
+.productBox {
+    display: flex;
+    width: 980px;
+    margin: 0 auto;
+    border-bottom: 1px solid gray;
+}
+
+.imgBox {
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+}
+
+.infoBox {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 10px;
+}
+
+.btnBox {
+    display: flex;
+    align-items: center;
+}

@@ -1,8 +1,9 @@
+import MDEditor from "@uiw/react-md-editor";
 import React, { forwardRef } from "react";
 const Content = forwardRef((props, ref) => {
     return (
-        <div ref={ref} style={{ height: "1300px" }}>
-            <h2>상품 내용</h2>
+        <div className="markdownDiv" ref={ref} data-color-mode="light">
+            <MDEditor.Markdown source={props.content} />
         </div>
     );
 });

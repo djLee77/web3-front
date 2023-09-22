@@ -23,3 +23,21 @@
     width: 100px;
     height: 120px;
 }
+
+.sortBox {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.sortBox span:hover {
+    cursor: pointer;
+}
+
+.paginationBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

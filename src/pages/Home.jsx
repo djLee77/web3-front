@@ -1,7 +1,10 @@
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 import Card from "../components/product/Card";
+import axios from "axios";
+import cookie from "react-cookies";
 
 const Home = () => {
   const [balance, setBalance] = useState(""); // 토큰
@@ -68,6 +71,9 @@ const Home = () => {
     const handdleConnect = () => {
         // 만약 이미 연결 돼있으면 연결 해제
         if (active) {
+            cookie.remove("accessToken", { path: "/" });
+            cookie.remove("refreshToken", { path: "/" });
+            cookie.remove("id", { path: "/" });
             deactivate();
             return;
         }
@@ -85,9 +91,58 @@ const Home = () => {
         });
     };
 
+    // 로그인 하는 함수 (서버에 메타마스크 account와 암호화된 account를 보내줌)
+    const handleLogin = async (id, checkId) => {
+        console.log("계정 : ", id, checkId);
+        try {
+            const res = await axios.post(
+                `/api/public/login/${id}`,
+                {
+                    checkId: checkId,
+                },
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+
+            const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
+
+            // 쿠키에 액세스 토큰 저장
+            cookie.save("accessToken", res.data.data.accessToken, {
+                path: "/",
+            });
+
+            // 쿠키에 리프레쉬 토큰 저장
+            cookie.save("refreshToken", res.data.data.refreshToken, {
+                path: "/",
+            });
+
+            // 토큰에 쇼핑몰 ID 저장
+            cookie.save("id", mallId, {
+                path: "/",
+            });
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         // 계정 연결 됐으면
         if (account) {
+            const key = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_KEY);
+            const iv = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_IV);
+            // AES256 암호화 ID 생성
+            const encryptedId = CryptoJS.AES.encrypt(account, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7,
+            }).toString();
+
+            handleLogin(account, encryptedId); // 로그인 하기
+
             // 계정에 연결된 네트워크 코인 가져오기
             library?.getBalance(account).then((result) => {
                 setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
@@ -122,33 +177,6 @@ const Home = () => {
                 },
                 {
                     itemId: 100113,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 100114,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 200115,
-                    name: "이쁜 옷3",
-                    image1: "image1",
-                    price: 100,
-                    rate: 3.4,
-                    reviewCount: 10,
-                    remaining: 9,
-                },
-                {
-                    itemId: 300110,
                     name: "이쁜 옷3",
                     image1: "image1",
                     price: 100,

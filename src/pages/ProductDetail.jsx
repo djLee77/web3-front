@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/product/detail/Header";
 import Content from "../components/product/detail/Content";
-import Review from "../components/product/detail/Review";
+import Review from "../components/review/Review";
 import style from "../css/ProductDetail.module.css";
 import axios from "axios";
 
@@ -30,7 +30,7 @@ export default function ProductDetail() {
     const { id } = useParams(); // 상품 ID (url 파라미터)
 
     // 탭 클릭했을 때 맞는 위치로 이동하는 함수
-    const onTabClick = (tab) => {
+    const onClickTab = (tab) => {
         tab.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
     };
 
@@ -47,6 +47,7 @@ export default function ProductDetail() {
                     "ngrok-skip-browser-warning": "1234",
                 },
             });
+            setProduct(res.data.data);
             console.log("상품 정보 : ", res);
             setProduct(res.data.data);
         } catch (error) {
@@ -70,15 +71,15 @@ export default function ProductDetail() {
         <div className={style.box}>
             <Header product={product} reviewRef={reviewRef} />
             <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
-                <div onClick={() => onTabClick(contentRef)} className={style.tab}>
+                <div onClick={() => onClickTab(contentRef)} className={style.tab}>
                     <span>상품상세</span>
                 </div>
-                <div onClick={() => onTabClick(reviewRef)} className={style.tab}>
+                <div onClick={() => onClickTab(reviewRef)} className={style.tab}>
                     <span>상품평 ({product.reviewCount})</span>
                 </div>
             </div>
-            <Content ref={contentRef} />
-            <Review ref={reviewRef} rate={product.rate} reviewCount={product.reviewCount} />
+            <Content ref={contentRef} content={product.content} />
+            <Review ref={reviewRef} id={id} rate={product.rate} reviewCount={product.reviewCount} />
         </div>
     );
 }

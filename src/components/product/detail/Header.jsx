@@ -2,10 +2,14 @@ import { TextField } from "@mui/material";
 import style from "../../../css/ProductDetail.module.css";
 import StarRating from "../../StarRating";
 import { useState } from "react";
+import axios from "axios";
+import cookie from "react-cookies";
 
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(product.image1); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
+
+    const id = cookie.load("id"); // 사용자 ID
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
@@ -18,13 +22,52 @@ export default function Detail({ product, reviewRef }) {
     };
 
     // 장바구니 담기 버튼 클릭 함수
-    const onClickCartBtn = (productId) => {
-        alert(productId + " 장바구니 담기 구현 중");
+    const onClickCartBtn = async (productId) => {
+        try {
+            const res = await axios.post(
+                `/api/users/carts/${id}`,
+                {
+                    itemId: productId,
+                    quantity: quantity,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+
+            console.log(res);
+            if (res.status === 200) {
+                alert("장바구니에 상품을 담았습니다.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    // 구매 버튼 클릭 함수
-    const onClickPayBtn = (productId, quantity) => {
-        alert("상품 ID: " + productId + " 수량 : " + quantity);
+    // 구매 버튼 클릭 함수 미완성임
+    const onClickPayBtn = async (productId, quantity) => {
+        console.log(cookie.load("accessToken"));
+        try {
+            const res = await axios.patch(
+                `/api/admin/users/${"6OuEWnVpBMOTGGUHcZZlb"}`,
+                {
+                    role: "ROLE_ADMIN",
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                        "ngrok-skip-browser-warning": "1234",
+                    },
+                }
+            );
+
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // 상품 개수 바꾸는 함수
@@ -81,6 +124,10 @@ export default function Detail({ product, reviewRef }) {
                         <span>{(product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
                     </div>
 
+                    {/* 판매자 정보 */}
+                    <div className={style.sellerId}>
+                        <span>판매자 ID : {product.sellerId}</span>
+                    </div>
                     {/* 버튼 영역 */}
                     <div>
                         {/* 상품 수량 */}
