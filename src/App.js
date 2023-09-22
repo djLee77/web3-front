@@ -6,6 +6,12 @@ import ProductForm from "./pages/ProductForm";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import ChatbotBtn from "./components/fab/chatbotBtn";
+import Payment from "./pages/Payment";
+import UserOrder from "./pages/UserOrder";
+import UserReview from "./pages/UserReview";
+import SellerProduct from "./pages/SellerProduct";
+import SellerOrder from "./pages/SellerOrder";
+import SearchResult from "./pages/SearchResult";
 
 function App() {
     return (
