@@ -1,8 +1,10 @@
 import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CreateReviewModal from "../components/review/modal/CreateReviewModal";
 import NavBar from "../components/user/NavBar";
+import { Pagination } from "@mui/material";
 import style from "../css/UserOrder.module.css";
 
 export default function UserOrder() {
@@ -40,12 +42,26 @@ export default function UserOrder() {
     };
 
     const [orders, setOrders] = useState([]); // 주문 목록
+    const [page, setPage] = useState(1); // 페이지
+    const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+
+    const navigate = useNavigate();
+
+    //페이지 이동하는 함수
+    const handleChange = (e, value) => {
+        setPage(value);
+        navigate(`/user/order?page=${value}`);
+    };
 
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
         const id = cookie.load("id");
         try {
             const res = await axios.get(`/api/users/orders/${id}`, {
+                params: {
+                    pageNum: page,
+                    pageSize: 10,
+                },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
@@ -100,6 +116,9 @@ export default function UserOrder() {
                         </div>
                     );
                 })}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>
     );
