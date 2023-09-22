@@ -4,13 +4,12 @@
 
 /* ---Sidebar css */
 .text-primary {
-    color: #5a8dee !important;
+    cursor: pointer;
 }
 
 .btn-primary {
-    border-color: #5a8dee !important;
-    background-color: #5a8dee !important;
-    color: #fff;
+    background-color: white;
+    color : black;
 }
 
 .shadow-md {
@@ -42,7 +41,6 @@
     top: 0;
     left: -100%;
     z-index: 1;
-    transition: 0.5s;
 }
 
 .third-sidebar {
@@ -54,7 +52,6 @@
     top: 0;
     left: -100%;
     z-index: 1;
-    transition: 0.5s;
 }
 
 .sidebar.active {

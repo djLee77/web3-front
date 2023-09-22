@@ -1,10 +1,12 @@
 import React from "react";
 import ToggleMenu from "./ToggleMenu";
-import "../css/NavBar.module.css";
+import style from "../css/NavBar.module.css";
 import SearchBar from "../components/SearchBar";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../lib/connectors";
 import { useEffect, useState } from "react";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 const NavBar = () => {
   const [balance, setBalance] = useState(""); // 토큰
 
@@ -62,35 +64,24 @@ const NavBar = () => {
   }, [account]);
 
   return (
-    <div className="body">
-      <div>
-        <ToggleMenu />
+    <div className={style.containerBg}>
+      <div className={style.logo}>
+        <img src="imgs/logo2.png" style={{width:"150px"}}></img>
       </div>
-      <div style={{ float: "right" }}>
-        <div style={{ float: "left" }}>
-          <div style={{ float: "left" }}>
-            <SearchBar />
-          </div>
-          <div style={{ float: "right" }}>
-            <div>
-              <div style={{ float: "left" }}>
-                <button type="button" onClick={handdleConnect}>
-                  {active ? "disconnect" : "connect"}
-                </button>
-              </div>
-              <div style= {{float :"right"}}>
-                <p>Account: {account}</p>
-                {/* <p>ChainId: {chainIds[chainId]?.name}</p> */}
-                <p>
-                  Balance :{" "}
-                  {active ? balance + " " + chainIds[chainId]?.symbol : ""}
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className={style.container}>
+        <div className={style.item}>
+          <ToggleMenu />
         </div>
-        <div style={{ float: "right" }}>
-          <a href="/cart">Cart</a>
+        <div className={style.item}>
+          <SearchBar />
+        </div>
+        <div className={style.item}>
+          <a type="button" onClick={handdleConnect}>
+            로그인
+          </a>
+        </div>
+        <div className={style.item}>
+          <a href="/cart"><ShoppingCartIcon /> </a>
         </div>
       </div>
     </div>

@@ -24,9 +24,7 @@ const SearchResult = () => {
         });
 
         if (response.data.code === 200) {
-          console.log(response);
           setProducts(response.data.data.items);
-          console.log(products);
         }
       } catch (error) {
         console.error("Error fetching the products - Search:", error);

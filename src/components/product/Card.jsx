@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
 
 const Card = ({ product }) => {
-    const [rating, setRating] = useState(product.rate); // 별점 상태 저장
+    const [rating, setRating] = useState(product.rate);
 
-  // 별점 변경하는 함수 (여기선 안 필요하고 사용자가 리뷰 남길 때 사용할 예정)
-  const handleRatingChange = (newRating) => {
-    setRating(newRating); // rating 업데이트
-  };
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
 
     return (
         <>
@@ -17,10 +16,11 @@ const Card = ({ product }) => {
                 <div className={style.cardBox}>
                     <div className={style.cardImg}>
                         <img
-                            src="https://cdn.discordapp.com/attachments/1136307485398007878/1147779261319618560/facebook.png"
+                            src={product.image1}  // 수정된 부분: 서버에서 받아온 이미지의 url 경로로 이미지를 출력
+                            alt={product.name}   // alt 태그에 상품 이름 추가: 이미지 로드 실패 시 대체 텍스트로 상품 이름을 보여줌
                             width={160}
                             height={160}
-                        ></img>
+                        />
                     </div>
                     <div className={style.contentBox}>
                         <span className={style.title}>{product.name}</span>
