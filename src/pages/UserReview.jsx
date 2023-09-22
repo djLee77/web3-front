@@ -5,6 +5,7 @@ import NavBar from "../components/user/NavBar";
 import StarRating from "../components/StarRating";
 import ModifyReviewModal from "../components/review/modal/ModifyReviewModal";
 import { Button } from "@mui/material";
+import style from "../css/UserReview.module.css";
 
 export default function UserReview() {
     const [myReviews, setMyReviews] = useState([]); // 작성한 리뷰 목록
@@ -52,44 +53,66 @@ export default function UserReview() {
         }
     };
 
+    const reviewTest = [
+        {
+            userId: "aF3ksj3”",
+            itemName: "상품1",
+            rate: 3,
+            content: "리뷰 내용~!@~@",
+            image: "이미지",
+            createdAt: "2023-09-01",
+            updatedAt: "2023-09-01",
+        },
+
+        {
+            userId: "aF3ksj3”",
+            itemName: "상품2",
+            rate: 3,
+            content: "리뷰 내용~!@~@",
+            image: "이미지",
+            createdAt: "2023-09-01",
+            updatedAt: "2023-09-01",
+        },
+
+        {
+            userId: "aF3ksj3”",
+            itemName: "상품3",
+            rate: 3,
+            content: "리뷰 내용~!@~@",
+            image: "이미지",
+            createdAt: "2023-09-01",
+            updatedAt: "2023-09-01",
+        },
+    ];
+
     return (
-        <div>
+        <div className={style.box}>
             <NavBar />
-            <h4>작성한 리뷰 목록</h4>
-            <div>
-                {myReviews?.map((review, idx) => (
-                    <div key={idx}>
-                        <div>
-                            <h4>작성일 {review.updatedAt.split("T")[0]}</h4>
+            <div style={{ width: "700px", margin: "0 auto" }}>
+                {reviewTest?.map((review, idx) => (
+                    <div className={style.reviewBox} key={idx}>
+                        <div className={style.productBox}>
+                            <img src={review.itemImage} alt="상품이미지" width={150} height={150} />
+                            <span>{review.itemName}</span>
                         </div>
-                        <div style={{ display: "flex" }}>
-                            <div>
-                                <img src={review.itemImage} alt="상품이미지" width={150} height={150} />
-                            </div>
-                            <div>
-                                <span style={{ fontWeight: "bold", fontSize: "18px" }}>{review.itemName}</span>
-                                <div>
-                                    <span>작성한 별점 </span> <StarRating rate={review.rate} size={18} space={3} />
-                                </div>
-                                <div>
-                                    <span>작성한 내용</span>
-                                    <p style={{ border: "1px solid black", borderRadius: "9px", padding: "10px" }}>
-                                        {review.content}
-                                    </p>
-                                </div>
-                            </div>
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                                <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
-                                <Button
-                                    onClick={() => {
-                                        if (window.confirm("정말로 삭제하시겠습니까?")) {
-                                            onClickReviewDelBtn(review.reviewId);
-                                        }
-                                    }}
-                                >
-                                    삭제
-                                </Button>
-                            </div>
+                        <hr />
+                        <div className={style.rateBox}>
+                            <StarRating rate={review.rate} size={18} space={3} />
+                            <span>{review.updatedAt}</span>
+                        </div>
+                        <p>{review.content}</p>
+                        <div className={style.btnBox}>
+                            <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
+                            <Button
+                                onClick={() => {
+                                    if (window.confirm("정말로 삭제하시겠습니까?")) {
+                                        onClickReviewDelBtn(review.reviewId);
+                                    }
+                                }}
+                                color="error"
+                            >
+                                삭제
+                            </Button>
                         </div>
                     </div>
                 ))}

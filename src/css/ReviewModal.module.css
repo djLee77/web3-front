@@ -1,0 +1,25 @@
+.productBox {
+    height: 100px;
+}
+
+.productBox span {
+    margin-left: 10px;
+}
+
+.imgBox {
+    width: 100px;
+    height: 100px;
+}
+
+.imgBtn {
+    padding: 0;
+    width: 100px;
+    height: 100px;
+    border: none;
+}
+
+.btnBox {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}

@@ -1,9 +1,9 @@
-import style from "../css/Order.module.css";
 import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CreateReviewModal from "../components/review/modal/CreateReviewModal";
 import NavBar from "../components/user/NavBar";
+import style from "../css/UserOrder.module.css";
 
 export default function UserOrder() {
     const data = {
@@ -65,9 +65,8 @@ export default function UserOrder() {
     }, []);
 
     return (
-        <div>
+        <div className={style.box}>
             <NavBar />
-            <h4>주문 상품 목록</h4>
             <div>
                 {data.items.map((product, idx) => {
                     const orderStateByResult = {
@@ -78,22 +77,25 @@ export default function UserOrder() {
                     };
                     const orderState = orderStateByResult[product.result];
                     return (
-                        <div className={style.box} key={idx}>
+                        <div className={style.orderBox} key={idx}>
                             <div>
-                                <h4>{orderState}</h4>
+                                <h4>{product.orderDate} 주문</h4>
                             </div>
-                            <div className={style.productBox}>
-                                <div className={style.imgBox}>
-                                    <img src="" alt="상품 이미지"></img>
+                            <div style={{ marginTop: "30px", marginLeft: "30px" }}>
+                                <h5 className={style.orderState}>{orderState}</h5>
+                                <div className={style.productBox}>
+                                    <div className={style.imgBox}>
+                                        <img src="" alt="상품 이미지" width={100} height={100}></img>
+                                    </div>
+                                    <div className={style.infoBox}>
+                                        <span>{product.name}</span>
+                                        <span>
+                                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 |{" "}
+                                            {product.quantity}개
+                                        </span>
+                                    </div>
+                                    {product.result === 3 && <CreateReviewModal product={product} />}
                                 </div>
-                                <div className={style.infoBox}>
-                                    <span>주문 일자 : {product.orderDate}</span>
-                                    <span>{product.name}</span>
-                                    <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-                                    <span>주문 개수 : {product.quantity}</span>
-                                    <span></span>
-                                </div>
-                                {product.result === 3 && <CreateReviewModal product={product} />}
                             </div>
                         </div>
                     );

@@ -1,0 +1,37 @@
+.box {
+    width: 980px;
+    margin: 0 auto;
+}
+
+.orderBox {
+    width: 720px;
+    margin: 0 auto;
+    padding: 18px;
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 14px;
+    margin-bottom: 30px;
+}
+
+.orderState {
+    font-weight: bold;
+}
+
+.imgBox {
+    width: 100px;
+    height: 100px;
+}
+
+.productBox {
+    display: flex;
+    margin-top: 24px;
+}
+
+.infoBox {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+}
+
+.infoBox span {
+    margin-bottom: 10px;
+}
