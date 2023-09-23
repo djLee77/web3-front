@@ -1,6 +1,17 @@
+.box {
+    width: 980px;
+    margin: 0 auto;
+}
+
+.addBtnBox {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+}
+
 .productBox {
     display: flex;
-    width: 980px;
+    width: 800px;
     margin: 0 auto;
     border-bottom: 1px solid gray;
 }
@@ -16,6 +27,10 @@
     flex-direction: column;
     width: 70%;
     padding: 10px;
+}
+
+.infoBox:hover {
+    cursor: pointer;
 }
 
 .btnBox {

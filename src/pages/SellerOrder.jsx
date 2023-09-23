@@ -86,33 +86,38 @@ export default function SellerOrder() {
     };
 
     return (
-        <div>
+        <div className={style.box}>
             <NavBar />
-            <h4>주문 상품 목록</h4>
             <div>
                 {data.items.map((product, idx) => (
-                    <div className={style.productBox} key={idx}>
-                        <div className={style.imgBox}>
-                            <img src="" alt="상품 이미지"></img>
+                    <div className={style.orderBox}>
+                        <div className={style.orderDateBox}>
+                            <span>{product.orderDate} 주문</span>
                         </div>
-                        <div className={style.infoBox}>
-                            <span>주문 일자 : {product.orderDate}</span>
-                            <span>{product.name}</span>
-                            <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-                            <span>주문 개수 : {product.quantity}</span>
-                            <span>구매자 ID : {product.buyerId}</span>
-                            <span>배송지 : {product.address}</span>
-                        </div>
-                        <div className={style.btnBox}>
-                            <Select
-                                defaultValue={product.result}
-                                onChange={(e) => handleCountChange(product.itemId, e)}
-                            >
-                                <MenuItem value={1}>배송전</MenuItem>
-                                <MenuItem value={2}>배송중</MenuItem>
-                                <MenuItem value={3}>배송 완료</MenuItem>
-                                <MenuItem value={9}>판매자 연락 요망</MenuItem>
-                            </Select>
+                        <div className={style.productBox} key={idx}>
+                            <div className={style.imgBox}>
+                                <img src="" alt="상품 이미지"></img>
+                            </div>
+                            <div className={style.infoBox}>
+                                <span>{product.name}</span>
+                                <span>
+                                    {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 |{" "}
+                                    {product.quantity}개
+                                </span>
+                                <span>구매자 ID : {product.buyerId}</span>
+                                <span>배송지 : {product.address}</span>
+                            </div>
+                            <div className={style.btnBox}>
+                                <Select
+                                    defaultValue={product.result}
+                                    onChange={(e) => handleCountChange(product.itemId, e)}
+                                >
+                                    <MenuItem value={1}>배송전</MenuItem>
+                                    <MenuItem value={2}>배송중</MenuItem>
+                                    <MenuItem value={3}>배송 완료</MenuItem>
+                                    <MenuItem value={9}>판매자 연락 요망</MenuItem>
+                                </Select>
+                            </div>
                         </div>
                     </div>
                 ))}

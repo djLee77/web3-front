@@ -1,8 +1,24 @@
-.productBox {
-    display: flex;
+.box {
     width: 980px;
     margin: 0 auto;
-    border-bottom: 1px solid gray;
+}
+
+.orderBox {
+    padding: 30px;
+    border: 1px solid gray;
+    border-radius: 14px;
+    width: 800px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.orderDateBox span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.productBox {
+    display: flex;
 }
 
 .imgBox {

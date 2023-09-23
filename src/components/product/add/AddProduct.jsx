@@ -21,6 +21,8 @@ const AddProduct = () => {
     const [searchParams, setSearchParams] = useSearchParams(); // url 파라미터 값
     const [isModify, setIsModify] = useState(false); // 상품 수정인지 확인
 
+    const id = cookie.load("id"); // 로그인한 ID
+
     const navigate = useNavigate();
 
     // 상품 정보 가져오는 함수
@@ -151,7 +153,7 @@ const AddProduct = () => {
             const res = await axios.post(
                 "/api/sellers/items",
                 {
-                    sellerId: 1,
+                    sellerId: id,
                     name: name,
                     categoryId: category.categoryId,
                     price: price,
@@ -186,7 +188,7 @@ const AddProduct = () => {
             const res = await axios.patch(
                 `/api/sellers/items/${itemId}`,
                 {
-                    sellerId: 1,
+                    sellerId: id,
                     name: name,
                     categoryId: category.categoryId,
                     price: price,
