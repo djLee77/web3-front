@@ -5,11 +5,21 @@ import style from "../css/SellerProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import cookie from "react-cookies";
-import { Button } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 
 export default function SellerProduct() {
     const [productcs, setPproducts] = useState([]); // 판매중인 상품 목록
-    const id = cookie.load("id"); // 사용자 ID
+    const [page, setPage] = useState(1); // 페이지
+    const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+
+    const id = cookie.load("id"); // 로그인한 ID
+    const navigate = useNavigate();
+
+    //페이지 이동하는 함수
+    const handleChange = (e, value) => {
+        setPage(value);
+        navigate(`/seller/product?page=${value}`);
+    };
 
     // 판매 상품 목록 가져오는 상품
     const getProducts = async () => {
@@ -33,8 +43,6 @@ export default function SellerProduct() {
     useEffect(() => {
         getProducts();
     }, []);
-
-    const navigate = useNavigate();
 
     // 상품 등록 버튼 함수
     const onClickAddBtn = () => {
@@ -142,6 +150,9 @@ export default function SellerProduct() {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>
     );

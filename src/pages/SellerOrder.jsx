@@ -72,7 +72,7 @@ export default function SellerOrder() {
     //페이지 이동하는 함수
     const handleChange = (e, value) => {
         setPage(value);
-        navigate(`/user/order?page=${value}`);
+        navigate(`/seller/order?page=${value}`);
     };
 
     // 주문 상품 상태 변경 함수
