@@ -10,6 +10,9 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
     const [rate, setRate] = useState(review.rate); // 별점
     const [imgURL, setImgURL] = useState(review.reviewImage); // 이미지
     const [content, setContent] = useState(review.content); // 내용
+    const [isContentInput, setIsContentInput] = useState(false); // 내용 입력했는지 확인
+
+    const contentRef = useRef();
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -59,7 +62,11 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
 
     // 리뷰 수정 버튼 함수
     const onClickCreateReviewBtn = async () => {
-        console.log(id);
+        // 내용 작성 안 했으면 작성하라고 하기
+        if (content === "") {
+            contentRef.current.focus();
+            return setIsContentInput(true);
+        }
         try {
             const res = await axios.patch(
                 `/api/users/reviews/${review.reviewId}`,
@@ -135,6 +142,9 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
                     <TextField
                         id="outlined-multiline-static"
                         multiline
+                        error={isContentInput}
+                        helperText={isContentInput && "리뷰 내용을 작성해주세요"}
+                        inputRef={contentRef}
                         defaultValue={content}
                         rows={4}
                         onChange={(e) => setContent(e.target.value)}

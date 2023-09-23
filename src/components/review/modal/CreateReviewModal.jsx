@@ -10,6 +10,11 @@ export default function CreateReviewModal({ product }) {
     const [rate, setRate] = useState(5); // 별점
     const [imgURL, setImgURL] = useState("/imgs/defaultAddImg.png"); // 이미지
     const [content, setContent] = useState(""); // 내용
+    const [isContentInput, setIsContentInput] = useState(false); // 내용 입력했는지 확인
+
+    const contentRef = useRef();
+    const id = cookie.load("id");
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -60,8 +65,14 @@ export default function CreateReviewModal({ product }) {
     // 리뷰 작성 버튼 함수
     const onClickCreateReviewBtn = async () => {
         console.log(product.itemId, content, rate, imgURL);
-        const id = cookie.load("id");
         console.log(id);
+
+        // 내용 작성 안 했으면 작성하라고 하기
+        if (content === "") {
+            contentRef.current.focus();
+            return setIsContentInput(true);
+        }
+
         try {
             const res = await axios.post(
                 `/api/users/reviews/${id}`,
@@ -136,6 +147,9 @@ export default function CreateReviewModal({ product }) {
                     <hr />
                     <TextField
                         id="outlined-multiline-static"
+                        error={isContentInput}
+                        helperText={isContentInput && "리뷰 내용을 작성해주세요"}
+                        inputRef={contentRef}
                         multiline
                         rows={4}
                         onChange={(e) => setContent(e.target.value)}
