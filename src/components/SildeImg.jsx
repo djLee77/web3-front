@@ -6,31 +6,32 @@ const imageData = [
   {
     label: "Image 1",
     alt: "image1",
-    url: "http://ad-img.gmarket.com/ADS/Contents_/2023_09_07_02_05_04/262c377d27f54a55.JPG",
+    width: "1920px",
+    url: "https://image6.coupangcdn.com/image/ccm/banner/892b9ee93d953c16b837e94ad2e4650f.jpg",
   },
 
   {
     label: "Image 2",
     alt: "image2",
-    url: "http://ad-img.gmarket.com/ADS/Contents_/2023_09_01_11_50_36/5a842f0c05d64aee.JPG",
+    url: "https://image8.coupangcdn.com/image/ccm/banner/cacd7af728e615e804c9bd7e2db72767.jpg",
   },
 
   {
     label: "Image 3",
     alt: "image3",
-    url: "http://ad-img.gmarket.com/ADS/Contents_/2023_08_31_04_42_34/0e0214728df44c20.JPG",
+    url: "https://image6.coupangcdn.com/image/ccm/banner/892b9ee93d953c16b837e94ad2e4650f.jpg",
   },
 
   {
     label: "Image 4",
     alt: "image4",
-    url: "http://ad-img.gmarket.com/ADS/Contents_/2023_08_30_06_06_56/508b44ca04f34f97.JPG",
+    url: "https://static.coupangcdn.com/fa/cmg_paperboy/image/1694675440749/Untitled-3.jpg",
   },
 
   {
     label: "Image 5",
     alt: "image5",
-    url: "http://ad-img.gmarket.com/ADS/Contents_/2023_08_31_05_52_41/0e9cd9c914fe44f6.JPG",
+    url: "https://image8.coupangcdn.com/image/ccm/banner/211039ebb87c367467616b7b412a8f11.jpg",
   },
 ];
 
@@ -47,7 +48,7 @@ const SlideImg = () => {
   }
 
   return (
-    <div className="slide-banner" style={{ width : "90%", marginLeft : "30px", marginRight : "30px"}}>
+    <div className="slide-banner" style={{ width : "100%"}}>
       <Carousel
         showArrows={true}
         autoPlay={true}
@@ -55,7 +56,6 @@ const SlideImg = () => {
         showThumbs={false}
         selectedItem={imageData[currentIndex]}
         onChange={handleChange}
-        className="w-[400px] lg:hidden"
       >
         {renderSlides}
       </Carousel>

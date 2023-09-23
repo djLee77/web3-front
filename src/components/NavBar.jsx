@@ -93,36 +93,38 @@ const NavBar = () => {
   };
 
   // 계정 연결 됐으면
-    useEffect(() => {
-      if (account) {
-        const key = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_KEY);
-        const iv = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_IV);
-        // AES256 암호화 ID 생성
-        const encryptedId = CryptoJS.AES.encrypt(account, key, {
-          iv: iv,
-          mode: CryptoJS.mode.CBC,
-          padding: CryptoJS.pad.Pkcs7,
-        }).toString();
+  useEffect(() => {
+    if (account) {
+      const key = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_KEY);
+      const iv = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_SECRET_IV);
+      // AES256 암호화 ID 생성
+      const encryptedId = CryptoJS.AES.encrypt(account, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+      }).toString();
 
-        handleLogin(account, encryptedId); // 로그인 하기
+      handleLogin(account, encryptedId); // 로그인 하기
 
-        // 계정에 연결된 네트워크 코인 가져오기
-        library?.getBalance(account).then((result) => {
-          setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
-          console.log("result : ", result);
-        });
-        // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
-      }
-    }, [account]);
+      // 계정에 연결된 네트워크 코인 가져오기
+      library?.getBalance(account).then((result) => {
+        setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
+        console.log("result : ", result);
+      });
+      // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
+    }
+  }, [account]);
 
   return (
     <div className={style.containerBg}>
-      <div className={style.logo}>
-        <img src="imgs/logo2.png" style={{ width: "150px" }}></img>
-      </div>
       <div className={style.container}>
         <div className={style.item}>
           <ToggleMenu />
+        </div>
+        <div className={style.item}>
+          <a href="/">
+            <img src="imgs/logo3.png" style={{ width: "150px" }}></img>
+          </a>
         </div>
         <div className={style.item}>
           <SearchBar />

@@ -1,3 +1,4 @@
+
 .containerBg{
     display: flex;
     flex-direction: column;
@@ -10,11 +11,11 @@
     justify-content: center;
     align-items : center;
     box-shadow: 1px 1px 2px grey;
-    width: fit-content;
+    width: 90%;
 }
 
 .logo{
-    margin-right: 60%;
+    margin-right: 10%;
 }
 
 .item{
@@ -25,6 +26,10 @@
     color: #0185FF;
 }
 
+.item:nth-child(2){
+    margin-left: 0;
+}
+
 .item:first-child{
-    margin-right: 100px;
+    margin-right: 80px;
 }

@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,108 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+/* font 적용 부분*/
+div{
+  font-family: "BMJUA";
+  
+}
+
+/*배민 한나는 11살체*/
+
+@font-face {
+  font-family: 'BMHANNA_11yrs';
+  font-style: normal;
+  font-weight: 100;
+  src: url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff2") format('woff2'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff") format('woff'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'BMHANNA_11yrs';
+  font-style: normal;
+  font-weight: normal;
+  src: url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff2") format('woff2'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff") format('woff'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.otf") format('truetype')
+}
+
+
+@font-face {
+  font-family: 'BMHANNA_11yrs';
+  font-style: normal;
+  font-weight: 500;
+  src: url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff2") format('woff2'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff") format('woff'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'BMHANNA_11yrs';
+  font-style: normal;
+  font-weight: bold;
+  src: url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff2") format('woff2'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.woff") format('woff'),
+  url("css/font/BMHANNA_11yrs-WEB/BMHANNA_11yrs-WEB/BMHANNA_11yrs.otf") format('truetype')
+}
+
+/*배민 주아체*/
+
+@font-face {
+  font-family: 'BMJUA';
+  font-style: normal;
+  font-weight: normal;
+  src: url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff2") format('woff2'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff") format('woff'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.otf") format('truetype')
+}
+
+
+@font-face {
+  font-family: 'BMJUA';
+  font-style: normal;
+  font-weight: 500;
+  src: url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff2") format('woff2'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff") format('woff'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'BMJUA';
+  font-style: normal;
+  font-weight: bold;
+  src: url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff2") format('woff2'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.woff") format('woff'),
+  url("css/font/BMJUA-WEB/BMJUA-WEB/BMJUA.otf") format('truetype')
+}
+
+/*나눔 바른 고딕체*/
+@font-face {
+  font-family: 'NBGOTHIC';
+  font-style: normal;
+  font-weight: normal;
+  src: url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothic.woff2") format('woff2'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicBold.woff") format('woff'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicBold.otf") format('truetype')
+}
+
+
+@font-face {
+  font-family: 'NBGOTHIC';
+  font-style: light;
+  font-weight: 500;
+  src: url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicLight.woff2") format('woff2'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicLight.woff") format('woff'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicLight.otf") format('truetype')
+}
+
+@font-face {
+  font-family: 'NBGOTHIC';
+  font-style: normal;
+  font-weight: bold;
+  src: url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicBold.woff2") format('woff2'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicBold.woff") format('woff'),
+  url("css/font/NanumBarunGothic-WEB/NanumBarunGothic-WEB/NanumBarunGothicBold.otf") format('truetype')
 }
