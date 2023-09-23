@@ -1,9 +1,10 @@
 import NavBar from "../components/seller/NavBar";
 import style from "../css/SellerOrder.module.css";
-import { MenuItem, Select } from "@mui/material";
+import { MenuItem, Pagination, Select } from "@mui/material";
 import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SellerOrder() {
     const data = {
@@ -40,11 +41,16 @@ export default function SellerOrder() {
     };
 
     const [orders, setOrders] = useState([]); // 주문 목록
+    const [page, setPage] = useState(1); // 페이지
+    const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+
+    const id = cookie.load("id"); // 로그인한 ID
+    const navigate = useNavigate();
 
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
         try {
-            const res = await axios.get(`/api/sellers/orders/${1}`, {
+            const res = await axios.get(`/api/sellers/orders/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
@@ -62,6 +68,12 @@ export default function SellerOrder() {
     useEffect(() => {
         getOrders();
     }, []);
+
+    //페이지 이동하는 함수
+    const handleChange = (e, value) => {
+        setPage(value);
+        navigate(`/user/order?page=${value}`);
+    };
 
     // 주문 상품 상태 변경 함수
     const handleCountChange = async (id, e) => {
@@ -121,6 +133,9 @@ export default function SellerOrder() {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>
     );

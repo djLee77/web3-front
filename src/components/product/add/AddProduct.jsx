@@ -151,9 +151,8 @@ const AddProduct = () => {
         setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.post(
-                "/api/sellers/items",
+                `/api/sellers/items/${id}`,
                 {
-                    sellerId: id,
                     name: name,
                     categoryId: category.categoryId,
                     price: price,
