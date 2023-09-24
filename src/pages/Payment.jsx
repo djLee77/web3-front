@@ -84,6 +84,11 @@ export default function Payment() {
                 }
             );
 
+            if (res.status === 200) {
+                alert("상품 구매 완료!");
+                navigate("/");
+            }
+
             console.log(res);
         } catch (error) {
             console.log(error);

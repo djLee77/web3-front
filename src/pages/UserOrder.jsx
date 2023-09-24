@@ -77,7 +77,7 @@ export default function UserOrder() {
 
             console.log(res);
             setOrders(res.data.data.orders);
-            setTotalPage(res.data.totalPage);
+            setTotalPage(res.data.data.totalPage);
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -102,28 +102,45 @@ export default function UserOrder() {
                         </div>
                     ) : (
                         <div>
-                            <div>
-                                {orders?.map((product, idx) => {
-                                    const orderStateByResult = {
-                                        1: "배송 전",
-                                        2: "배송 중",
-                                        3: "배송 완료",
-                                        9: "판매자 연락 요망",
-                                    };
-                                    const orderState = orderStateByResult[product.result];
-                                    return (
-                                        <div className={style.orderBox} key={idx}>
-                                            <div>
-                                                <h4>{product.orderDate} 주문</h4>
-                                            </div>
-                                            <div style={{ marginTop: "30px", marginLeft: "30px" }}>
-                                                <h5 className={style.orderState}>{orderState}</h5>
-                                                <div className={style.productBox}>
-                                                    <div className={style.imgBox}>
-                                                        <img src="" alt="상품 이미지" width={100} height={100}></img>
-                                                    </div>
-                                                    <div className={style.infoBox}>
-                                                        <span>{product.name}</span>
+                            {orders?.map((order, idx) => (
+                                <div className={style.orderBox} key={idx}>
+                                    <h4>{order.orderDate.split("T")[0]} 주문</h4>
+                                    {order.orderDetails.map((product) => {
+                                        const orderStateByResult = {
+                                            0: "입금 확인 중",
+                                            1: "배송 전",
+                                            2: "배송 중",
+                                            3: "배송 완료",
+                                            9: "판매자 연락 요망",
+                                        };
+                                        const orderState = orderStateByResult[product.result];
+                                        return (
+                                            <div className={style.orderDetailBox}>
+                                                <h5
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        marginTop: "10px",
+                                                        marginBottom: "20px",
+                                                    }}
+                                                >
+                                                    {orderState}
+                                                </h5>
+                                                <div style={{ display: "flex" }}>
+                                                    <img
+                                                        src={product.image}
+                                                        alt="상품 이미지"
+                                                        width={100}
+                                                        height={100}
+                                                    />
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            marginLeft: "14px",
+                                                            width: "60%",
+                                                        }}
+                                                    >
+                                                        <span>{product.itemName}</span>
                                                         <span>
                                                             {product.price
                                                                 .toString()
@@ -131,13 +148,17 @@ export default function UserOrder() {
                                                             원 | {product.quantity}개
                                                         </span>
                                                     </div>
-                                                    {product.result === 3 && <CreateReviewModal product={product} />}
+                                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                                        {product.result === 3 && (
+                                                            <CreateReviewModal product={product} />
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ))}
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Pagination count={totalPage} page={page} onChange={handleChange} />
                             </div>
