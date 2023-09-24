@@ -129,7 +129,7 @@ const Review = forwardRef((props, ref) => {
                                 </div>
                             </div>
                             <div className={style.imgBox}>
-                                <img src={review.image} alt="리뷰사진" width={180} height={180}></img>
+                                <img src={review.image} alt="리뷰사진" width={100} height={100}></img>
                             </div>
                             <div className={style.contentBox}>
                                 <span>{review.content}</span>
