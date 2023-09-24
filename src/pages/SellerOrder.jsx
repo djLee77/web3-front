@@ -5,6 +5,7 @@ import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function SellerOrder() {
     const data = {
@@ -23,26 +24,13 @@ export default function SellerOrder() {
                 buyerId: "asdk123",
                 address: "인천 계양구",
             },
-            {
-                orderDetailId: 923182,
-                orderId: 12392,
-                itemId: 11001,
-                name: "이쁜옷1",
-                sellerId: "aF3ksj3",
-                image: "imageUrl",
-                price: 10000,
-                quantity: 10,
-                result: 1,
-                orderDate: "2023-09-16",
-                buyerId: "asdk123",
-                address: "인천 계양구",
-            },
         ],
     };
 
     const [orders, setOrders] = useState([]); // 주문 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+    const [loading, setLoading] = useState(true);
 
     const id = cookie.load("id"); // 로그인한 ID
     const navigate = useNavigate();
@@ -90,7 +78,7 @@ export default function SellerOrder() {
                     },
                 }
             );
-
+            console.log("주문 상태 변경 ", res);
             getOrders();
         } catch (error) {
             console.log(error);
