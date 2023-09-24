@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "../css/Cart.module.css";
 import cookie from "react-cookies";
+import Loading from "../components/Loading";
 
 export default function Cart() {
     const [cartList, setCartList] = useState([]); // 장바구니 목록
     const [selectAll, setSelectAll] = useState(false); // 상품 전체 선택
     const [selectedItems, setSelectedItems] = useState([]); // 선택한 상품 목록
     const [total, setTotal] = useState(0); // 총 금액
+    const [loading, setLoading] = useState(true);
 
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
@@ -29,6 +31,7 @@ export default function Cart() {
 
     // 장바구니 목록 가져오는 함수
     const getCartList = async () => {
+        setLoading(true);
         try {
             const res = await axios.get(`/api/users/carts/${id}`, {
                 headers: {
@@ -38,6 +41,7 @@ export default function Cart() {
             });
             console.log("장바구니 : ", res.data.data);
             setCartList(res.data.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -83,32 +87,39 @@ export default function Cart() {
     };
 
     return (
-        <div className={style.box}>
-            <h4>장바구니 목록</h4>
-            <CartList
-                cartList={cartList}
-                selectAll={selectAll}
-                setSelectAll={setSelectAll}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                getCartList={getCartList}
-            />
-            <div className={style.box}>
-                <div className={style.totalBox}>
-                    <span>총 주문 금액 : </span>
-                    <span className={style.total}>{total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-                </div>
+        <>
+            {loading ? (
+                <Loading content="장바구니 목록을 불러오는 중입니다.." />
+            ) : (
+                <div className={style.box}>
+                    <CartList
+                        cartList={cartList}
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        selectedItems={selectedItems}
+                        setSelectedItems={setSelectedItems}
+                        getCartList={getCartList}
+                    />
+                    <div className={style.box}>
+                        <div className={style.totalBox}>
+                            <span>총 주문 금액 : </span>
+                            <span className={style.total}>
+                                {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                            </span>
+                        </div>
 
-                {/* 버튼 영역 */}
-                <div className={style.cartBtnBox}>
-                    <button className={style.payBtn} onClick={onClickPayBtn}>
-                        결제하기
-                    </button>
-                    <button className={style.backBtn} onClick={onClickBackBtn}>
-                        계속 쇼핑하기
-                    </button>
+                        {/* 버튼 영역 */}
+                        <div className={style.cartBtnBox}>
+                            <button className={style.payBtn} onClick={onClickPayBtn}>
+                                결제하기
+                            </button>
+                            <button className={style.backBtn} onClick={onClickBackBtn}>
+                                계속 쇼핑하기
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 }

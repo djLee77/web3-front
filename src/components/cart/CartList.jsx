@@ -1,14 +1,14 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Select,
-  MenuItem,
-  Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Select,
+    MenuItem,
+    Checkbox,
 } from "@mui/material";
 import { Button } from "@mui/material";
 import axios from "axios";
@@ -23,20 +23,20 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
         //  체크하면 선택한 상품 배열에 모든 값 넣기 해제하면 빈 배열로 상태 저장
         if (checked) {
-            setSelectedItems(cartList.map((item) => item.cartId));
+            setSelectedItems(cartList.map((item) => ({ itemId: item.itemId, quantity: item.quantity })));
         } else {
             setSelectedItems([]);
         }
     };
 
     // 각 상품 선택 함수
-    const handleSelectOne = (event, cartId) => {
+    const handleSelectOne = (event, itemId, quantity) => {
         const checked = event.target.checked;
 
         if (checked) {
-            setSelectedItems((prevSelected) => [...prevSelected, cartId]);
+            setSelectedItems((prevSelected) => [...prevSelected, { itemId, quantity }]);
         } else {
-            setSelectedItems((prevSelected) => prevSelected.filter((id) => id !== cartId));
+            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.itemId !== itemId));
         }
     };
 
