@@ -62,7 +62,6 @@ export default function UserOrder() {
         const urlPage = searchParams.get("page");
         const pageNum = urlPage ? parseInt(urlPage) : 1;
         setPage(pageNum);
-
         try {
             const res = await axios.get(`/api/users/orders/${id}`, {
                 params: {
