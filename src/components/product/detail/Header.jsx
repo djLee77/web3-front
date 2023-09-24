@@ -5,12 +5,14 @@ import { useState } from "react";
 import axios from "axios";
 import cookie from "react-cookies";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
 
     const id = cookie.load("id"); // 사용자 ID
+    const navigate = useNavigate();
 
     // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
     useEffect(() => {
@@ -55,22 +57,22 @@ export default function Detail({ product, reviewRef }) {
 
     // 구매 버튼 클릭 함수 미완성임
     const onClickPayBtn = async (productId, quantity) => {
-        console.log(cookie.load("accessToken"));
         try {
-            const res = await axios.patch(
-                `/api/admin/users/${"6OuEWnVpBMOTGGUHcZZlb"}`,
-                {
-                    role: "ROLE_ADMIN",
+            const data = `${productId}:${quantity}`;
+            console.log(data);
+            const res = await axios.get(`/api/users/form/orders/${id}`, {
+                params: {
+                    items: data,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
-                    },
-                }
-            );
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
 
             console.log(res);
+            const orders = res.data.data; // 주문서 저장
+            navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
         } catch (error) {
             console.log(error);
         }
