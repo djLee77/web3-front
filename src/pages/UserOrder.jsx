@@ -1,7 +1,7 @@
 import cookie from "react-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CreateReviewModal from "../components/review/modal/CreateReviewModal";
 import NavBar from "../components/user/NavBar";
 import { Pagination } from "@mui/material";
@@ -44,6 +44,7 @@ export default function UserOrder() {
     const [orders, setOrders] = useState([]); // 주문 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+    const [searchParams] = useSearchParams();
 
     const navigate = useNavigate();
 
@@ -56,6 +57,10 @@ export default function UserOrder() {
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
         const id = cookie.load("id");
+        const urlPage = searchParams.get("page");
+        const pageNum = urlPage ? parseInt(urlPage) : 1;
+        setPage(pageNum);
+
         try {
             const res = await axios.get(`/api/users/orders/${id}`, {
                 params: {
@@ -70,15 +75,16 @@ export default function UserOrder() {
 
             console.log(res);
             setOrders(res.data.data.orders);
+            setTotalPage(res.data.totalPage);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // 첫 마운트 될 때 주문 목록 가져오기
+    // 페이지 바뀔때 주문 목록 가져오기
     useEffect(() => {
         getOrders();
-    }, []);
+    }, [page]);
 
     return (
         <div className={style.box}>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import cookie from "react-cookies";
 import NavBar from "../components/user/NavBar";
 import StarRating from "../components/StarRating";
@@ -13,6 +13,7 @@ export default function UserReview() {
     const id = cookie.load("id"); // 로그인한 쇼핑몰 ID
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
+    const [searchParams] = useSearchParams();
 
     const navigate = useNavigate();
 
@@ -24,11 +25,15 @@ export default function UserReview() {
 
     // 작성한 리뷰 목록 가져오기
     const getMyReviews = async () => {
+        const urlPage = searchParams.get("page");
+        const pageNum = urlPage ? parseInt(urlPage, 10) : 1;
+        setPage(pageNum);
+
         try {
             console.log(id);
             const res = await axios.get(`/api/users/reviews/${id}`, {
                 params: {
-                    pageNum: page,
+                    pageNum: pageNum,
                     pageSize: 10,
                 },
                 headers: {
@@ -38,13 +43,14 @@ export default function UserReview() {
             });
 
             setMyReviews(res.data.data.reviews);
+            setTotalPage(res.data.totalPage);
             console.log(res);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // 처음 마운트 될 때 작성한 리뷰 목록 가져오기
+    // 페이지 바뀔때 작성한 리뷰 목록 가져오기
     useEffect(() => {
         getMyReviews();
     }, [page]);
