@@ -6,6 +6,7 @@ import CreateReviewModal from "../components/review/modal/CreateReviewModal";
 import NavBar from "../components/user/NavBar";
 import { Pagination } from "@mui/material";
 import style from "../css/UserOrder.module.css";
+import Loading from "../components/Loading";
 
 export default function UserOrder() {
     const data = {
@@ -45,6 +46,7 @@ export default function UserOrder() {
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
     const [searchParams] = useSearchParams();
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -76,6 +78,7 @@ export default function UserOrder() {
             console.log(res);
             setOrders(res.data.data.orders);
             setTotalPage(res.data.totalPage);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -87,45 +90,61 @@ export default function UserOrder() {
     }, [page]);
 
     return (
-        <div className={style.box}>
-            <NavBar />
-            <div>
-                {data.items.map((product, idx) => {
-                    const orderStateByResult = {
-                        1: "배송 전",
-                        2: "배송 중",
-                        3: "배송 완료",
-                        9: "판매자 연락 요망",
-                    };
-                    const orderState = orderStateByResult[product.result];
-                    return (
-                        <div className={style.orderBox} key={idx}>
+        <>
+            {loading ? (
+                <Loading content="주문 목록을 불러오는 중입니다.." />
+            ) : (
+                <div className={style.box}>
+                    <NavBar />
+                    {orders.length === 0 ? (
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <h4>주문하신 상품이 없습니다.</h4>
+                        </div>
+                    ) : (
+                        <div>
                             <div>
-                                <h4>{product.orderDate} 주문</h4>
+                                {orders?.map((product, idx) => {
+                                    const orderStateByResult = {
+                                        1: "배송 전",
+                                        2: "배송 중",
+                                        3: "배송 완료",
+                                        9: "판매자 연락 요망",
+                                    };
+                                    const orderState = orderStateByResult[product.result];
+                                    return (
+                                        <div className={style.orderBox} key={idx}>
+                                            <div>
+                                                <h4>{product.orderDate} 주문</h4>
+                                            </div>
+                                            <div style={{ marginTop: "30px", marginLeft: "30px" }}>
+                                                <h5 className={style.orderState}>{orderState}</h5>
+                                                <div className={style.productBox}>
+                                                    <div className={style.imgBox}>
+                                                        <img src="" alt="상품 이미지" width={100} height={100}></img>
+                                                    </div>
+                                                    <div className={style.infoBox}>
+                                                        <span>{product.name}</span>
+                                                        <span>
+                                                            {product.price
+                                                                .toString()
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                            원 | {product.quantity}개
+                                                        </span>
+                                                    </div>
+                                                    {product.result === 3 && <CreateReviewModal product={product} />}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
-                            <div style={{ marginTop: "30px", marginLeft: "30px" }}>
-                                <h5 className={style.orderState}>{orderState}</h5>
-                                <div className={style.productBox}>
-                                    <div className={style.imgBox}>
-                                        <img src="" alt="상품 이미지" width={100} height={100}></img>
-                                    </div>
-                                    <div className={style.infoBox}>
-                                        <span>{product.name}</span>
-                                        <span>
-                                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 |{" "}
-                                            {product.quantity}개
-                                        </span>
-                                    </div>
-                                    {product.result === 3 && <CreateReviewModal product={product} />}
-                                </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Pagination count={totalPage} page={page} onChange={handleChange} />
                             </div>
                         </div>
-                    );
-                })}
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                <Pagination count={totalPage} page={page} onChange={handleChange} />
-            </div>
-        </div>
+                    )}
+                </div>
+            )}
+        </>
     );
 }

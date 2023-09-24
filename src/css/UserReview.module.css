@@ -13,6 +13,10 @@
     height: 80px;
 }
 
+.productBox:hover {
+    cursor: pointer;
+}
+
 .productBox span {
     margin-left: 10px;
 }

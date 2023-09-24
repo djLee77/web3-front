@@ -7,6 +7,7 @@ import StarRating from "../components/StarRating";
 import ModifyReviewModal from "../components/review/modal/ModifyReviewModal";
 import { Button, Pagination } from "@mui/material";
 import style from "../css/UserReview.module.css";
+import Loading from "../components/Loading";
 
 export default function UserReview() {
     const [myReviews, setMyReviews] = useState([]); // 작성한 리뷰 목록
@@ -14,6 +15,7 @@ export default function UserReview() {
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
     const [searchParams] = useSearchParams();
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -28,7 +30,6 @@ export default function UserReview() {
         const urlPage = searchParams.get("page");
         const pageNum = urlPage ? parseInt(urlPage, 10) : 1;
         setPage(pageNum);
-
         try {
             console.log(id);
             const res = await axios.get(`/api/users/reviews/${id}`, {
@@ -44,6 +45,7 @@ export default function UserReview() {
 
             setMyReviews(res.data.data.reviews);
             setTotalPage(res.data.totalPage);
+            setLoading(false);
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -69,6 +71,10 @@ export default function UserReview() {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const onClickProduct = (id) => {
+        navigate(`/product/detail/${id}`);
     };
 
     const reviewTest = [
@@ -104,40 +110,49 @@ export default function UserReview() {
     ];
 
     return (
-        <div className={style.box}>
-            <NavBar />
-            <div style={{ width: "700px", margin: "0 auto" }}>
-                {reviewTest?.map((review, idx) => (
-                    <div className={style.reviewBox} key={idx}>
-                        <div className={style.productBox}>
-                            <img src={review.itemImage} alt="상품이미지" width={150} height={150} />
-                            <span>{review.itemName}</span>
-                        </div>
-                        <hr />
-                        <div className={style.rateBox}>
-                            <StarRating rate={review.rate} size={18} space={3} />
-                            <span>{review.updatedAt}</span>
-                        </div>
-                        <p>{review.content}</p>
-                        <div className={style.btnBox}>
-                            <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
-                            <Button
-                                onClick={() => {
-                                    if (window.confirm("정말로 삭제하시겠습니까?")) {
-                                        onClickReviewDelBtn(review.reviewId);
-                                    }
-                                }}
-                                color="error"
-                            >
-                                삭제
-                            </Button>
-                        </div>
+        <>
+            {loading ? (
+                <Loading content="등록한 리뷰 목록을 불러오는 중입니다.." />
+            ) : (
+                <div className={style.box}>
+                    <NavBar />
+                    <div style={{ width: "700px", margin: "0 auto" }}>
+                        {myReviews?.map((review, idx) => (
+                            <div className={style.reviewBox} key={idx}>
+                                <div className={style.productBox} onClick={() => onClickProduct(review.itemId)}>
+                                    <img src={review.itemImage} alt="상품이미지" width={80} height={80} />
+                                    <span>{review.itemName}</span>
+                                </div>
+                                <hr />
+                                <div className={style.rateBox}>
+                                    <StarRating rate={review.rate} size={18} space={3} />
+                                    <span>{review.updatedAt.split("T")[0]}</span>
+                                </div>
+                                <div>
+                                    <img src={review.reviewImage} alt="리뷰 이미지" width={100} height={100} />
+                                </div>
+                                <p>{review.content}</p>
+                                <div className={style.btnBox}>
+                                    <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
+                                    <Button
+                                        onClick={() => {
+                                            if (window.confirm("정말로 삭제하시겠습니까?")) {
+                                                onClickReviewDelBtn(review.reviewId);
+                                            }
+                                        }}
+                                        color="error"
+                                    >
+                                        삭제
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
-                <Pagination count={totalPage} page={page} onChange={handleChange} />
-            </div>
-        </div>
+                    <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+                        <Pagination count={totalPage} page={page} onChange={handleChange} />
+                    </div>
+                </div>
+            )}
+        </>
     );
 }
