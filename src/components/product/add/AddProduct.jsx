@@ -40,7 +40,6 @@ const AddProduct = () => {
             setPrice(res.data.data.price);
             setStock(res.data.data.stock);
             setContent(res.data.data.content);
-            setCategory({ ...category, categoryId: res.data.da.categoryId });
 
             console.log("상품 정보 : ", res);
         } catch (error) {
@@ -206,7 +205,7 @@ const AddProduct = () => {
                 }
             );
             console.log(res);
-            if (res.data.code == 201) {
+            if (res.data.code == 200) {
                 alert("상품 수정 완료!");
                 navigate("/seller/product");
             }
@@ -262,7 +261,7 @@ const AddProduct = () => {
                     {/* 상품 제목 */}
                     <div className={style.input}>
                         <label htmlFor="title-id">상품 제목 : </label>
-                        <TextField id="title-id" size="small" onChange={(e) => setName(e.target.value)} />
+                        <TextField id="title-id" size="small" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
 
                     {/* 카테고리 */}
@@ -279,6 +278,7 @@ const AddProduct = () => {
                             id="price_id"
                             size="small"
                             type="number"
+                            value={price}
                             inputProps={{ step: "0.1", lang: "en-US" }}
                             onChange={(e) => setPrice(e.target.value)}
                         />
@@ -293,6 +293,7 @@ const AddProduct = () => {
                             inputProps={{ maxLength: 3 }}
                             id="count_id"
                             size="small"
+                            value={stock}
                             onChange={(e) => {
                                 setStock(e.target.value.replace(/[^0-9]/g, ""));
                             }}

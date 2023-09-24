@@ -8,7 +8,7 @@ import cookie from "react-cookies";
 import { Button, Pagination } from "@mui/material";
 
 export default function SellerProduct() {
-    const [productcs, setPproducts] = useState([]); // 판매중인 상품 목록
+    const [productcs, setProducts] = useState([]); // 판매중인 상품 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
 
@@ -32,8 +32,8 @@ export default function SellerProduct() {
             });
 
             console.log(res);
-
-            setPproducts(res.data.data);
+            setProducts(res.data.data.items);
+            setTotalPage(res.data.totalPage);
         } catch (error) {
             console.log(error);
         }
@@ -111,10 +111,10 @@ export default function SellerProduct() {
                 </Button>
             </div>
             <div>
-                {data.items.map((product) => (
+                {productcs.map((product) => (
                     <div className={style.productBox}>
                         <div className={style.imgBox}>
-                            <img src="" alt="상품 이미지"></img>
+                            <img src={product.image1} alt="상품 이미지" width={140} height={140}></img>
                         </div>
                         <div
                             className={style.infoBox}
