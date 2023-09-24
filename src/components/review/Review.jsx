@@ -97,43 +97,51 @@ const Review = forwardRef((props, ref) => {
     return (
         <div ref={ref}>
             <hr />
-            <div className={style.totalBox}>
-                <h4>총 평점</h4>
-                <StarRating rate={props.rate} size={32} space={2} />
-                <span>({props.reviewCount})</span>
-            </div>
-            <hr />
-            <div className={style.sortBox}>
-                {sortTypes.map((item, idx) => (
-                    <span key={idx} onClick={() => onClickSortType(item.code)}>
-                        {item.name}
-                    </span>
-                ))}
-            </div>
-            {reviewList.map((review) => (
-                <div>
-                    <div className={style.headerBox}>
-                        <Avatar sx={{ width: "48px", height: "48px" }} />
-                        <div className={style.userBox}>
-                            <span className="userId">{review.userId}</span>
-                            <div>
-                                <StarRating rate={review.rate} size={18} space={2} />
-                                <span className={style.createAt}>{review.created_at}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={style.imgBox}>
-                        <img src="" alt="리뷰사진"></img>
-                    </div>
-                    <div className={style.contentBox}>
-                        <span>{review.content}</span>
+            {reviewList.length === 0 ? (
+                <div style={{ display: "flex", justifyContent: "center", fontSize: "18px" }}>
+                    등록된 상품평이 없습니당
+                </div>
+            ) : (
+                <>
+                    <div className={style.totalBox}>
+                        <h4>총 평점</h4>
+                        <StarRating rate={props.rate} size={32} space={2} />
+                        <span>({props.reviewCount})</span>
                     </div>
                     <hr />
-                </div>
-            ))}
-            <div className={style.paginationBox}>
-                <Pagination count={totalPage} page={page} onChange={handleChange} />
-            </div>
+                    <div className={style.sortBox}>
+                        {sortTypes.map((item, idx) => (
+                            <span key={idx} onClick={() => onClickSortType(item.code)}>
+                                {item.name}
+                            </span>
+                        ))}
+                    </div>
+                    {reviewList.map((review) => (
+                        <div>
+                            <div className={style.headerBox}>
+                                <Avatar sx={{ width: "48px", height: "48px" }} />
+                                <div className={style.userBox}>
+                                    <span className="userId">{review.userId}</span>
+                                    <div>
+                                        <StarRating rate={review.rate} size={18} space={2} />
+                                        <span className={style.createAt}>{review.created_at}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={style.imgBox}>
+                                <img src="" alt="리뷰사진"></img>
+                            </div>
+                            <div className={style.contentBox}>
+                                <span>{review.content}</span>
+                            </div>
+                            <hr />
+                        </div>
+                    ))}
+                    <div className={style.paginationBox}>
+                        <Pagination count={totalPage} page={page} onChange={handleChange} />
+                    </div>
+                </>
+            )}
         </div>
     );
 });

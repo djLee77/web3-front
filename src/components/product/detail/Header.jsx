@@ -4,19 +4,25 @@ import StarRating from "../../StarRating";
 import { useState } from "react";
 import axios from "axios";
 import cookie from "react-cookies";
+import { useEffect } from "react";
 
 export default function Detail({ product, reviewRef }) {
-    const [mainImg, setMainImg] = useState(product.image1); // 메인 이미지
+    const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
 
     const id = cookie.load("id"); // 사용자 ID
+
+    // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
+    useEffect(() => {
+        setMainImg(product.image1);
+    }, [product]);
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
         reviewRef.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
     };
 
-    // 서브 이미지에 마우스 올리면 메인이   미지에 이미지 보이도록 하는 함수
+    // 서브 이미지에 마우스 올리면 메인이미지에 이미지 보이도록 하는 함수
     const onMouseOverImg = (img) => {
         setMainImg(img);
     };

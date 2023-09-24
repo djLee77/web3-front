@@ -48,7 +48,6 @@ export default function ProductDetail() {
                     "ngrok-skip-browser-warning": "1234",
                 },
             });
-            setProduct(res.data.data);
             console.log("상품 정보 : ", res);
             setProduct(res.data.data);
         } catch (error) {
