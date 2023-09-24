@@ -37,7 +37,7 @@ export default function CreateReviewModal({ product }) {
     };
 
     // 이미지 업로드 버튼 함수
-    const onClickImgBtn = (idx) => {
+    const onClickImgBtn = () => {
         imgRef.current.click();
     };
 
@@ -114,8 +114,8 @@ export default function CreateReviewModal({ product }) {
                 <Box sx={modalStyle}>
                     <h4>리뷰 작성</h4>
                     <div className={style.productBox}>
-                        <img src={product.img} alt="상품 이미지" />
-                        <span>{product.name}</span>
+                        <img src={product.image} alt="상품 이미지" width={100} height={100} />
+                        <span>{product.itemName}</span>
                     </div>
                     <hr />
                     <div className={style.rateBox}>
