@@ -7,7 +7,6 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 export default function Payment() {
-    const location = useLocation();
     const [name, setName] = useState(""); // 이름
     const [isNameInput, setIsNameInput] = useState(true); // 이름 입력했는지 확인
     const [phone, setPhone] = useState(""); // 전화번호
@@ -17,11 +16,16 @@ export default function Payment() {
     const [detailAddress, setDetailAddress] = useState(""); // 상세 주소
     const [isDetailAddressInput, setIsDetailAddressInput] = useState(true); // 상세주소 입력했는지 확인
     const [modalOpen, setModalOpen] = useState(false); // 모달창 여닫기
+
     const navigate = useNavigate();
+    const location = useLocation();
+
     const nameRef = useRef(); // 이름 인풋창 ref
     const phoneRef = useRef(); //전화번호 인풋창 ref
     const detailAddressRef = useRef(); // 상세주소 인풋창 ref
-    const orders = { ...location.state }; // 주문서 폼
+
+    const orders = location.state.orders; // 주문서 폼
+    const data = location.state.data; // 상품 id, 수량
 
     const onChangePhone = (e) => {
         // 전화번호 형식으로 정규화
@@ -63,13 +67,16 @@ export default function Payment() {
             const res = await axios.post(
                 `/api/users/payments/${id}`,
                 {
-                    name: name,
+                    recipient: name,
                     address: roadAddress,
                     detailAddress: detailAddress,
-                    phoneNumber: phone,
+                    phone: phone,
                     zipCode: zipCode,
                 },
                 {
+                    params: {
+                        items: data,
+                    },
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
                         "ngrok-skip-browser-warning": "1234",
@@ -152,8 +159,8 @@ export default function Payment() {
                 <div className={style.orderListBox}>
                     <h4>주문 상품 목록</h4>
                     <div style={{ width: "420px", height: "300px", overflow: "auto" }}>
-                        {orders.data?.map((item) => (
-                            <div style={{ display: "flex" }}>
+                        {orders?.map((item, idx) => (
+                            <div key={idx} style={{ display: "flex" }}>
                                 <div>
                                     <img src={item.image} alt="상품 이미지" width={180} height={180} />
                                 </div>

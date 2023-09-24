@@ -70,7 +70,7 @@ export default function Cart() {
 
             console.log(res);
             const orders = res.data.data; // 주문서 저장
-            navigate("/payment", { state: { data: orders } }); // 결제 페이지에 주문서 데이터 보내주기
+            navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
         } catch (error) {
             console.log(error);
         }
