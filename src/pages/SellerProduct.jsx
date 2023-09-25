@@ -7,6 +7,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { Button, Pagination } from "@mui/material";
 import Loading from "../components/Loading";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function SellerProduct() {
     const [productcs, setProducts] = useState([]); // 판매중인 상품 목록
@@ -25,6 +26,7 @@ export default function SellerProduct() {
 
     // 판매 상품 목록 가져오는 상품
     const getProducts = async () => {
+        let isSuccess = false;
         try {
             const res = await axios.get(`/api/sellers/items/${id}`, {
                 headers: {
@@ -37,8 +39,13 @@ export default function SellerProduct() {
             setProducts(res.data.data.items);
             setTotalPage(res.data.totalPage);
             setLoading(false);
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getProducts(); // 함수 다시 실행
+            }
         }
     };
 
@@ -64,6 +71,7 @@ export default function SellerProduct() {
 
     // 상품 삭제 버튼 함수
     const onClickDeleteBtn = async (id) => {
+        let isSuccess = false;
         try {
             const res = await axios.delete(`/api/sellers/items/${id}`, {
                 headers: {
@@ -76,9 +84,14 @@ export default function SellerProduct() {
 
             if (res.status === 200) {
                 getProducts();
+                isSuccess = true;
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickDeleteBtn(); // 함수 다시 실행
+            }
         }
     };
 

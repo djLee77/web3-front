@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import StarRatings from "react-star-ratings";
 import cookie from "react-cookies";
 import style from "../../../css/ReviewModal.module.css";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 export default function ModifyReviewModal({ id, review, getMyReviews }) {
     const [open, setOpen] = useState(false);
@@ -41,6 +42,7 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
 
     // 이미지 업로드 함수
     const handleImageUpload = async (event) => {
+        let isSuccess = false;
         const file = event.target.files?.[0];
         if (file) {
             const formData = new FormData();
@@ -54,14 +56,20 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
                     },
                 });
                 setImgURL(res.data.data);
+                isSuccess = true;
             } catch (error) {
-                console.log(error);
+                // 만약 401(인증) 에러가 나면
+                if (error.response.status === 401) {
+                    await reissueAccToken(); // 토큰 재발급 함수 실행
+                    !isSuccess && handleImageUpload(event); // 함수 다시 실행
+                }
             }
         }
     };
 
     // 리뷰 수정 버튼 함수
-    const onClickCreateReviewBtn = async () => {
+    const onClickModifyReviewBtn = async () => {
+        let isSuccess = false;
         // 내용 작성 안 했으면 작성하라고 하기
         if (content === "") {
             contentRef.current.focus();
@@ -89,9 +97,14 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
                 alert("리뷰 수정 완료!");
                 setOpen(false);
                 getMyReviews(); // 수정된 목록 다시 불러오기
+                isSuccess = true;
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickModifyReviewBtn(); // 함수 다시 실행
+            }
         }
     };
 
@@ -152,7 +165,7 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
                     />
 
                     <div className={style.btnBox}>
-                        <Button variant="outlined" onClick={onClickCreateReviewBtn} sx={{ marginRight: "14px" }}>
+                        <Button variant="outlined" onClick={onClickModifyReviewBtn} sx={{ marginRight: "14px" }}>
                             수정
                         </Button>
                         <Button variant="outlined" color="error" onClick={() => setOpen(false)}>

@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import cookie from "react-cookies";
+import reissueAccToken from "../../lib/reissueAccToken";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     // 상품 전체 선택 함수
@@ -42,6 +43,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
     // 삭제 버튼 함수
     const handleDelBtn = async (id) => {
+        let isSuccess = false;
         try {
             const res = await axios.delete(`/api/users/carts/${id}`, {
                 headers: {
@@ -51,13 +53,20 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
             });
             console.log("삭제 : ", res);
             getCartList();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && handleDelBtn(); // 함수 다시 실행
+            }
+            console.log("에러:", error);
         }
     };
 
     // 상품 수량 변경 함수
     const handleCountChange = async (id, e) => {
+        let isSuccess = false;
         try {
             const res = await axios.patch(
                 `/api/users/carts/${id}`,
@@ -74,8 +83,14 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
             console.log("수량 변경 : ", res);
             getCartList();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && handleCountChange(); // isSuccess가 false면은 장바구니 목록 함수 실행
+            }
+            console.log("에러:", error);
         }
     };
 

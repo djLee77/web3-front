@@ -7,6 +7,7 @@ import NavBar from "../components/user/NavBar";
 import { Pagination } from "@mui/material";
 import style from "../css/UserOrder.module.css";
 import Loading from "../components/Loading";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function UserOrder() {
     const data = {
@@ -58,6 +59,7 @@ export default function UserOrder() {
 
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
+        let isSuccess = false;
         const id = cookie.load("id");
         const urlPage = searchParams.get("page");
         const pageNum = urlPage ? parseInt(urlPage) : 1;
@@ -78,8 +80,13 @@ export default function UserOrder() {
             setOrders(res.data.data.orders);
             setTotalPage(res.data.data.totalPage);
             setLoading(false);
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getOrders(); // 함수 다시 실행
+            }
         }
     };
 

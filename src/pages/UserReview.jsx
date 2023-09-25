@@ -8,6 +8,7 @@ import ModifyReviewModal from "../components/review/modal/ModifyReviewModal";
 import { Button, Pagination } from "@mui/material";
 import style from "../css/UserReview.module.css";
 import Loading from "../components/Loading";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function UserReview() {
     const [myReviews, setMyReviews] = useState([]); // 작성한 리뷰 목록
@@ -27,6 +28,7 @@ export default function UserReview() {
 
     // 작성한 리뷰 목록 가져오기
     const getMyReviews = async () => {
+        let isSuccess = false;
         const urlPage = searchParams.get("page");
         const pageNum = urlPage ? parseInt(urlPage, 10) : 1;
         setPage(pageNum);
@@ -46,9 +48,14 @@ export default function UserReview() {
             setMyReviews(res.data.data.reviews);
             setTotalPage(res.data.totalPage);
             setLoading(false);
+            isSuccess = true;
             console.log(res);
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getMyReviews(); // 함수 다시 실행
+            }
         }
     };
 
@@ -59,6 +66,7 @@ export default function UserReview() {
 
     // 리뷰 삭제 버튼 함수
     const onClickReviewDelBtn = async (id) => {
+        let isSuccess = false;
         try {
             const res = await axios.delete(`/api/users/reviews/${id}`, {
                 headers: {
@@ -68,8 +76,13 @@ export default function UserReview() {
             });
             console.log(res);
             getMyReviews();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickReviewDelBtn(); // 함수 다시 실행
+            }
         }
     };
 

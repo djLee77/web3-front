@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import StarRatings from "react-star-ratings";
 import cookie from "react-cookies";
 import style from "../../../css/ReviewModal.module.css";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 export default function CreateReviewModal({ product }) {
     const [open, setOpen] = useState(false);
@@ -43,6 +44,7 @@ export default function CreateReviewModal({ product }) {
 
     // 이미지 업로드 함수
     const handleImageUpload = async (event) => {
+        let isSuccess = false;
         const file = event.target.files?.[0];
         if (file) {
             const formData = new FormData();
@@ -56,16 +58,20 @@ export default function CreateReviewModal({ product }) {
                     },
                 });
                 setImgURL(res.data.data);
+                isSuccess = true;
             } catch (error) {
-                console.log(error);
+                // 만약 401(인증) 에러가 나면
+                if (error.response.status === 401) {
+                    await reissueAccToken(); // 토큰 재발급 함수 실행
+                    !isSuccess && handleImageUpload(event); // 함수 다시 실행
+                }
             }
         }
     };
 
     // 리뷰 작성 버튼 함수
     const onClickCreateReviewBtn = async () => {
-        console.log(product.itemId, content, rate, imgURL);
-        console.log(id);
+        let isSuccess = false;
 
         // 내용 작성 안 했으면 작성하라고 하기
         if (content === "") {
@@ -94,9 +100,14 @@ export default function CreateReviewModal({ product }) {
             if (res.data.code === 200) {
                 alert("리뷰 작성 완료!");
                 setOpen(false);
+                isSuccess = true;
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickCreateReviewBtn(); // 함수 다시 실행
+            }
         }
     };
 

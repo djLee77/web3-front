@@ -5,6 +5,7 @@ import DaumPostCodeModal from "../components/payment/modal/DaumPostCodeModal";
 import style from "../css/Payment.module.css";
 import axios from "axios";
 import cookie from "react-cookies";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function Payment() {
     const [name, setName] = useState(""); // 이름
@@ -38,7 +39,7 @@ export default function Payment() {
     // 결제 버튼 함수
     const onClickPaymentBtn = async () => {
         const id = cookie.load("id");
-
+        let isSuccess = false;
         // 값들 제대로 썼는지 확인
         if (name === "") {
             nameRef.current.focus();
@@ -87,11 +88,17 @@ export default function Payment() {
             if (res.status === 200) {
                 alert("상품 구매 완료!");
                 navigate("/");
+                isSuccess = true;
             }
 
             console.log(res);
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickPaymentBtn(); // isSuccess가 false면은 장바구니 목록 함수 실행
+            }
+            console.log("에러:", error);
         }
     };
 

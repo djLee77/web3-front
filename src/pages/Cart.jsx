@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import style from "../css/Cart.module.css";
 import cookie from "react-cookies";
 import Loading from "../components/Loading";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function Cart() {
     const [cartList, setCartList] = useState([]); // 장바구니 목록
@@ -32,6 +33,8 @@ export default function Cart() {
 
     // 장바구니 목록 가져오는 함수
     const getCartList = async () => {
+        // 장바구니 목록 불러왔는지 확인
+        let isSuccess = false;
         setLoading(true);
         try {
             const res = await axios.get(`/api/users/carts/${id}`, {
@@ -43,8 +46,14 @@ export default function Cart() {
             console.log("장바구니 : ", res.data.data);
             setCartList(res.data.data);
             setLoading(false);
+            isSuccess = true; // 장바구니 목록 가져왔으면 isSuccess true로 변경
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getCartList(); // isSuccess가 false면은 장바구니 목록 함수 실행
+            }
+            console.log("에러:", error);
         }
     };
 
@@ -55,6 +64,7 @@ export default function Cart() {
 
     // 주문서 데이터 생성
     const createOrders = async () => {
+        let isSuccess = false;
         try {
             console.log(selectedItems);
             const data = selectedItems.map(({ itemId, quantity }) => `${itemId}:${quantity}`).join(",");
@@ -71,9 +81,15 @@ export default function Cart() {
 
             console.log(res);
             const orders = res.data.data; // 주문서 저장
+            isSuccess = true;
             navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && createOrders(); // 함수 다시 실행
+            }
+            console.log("에러:", error);
         }
     };
 

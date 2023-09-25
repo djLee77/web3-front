@@ -6,6 +6,7 @@ import SelectCategoryModal from "./modal/SelectCategoryModal";
 import axios from "axios";
 import Content from "./Content";
 import cookie from "react-cookies";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 const AddProduct = () => {
     const [imgURL1, setImgURL1] = useState("/imgs/defaultAddImg.png"); // 이미지1
@@ -79,6 +80,7 @@ const AddProduct = () => {
 
     // 이미지 업로드 함수
     const handleImageUpload = async (event, idx) => {
+        let isSuccess = false;
         const file = event.target.files?.[0];
         console.log("업로드", idx);
         if (file) {
@@ -104,8 +106,14 @@ const AddProduct = () => {
                     const imageURL = `![](${res.data.data})`; // 이미지 URL 마크다운 형식으로 변경
                     setContent((prevContent) => prevContent + imageURL); // 기존 내용에다가 이미지 삽입
                 }
+
+                isSuccess = true;
             } catch (error) {
-                console.log(error);
+                // 만약 401(인증) 에러가 나면
+                if (error.response.status === 401) {
+                    await reissueAccToken(); // 토큰 재발급 함수 실행
+                    !isSuccess && handleImageUpload(event, idx); // 함수 다시 실행
+                }
             }
         }
     };
@@ -147,6 +155,7 @@ const AddProduct = () => {
     };
     // 상품 등록 버튼 함수
     const onClickAddBtn = async () => {
+        let isSuccess = false;
         setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.post(
@@ -170,17 +179,21 @@ const AddProduct = () => {
                 }
             );
             console.log(res);
-            if (res.data.code == 201) {
-                alert("상품 등록 완료!");
-                navigate("/");
-            }
+            alert("상품 등록 완료!");
+            isSuccess = true;
+            navigate("/");
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickAddBtn(); // 함수 다시 실행
+            }
         }
     };
 
     // 상품 수정 버튼 함수
     const onClickModifyBtn = async () => {
+        let isSuccess = false;
         const itemId = searchParams.get("id");
         try {
             const res = await axios.patch(
@@ -207,10 +220,15 @@ const AddProduct = () => {
             console.log(res);
             if (res.data.code == 200) {
                 alert("상품 수정 완료!");
+                isSuccess = true;
                 navigate("/seller/product");
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickModifyBtn(); // 함수 다시 실행
+            }
         }
     };
 

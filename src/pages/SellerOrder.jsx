@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import reissueAccToken from "../lib/reissueAccToken";
 
 export default function SellerOrder() {
     const data = {
@@ -38,6 +39,7 @@ export default function SellerOrder() {
 
     // 주문 목록 가져오는 함수
     const getOrders = async () => {
+        let isSuccess = false;
         const urlPage = searchParams.get("page");
         const pageNum = urlPage ? parseInt(urlPage) : 1;
         setPage(pageNum);
@@ -58,8 +60,13 @@ export default function SellerOrder() {
             setOrders(res.data.data.orders);
             setTotalPage(res.data.data.totalPage);
             setLoading(false);
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getOrders(); // 함수 다시 실행
+            }
         }
     };
 
@@ -76,6 +83,7 @@ export default function SellerOrder() {
 
     // 주문 상품 상태 변경 함수
     const handleCountChange = async (id, e) => {
+        let isSuccess = false;
         try {
             const res = await axios.patch(
                 `/api/sellers/orders/${id}`,
@@ -91,8 +99,13 @@ export default function SellerOrder() {
             );
             console.log("주문 상태 변경 ", res);
             getOrders();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && handleCountChange(id, e); // 함수 다시 실행
+            }
         }
     };
 
