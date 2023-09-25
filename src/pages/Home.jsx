@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../components/product/Card";
 import axios from "axios";
 import SlideImg from "../components/SildeImg";
+import style from "../css/Home.module.css";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -42,15 +43,15 @@ const Home = () => {
   }
 
   return (
-    <div className="container">
-      <div className="item">
+    <div className={style.container}>
+      <div className={style.item} style={{marginTop : "10px"}}>
         <SlideImg />
       </div>
-      <div>
+      <div className={style.item}>
         <div>
             <p>인기 상품</p>
         </div>
-        <div className="card-list" style={{}}>
+        <div className="card-list">
           {products.map((product) => (
             <Card key={product.itemId} product={product} />
           ))}

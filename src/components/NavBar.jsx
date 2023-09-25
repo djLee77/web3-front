@@ -130,14 +130,16 @@ const NavBar = () => {
           <SearchBar />
         </div>
         <div className={style.item}>
-          <a type="button" onClick={handdleConnect}>
-            {active ? "로그아웃" : "로그인"}
-          </a>
-        </div>
-        <div className={style.item}>
-          <a href="/cart">
-            <ShoppingCartIcon />{" "}
-          </a>
+          <div className={style.lilItem}>
+            <a type="button" onClick={handdleConnect}>
+              {active ? "로그아웃" : "로그인"}
+            </a>
+          </div>
+          <div className={style.lilItem}>
+            <a href="/cart">
+              <ShoppingCartIcon />{" "}
+            </a>
+          </div>
         </div>
       </div>
     </div>

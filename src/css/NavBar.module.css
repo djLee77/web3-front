@@ -8,10 +8,10 @@
 .container{
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items : center;
-    box-shadow: 1px 1px 2px grey;
-    width: 90%;
+    border-bottom: 1px solid #dadce0;
+    width: 100%;
 }
 
 .logo{
@@ -22,14 +22,10 @@
     margin : 5px;
 }
 
-.item:nth-child(3):hover{
-    color: #0185FF;
+.item:nth-child(4){
+    display : flex;
 }
 
-.item:nth-child(2){
-    margin-left: 0;
-}
-
-.item:first-child{
-    margin-right: 80px;
+.lilItem{
+    margin: 10px;
 }
