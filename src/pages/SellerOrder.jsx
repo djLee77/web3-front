@@ -119,8 +119,8 @@ export default function SellerOrder() {
                                             {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 |{" "}
                                             {product.quantity}개
                                         </span>
-                                        <span>구매자 ID : {product.buyerId}</span>
-                                        <span>배송지 : {product.address}</span>
+                                        <span>구매자 ID : {product.sellerId}</span>
+                                        {/* <span>배송지 : {product.address}</span> */}
                                     </div>
                                     <div className={style.btnBox}>
                                         <Select

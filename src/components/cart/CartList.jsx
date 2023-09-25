@@ -113,7 +113,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         />
                                     </TableCell>
                                     <TableCell align="center">
-                                        <img src={item.image} alt={item.name} />
+                                        <img src={item.image1} alt={item.name} width={100} height={100} />
                                     </TableCell>
                                     <TableCell align="left" sx={{ fontSize: "16px" }}>
                                         {item.name}

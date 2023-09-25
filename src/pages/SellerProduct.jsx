@@ -65,12 +65,14 @@ export default function SellerProduct() {
     // 상품 삭제 버튼 함수
     const onClickDeleteBtn = async (id) => {
         try {
-            const res = await axios.delete(`/api/sellsers/items/${id}`, {
+            const res = await axios.delete(`/api/sellers/items/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
                 },
             });
+
+            console.log("삭제", res);
 
             if (res.status === 200) {
                 getProducts();
@@ -108,8 +110,8 @@ export default function SellerProduct() {
                         </Button>
                     </div>
                     <div>
-                        {productcs.map((product) => (
-                            <div className={style.productBox}>
+                        {productcs.map((product, idx) => (
+                            <div key={idx} className={style.productBox}>
                                 <div className={style.imgBox}>
                                     <img src={product.image1} alt="상품 이미지" width={140} height={140}></img>
                                 </div>

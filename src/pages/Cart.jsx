@@ -20,8 +20,9 @@ export default function Cart() {
     useEffect(() => {
         // 선택된 아이템들의 price 값을 합산하여 totalPrice 업데이트
         let total = 0;
+        console.log(selectedItems);
         selectedItems.forEach((item) => {
-            const selectedItem = cartList.find((item) => item.itemId === item.itemId);
+            const selectedItem = cartList.find((cart) => cart.itemId === item.itemId);
             if (selectedItem) {
                 total += selectedItem.price * selectedItem.quantity; // 선택한 상품의 수량과 가격 곱해서 토탈에 더함
             }
