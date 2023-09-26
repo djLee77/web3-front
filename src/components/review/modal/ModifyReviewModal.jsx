@@ -67,7 +67,7 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
         }
     };
 
-    // 리뷰 수정 버튼 함수
+    // 리뷰 수정 버튼 z함수
     const onClickModifyReviewBtn = async () => {
         let isSuccess = false;
         // 내용 작성 안 했으면 작성하라고 하기

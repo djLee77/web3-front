@@ -6,6 +6,7 @@ import Chatbot from "../chatbot/Chatbot";
 
 export default function ChatbotBtn() {
     const [isOpen, setIsOpen] = useState(false);
+    
     return (
         <>
             <div className={style.btnBox}>

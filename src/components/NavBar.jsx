@@ -35,7 +35,7 @@ const NavBar = () => {
 
     const [balance, setBalance] = useState("");
     const { chainId, account, library, active, activate, deactivate } = useWeb3React();
-    const [isLogin, setIsLogin] = useState(false); // 로그인 했는지 확인
+    const [isLogin, setIsLogin] = useState(cookie.load("id")); // 로그인 했는지 확인
 
     const handleConnect = () => {
         // 만약 이미 연결 돼있으면 연결 해제
@@ -44,6 +44,7 @@ const NavBar = () => {
             cookie.remove("accessToken", { path: "/" });
             cookie.remove("refreshToken", { path: "/" });
             cookie.remove("id", { path: "/" });
+            cookie.remove("role", { path: "/" });
             setIsLogin(false);
             deactivate();
             return;
@@ -94,7 +95,6 @@ const NavBar = () => {
                 path: "/",
             });
             console.log(res);
-            setIsLogin(true);
         } catch (error) {
             console.log(error);
         }
@@ -119,7 +119,8 @@ const NavBar = () => {
                 setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
                 console.log("result : ", result);
             });
-            // TODO : 계정 연결 됐으면 서버에 요청 보내서 식별 ID 받아와야함
+
+            setIsLogin(true);
         }
     }, [account]);
 
