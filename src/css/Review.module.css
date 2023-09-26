@@ -12,9 +12,20 @@
     margin-left: 10px;
 }
 
-.createAt {
+.userId {
+    font-weight: bold;
+    font-size: 14px;
+    color: rgb(40, 40, 40);
+}
+
+.rateBox {
+    display: flex;
+}
+
+.updatedAt {
     font-size: 12px;
     margin-left: 10px;
+    margin-top: 7px;
 }
 
 .imgBox {
@@ -29,6 +40,10 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
+}
+
+.sortBox span {
+    font-size: 14px;
 }
 
 .sortBox span:hover {

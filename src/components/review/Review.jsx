@@ -121,10 +121,10 @@ const Review = forwardRef((props, ref) => {
                             <div className={style.headerBox}>
                                 <Avatar sx={{ width: "48px", height: "48px" }} />
                                 <div className={style.userBox}>
-                                    <span className="userId">{review.userId}</span>
-                                    <div>
+                                    <span className={style.userId}>{review.userId}</span>
+                                    <div className={style.rateBox}>
                                         <StarRating rate={review.rate} size={14} space={2} />
-                                        <span className={style.createAt}>{review.updatedAt.split("T")[0]}</span>
+                                        <span className={style.updatedAt}>{review.updatedAt.split("T")[0]}</span>
                                     </div>
                                 </div>
                             </div>
