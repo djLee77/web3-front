@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../components/product/Card";
 import axios from "axios";
 import SlideImg from "../components/SildeImg";
+import Loading from "../components/Loading";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -13,7 +14,8 @@ const Home = () => {
                 const response = await axios.get("/api/public/items", {
                     params: {
                         search: "", // 추후 검색기능 구현시 여기에 검색 키워드 입력
-                        sortType: "s",
+                        sort: "sales",
+                        sortType: "asc",
                         pageNum: 1,
                         pageSize: 5,
                     },
@@ -27,6 +29,8 @@ const Home = () => {
                 } else {
                     console.error("Error fetching products:", response.data.message);
                 }
+
+                console.log(response);
             } catch (error) {
                 console.error("API call error:", error);
             } finally {
@@ -38,7 +42,7 @@ const Home = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading content="상품을 불러오는 중입니다.." />;
     }
 
     return (
