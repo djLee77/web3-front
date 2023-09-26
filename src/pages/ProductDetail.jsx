@@ -28,6 +28,7 @@ export default function ProductDetail() {
     const [scrollPosition, setScrollPosition] = useState(0); // 스크롤 위치
     const [contentPosition, setContentPosition] = useState(0); // 스크롤 위치
     const [loading, setLoading] = useState(true); // 로딩창
+    const [selectedTab, setSelectedTab] = useState(""); // 선택한 탭
 
     const contentRef = useRef(null); // 상품 상세 Ref
     const reviewRef = useRef(null); // 리뷰 ref
@@ -36,6 +37,8 @@ export default function ProductDetail() {
     // 탭 클릭했을 때 맞는 위치로 이동하는 함수
     const onClickTab = (tab) => {
         tab.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
+        console.log(tab);
+        setSelectedTab(tab);
     };
 
     // 현재 스크롤 위치 업데이트하는 함수
@@ -70,6 +73,14 @@ export default function ProductDetail() {
         };
     }, [loading]);
 
+    const tabStyle = {
+        fontWeight: "normal", // 기본 폰트 가중치
+    };
+
+    const selectedTabStyle = {
+        fontWeight: "bold", // 선택된 탭의 폰트 가중치
+    };
+
     return (
         <>
             {loading ? (
@@ -78,10 +89,18 @@ export default function ProductDetail() {
                 <div className={style.box}>
                     <Header product={product} reviewRef={reviewRef} />
                     <div className={scrollPosition < contentPosition ? style.tabBox : style.tabBoxFixed}>
-                        <div onClick={() => onClickTab(contentRef)} className={style.tab}>
+                        <div
+                            onClick={() => onClickTab(contentRef)}
+                            className={style.tab}
+                            style={selectedTab === contentRef ? selectedTabStyle : tabStyle}
+                        >
                             <span>상품상세</span>
                         </div>
-                        <div onClick={() => onClickTab(reviewRef)} className={style.tab}>
+                        <div
+                            onClick={() => onClickTab(reviewRef)}
+                            className={style.tab}
+                            style={selectedTab === reviewRef ? selectedTabStyle : tabStyle}
+                        >
                             <span>상품평 ({product.reviewCount})</span>
                         </div>
                     </div>

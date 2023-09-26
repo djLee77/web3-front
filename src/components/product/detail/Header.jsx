@@ -181,7 +181,6 @@ export default function Detail({ product, reviewRef }) {
                     </div>
                 </div>
             </div>
-            <hr />
         </div>
     );
 }

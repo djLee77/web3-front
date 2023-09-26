@@ -148,9 +148,11 @@
 .tabBox {
     width: 980px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     background-color: #fff;
+    border-top: 1px solid gray;
     border-bottom: 1px solid gray;
+    margin-top: 10px;
 }
 
 .tabBoxFixed {
@@ -159,13 +161,13 @@
     width: 980px;
     z-index: 1;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     border-bottom: 1px solid gray;
     background-color: #fff;
 }
 
 .tab {
-    width: 30%;
+    width: 100px;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
