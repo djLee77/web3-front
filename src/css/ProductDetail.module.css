@@ -127,7 +127,7 @@
 }
 
 .payBtn {
-    width: 200px;
+    width: 180px;
     height: 40px;
     border: 0;
     background-color: #1c1c1c;
@@ -136,7 +136,7 @@
 }
 
 .cartBtn {
-    width: 200px;
+    width: 180px;
     height: 40px;
     border: 0;
     background-color: #fcfcfc;
@@ -146,8 +146,10 @@
 }
 
 .tabBox {
+    width: 980px;
     display: flex;
-    border-top: 2px solid black;
+    justify-content: center;
+    background-color: #fff;
     border-bottom: 1px solid gray;
 }
 
@@ -157,15 +159,16 @@
     width: 980px;
     z-index: 1;
     display: flex;
-    border-top: 2px solid black;
+    justify-content: center;
+    border-bottom: 1px solid gray;
+    background-color: #fff;
 }
 
 .tab {
-    width: 50%;
+    width: 30%;
     text-align: center;
-    border: 0.5px solid gray;
-    background-color: #fff;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .tab:hover {
