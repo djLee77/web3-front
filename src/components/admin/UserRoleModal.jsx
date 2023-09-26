@@ -1,12 +1,19 @@
 import { Box, Button, MenuItem, Modal, Select, TextField } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
 
 export default function UserRoleModal({ setIsOpen, isOpen }) {
+    const ROLE_ADMIN = "ROLE_ADMIN";
+    const ROLE_SELLER = "ROLE_SELLER";
+    const ROLE_USER = "ROLE_USER";
+
     const [userId, setUserId] = useState(""); // 유저 아이디
-    const [role, setRole] = useState(""); // 권한
+    const [isInput, setIsInput] = useState(false); // 유저 아이디 넣었는지
+    const [role, setRole] = useState(ROLE_ADMIN); // 권한
+
+    const userIdRef = useRef();
 
     const handleChange = (event) => {
         setRole(event.target.value);
@@ -17,12 +24,10 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
         console.log(userId, role);
 
         if (!userId) {
-            return alert("바꾸실 ID 입력해주세요");
+            userIdRef.current.focus();
+            return setIsInput(true);
         }
 
-        if (!role) {
-            return alert("부여할 권한을 선택해주세요");
-        }
         try {
             const res = await axios.patch(
                 `/api/admin/users/${userId}`,
@@ -62,10 +67,6 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
         p: 4,
     };
 
-    const ROLE_ADMIN = "ROLE_ADMIN";
-    const ROLE_SELLER = "ROLE_SELLER";
-    const ROLE_USER = "ROLE_USER";
-
     return (
         <Modal
             open={isOpen}
@@ -80,7 +81,10 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
                     <TextField
                         size="small"
                         placeholder="사용자 ID 입력"
+                        error={isInput}
+                        helperText={isInput && "사용자 ID 입력해주세요"}
                         value={userId}
+                        inputRef={userIdRef}
                         onChange={(e) => setUserId(e.target.value)}
                     />
                     <Select
