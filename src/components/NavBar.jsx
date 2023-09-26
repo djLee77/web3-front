@@ -9,6 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const NavBar = () => {
     // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
@@ -83,6 +84,10 @@ const NavBar = () => {
             cookie.save("refreshToken", res.data.data.refreshToken, {
                 path: "/",
             });
+
+            const role = jwt_decode(res.data.data.refreshToken).roles;
+            // 유저 권한 저장
+            cookie.save("role", role);
 
             // 토큰에 쇼핑몰 ID 저장
             cookie.save("id", mallId, {

@@ -13,6 +13,7 @@ import UserOrder from "./pages/UserOrder";
 import UserReview from "./pages/UserReview";
 import SellerProduct from "./pages/SellerProduct";
 import SellerOrder from "./pages/SellerOrder";
+import Admin from "./pages/Admin";
 function App() {
     return (
         <BrowserRouter>
@@ -34,6 +35,7 @@ function App() {
                         <Route path="/seller/product" element={<SellerProduct />} />
                         <Route path="/seller/order" element={<SellerOrder />} />
                         <Route path="/search" element={<SearchResult />} />
+                        <Route path="/admin" element={<Admin />} />
                     </Routes>
                 </div>
             </div>
