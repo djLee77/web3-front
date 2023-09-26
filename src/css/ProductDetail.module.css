@@ -12,8 +12,8 @@
 }
 
 .mainImg {
-    width: 400px;
-    height: 400px;
+    width: 440px;
+    height: 440px;
     background-color: gray;
     border: 1px solid rgb(69, 69, 69);
 }
@@ -50,6 +50,7 @@
 .inpoBox {
     display: flex;
     flex-direction: column;
+    width: 400px;
     margin-left: 100px;
 }
 
@@ -70,37 +71,76 @@
 }
 
 .title {
-    font-size: 32px;
+    font-size: 28px;
     margin-top: 10px;
 }
 
 .price {
-    font-size: 38px;
+    font-size: 20px;
     font-weight: bold;
-    color: rgb(177, 0, 0);
-    margin-top: 20px;
 }
 
 .sellerId {
     margin-top: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
+}
+
+.sellerId span {
+    font-weight: bold;
+}
+
+.stock span {
+    font-weight: bold;
+}
+
+.quantity {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(245, 245, 245);
+}
+
+.quantity span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.totalPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.totalPrice span:nth-child(1) {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.totalPrice span:nth-child(2) {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.btnBox {
+    display: flex;
+    margin-top: 20px;
 }
 
 .payBtn {
-    width: 160px;
+    width: 200px;
     height: 40px;
     border: 0;
-    background-color: #0066FF;
+    background-color: #1c1c1c;
     font-weight: bold;
     color: white;
-    margin-left: 10px;
 }
 
 .cartBtn {
-    width: 160px;
+    width: 200px;
     height: 40px;
     border: 0;
-    background-color: #FACACA;
+    background-color: #fcfcfc;
+    border: 1px solid gray;
     font-weight: bold;
     margin-left: 10px;
 }
@@ -125,6 +165,7 @@
     text-align: center;
     border: 0.5px solid gray;
     background-color: #fff;
+
 }
 
 .tab:hover {
@@ -132,6 +173,6 @@
 }
 
 .tab span {
-    font-size: 24px;
-    color: black;
+    font-size: 16px;
+    color: rgb(72, 72, 72);
 }

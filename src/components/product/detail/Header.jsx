@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
+    const [totalPrice, setTotalPrice] = useState(""); // 총 금액
 
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
@@ -93,6 +94,11 @@ export default function Detail({ product, reviewRef }) {
         setQuantity(value);
     };
 
+    // 수량 바뀔때마다 총 금액 업데이트
+    useEffect(() => {
+        setTotalPrice((product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }, [quantity]);
+
     return (
         <div>
             <div className={style.headerBox}>
@@ -129,16 +135,23 @@ export default function Detail({ product, reviewRef }) {
 
                     {/* 상품 가격 */}
                     <div className={style.price}>
-                        <span>{(product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
+                        <span>{totalPrice}원</span>
                     </div>
 
                     {/* 판매자 정보 */}
                     <div className={style.sellerId}>
-                        <span>판매자 ID : {product.sellerId}</span>
+                        <span>판매자 ID</span> {product.sellerId}
                     </div>
-                    {/* 버튼 영역 */}
-                    <div>
-                        {/* 상품 수량 */}
+
+                    {/* 수량 정보 */}
+                    <div className={style.stock}>
+                        <span>남은 수량</span> {product.stock}
+                    </div>
+
+                    {/* 구매 수량 */}
+                    <div className={style.quantity}>
+                        <span>수량</span>
+                        <hr />
                         <TextField
                             type="number"
                             inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "40px", height: "24px" } }}
@@ -148,12 +161,22 @@ export default function Detail({ product, reviewRef }) {
                             onChange={(e) => {
                                 onChangeQuantity(e);
                             }}
+                            sx={{ backgroundColor: "white" }}
                         />
+                    </div>
+
+                    <div className={style.totalPrice}>
+                        <span>총 주문 금액({quantity})개</span>
+                        <span>{totalPrice}원</span>
+                    </div>
+
+                    {/* 버튼 영역 */}
+                    <div className={style.btnBox}>
                         <button className={style.payBtn} onClick={() => onClickPayBtn(product.itemId, quantity)}>
-                            바로 구매하기
+                            바로 구매
                         </button>
                         <button className={style.cartBtn} onClick={() => onClickCartBtn(product.itemId)}>
-                            장바구니에 담기
+                            장바구니
                         </button>
                     </div>
                 </div>

@@ -105,7 +105,7 @@ const Review = forwardRef((props, ref) => {
                 <>
                     <div className={style.totalBox}>
                         <h4>총 평점</h4>
-                        <StarRating rate={props.rate} size={32} space={2} />
+                        <StarRating rate={props.rate} size={24} space={2} />
                         <span>({props.reviewCount})</span>
                     </div>
                     <hr />
@@ -123,8 +123,8 @@ const Review = forwardRef((props, ref) => {
                                 <div className={style.userBox}>
                                     <span className="userId">{review.userId}</span>
                                     <div>
-                                        <StarRating rate={review.rate} size={18} space={2} />
-                                        <span className={style.createAt}>{review.created_at}</span>
+                                        <StarRating rate={review.rate} size={14} space={2} />
+                                        <span className={style.createAt}>{review.updatedAt.split("T")[0]}</span>
                                     </div>
                                 </div>
                             </div>
