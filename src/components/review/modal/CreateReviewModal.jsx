@@ -25,11 +25,11 @@ export default function CreateReviewModal({ product }) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: 400,
+        width: 480,
         bgcolor: "background.paper",
         border: "2px solid #000",
         boxShadow: 24,
-        p: 4,
+        p: 3,
     };
 
     // 별점 변경 함수
@@ -123,12 +123,13 @@ export default function CreateReviewModal({ product }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <h4>리뷰 작성</h4>
+                    <span className={style.label}>구매 상품</span>
                     <div className={style.productBox}>
                         <img src={product.image} alt="상품 이미지" width={100} height={100} />
                         <span>{product.itemName}</span>
                     </div>
                     <hr />
+                    <span className={style.label}>별을 클릭하여 별점을 남기세요!</span>
                     <div className={style.rateBox}>
                         <StarRatings
                             rating={rate} // 현재 별점 값
@@ -144,6 +145,7 @@ export default function CreateReviewModal({ product }) {
                         />
                     </div>
                     <hr />
+                    <span className={style.label}>예쁘게 찍은 리뷰 사진을 등록해보세요!</span>
                     <div className={style.imgBox}>
                         <input
                             type="file"
@@ -156,13 +158,14 @@ export default function CreateReviewModal({ product }) {
                         </button>
                     </div>
                     <hr />
+                    <span className={style.label}>상품 평가 내용을 작성해보세요!</span>
                     <TextField
                         id="outlined-multiline-static"
                         error={isContentInput}
                         helperText={isContentInput && "리뷰 내용을 작성해주세요"}
                         inputRef={contentRef}
                         multiline
-                        rows={4}
+                        rows={3}
                         onChange={(e) => setContent(e.target.value)}
                         sx={{ width: "100%" }}
                     />
