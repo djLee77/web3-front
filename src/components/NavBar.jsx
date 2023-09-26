@@ -10,6 +10,7 @@ import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
@@ -36,6 +37,7 @@ const NavBar = () => {
     const [balance, setBalance] = useState("");
     const { chainId, account, library, active, activate, deactivate } = useWeb3React();
     const [isLogin, setIsLogin] = useState(cookie.load("id")); // 로그인 했는지 확인
+    const navigate = useNavigate();
 
     const handleConnect = () => {
         // 만약 이미 연결 돼있으면 연결 해제
@@ -124,6 +126,14 @@ const NavBar = () => {
         }
     }, [account]);
 
+    const onClickCartBtn = () => {
+        if (isLogin) {
+            navigate("/cart");
+        } else {
+            alert("로그인 후 이용 가능합니다.");
+        }
+    };
+
     return (
         <div className={style.containerBg}>
             <div className={style.logo}>
@@ -142,9 +152,7 @@ const NavBar = () => {
                     </a>
                 </div>
                 <div className={style.item}>
-                    <a href="/cart">
-                        <ShoppingCartIcon />{" "}
-                    </a>
+                    <ShoppingCartIcon onClick={() => onClickCartBtn()} />
                 </div>
             </div>
         </div>
