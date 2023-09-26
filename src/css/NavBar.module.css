@@ -29,3 +29,7 @@
 .lilItem{
     margin: 10px;
 }
+
+.lilItem:last-child:hover{
+    color: #0185FF;
+}

@@ -9,6 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import axios from "axios";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
 const NavBar = () => {
   // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
@@ -35,13 +36,16 @@ const NavBar = () => {
   const [balance, setBalance] = useState("");
   const { chainId, account, library, active, activate, deactivate } =
     useWeb3React();
+  const [isLogin, setIsLogin] = useState(false); // 로그인 했는지 확인
 
-  const handdleConnect = () => {
+  const handleConnect = () => {
     // 만약 이미 연결 돼있으면 연결 해제
-    if (active) {
+    if (isLogin) {
+      console.log("로그아웃");
       cookie.remove("accessToken", { path: "/" });
       cookie.remove("refreshToken", { path: "/" });
       cookie.remove("id", { path: "/" });
+      setIsLogin(false);
       deactivate();
       return;
     }
@@ -87,10 +91,15 @@ const NavBar = () => {
         path: "/",
       });
       console.log(res);
+      setIsLogin(true);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const OnClickAlert = () => {
+    alert("로그인 후 이용해주십시오.")
+  }
 
   // 계정 연결 됐으면
   useEffect(() => {
@@ -131,13 +140,30 @@ const NavBar = () => {
         </div>
         <div className={style.item}>
           <div className={style.lilItem}>
-            <a type="button" onClick={handdleConnect}>
-              {active ? "로그아웃" : "로그인"}
-            </a>
+            {cookie.load("refreshToken") ? (
+              <a href="/user/order">
+                <PersonOutlineRoundedIcon color="primary" />
+              </a>
+            ) : (
+              <a type="button" onClick={OnClickAlert}>
+                <PersonOutlineRoundedIcon color="primary" />
+              </a>
+            )}
           </div>
           <div className={style.lilItem}>
-            <a href="/cart">
-              <ShoppingCartIcon />{" "}
+            {cookie.load("refreshToken") ? (
+              <a href="/cart">
+                <ShoppingCartIcon />
+              </a>
+            ) : (
+              <a type="button" onClick={OnClickAlert}>
+                <ShoppingCartIcon color="primary" />
+              </a>
+            )}
+          </div>
+          <div className={style.lilItem}>
+            <a type="button" onClick={handleConnect}>
+              {cookie.load("refreshToken") ? "로그아웃" : "로그인"}
             </a>
           </div>
         </div>
