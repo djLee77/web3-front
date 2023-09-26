@@ -3,10 +3,9 @@ import { useParams } from "react-router-dom";
 import Header from "../components/product/detail/Header";
 import Content from "../components/product/detail/Content";
 import Review from "../components/review/Review";
-import style from "../css/ProductDetail.module.css";
+import style from "../css/Prod      uctDetail.module.css";
 import axios from "axios";
 import Loading from "../components/Loading";
-import StarRatings from "react-star-ratings";
 
 export default function ProductDetail() {
     const testProduct = {
