@@ -110,7 +110,7 @@ export default function Detail({ product, reviewRef }) {
                 {/* 이미지 선택 영역 */}
                 <div className={style.mainImgBox}>
                     <div className={style.mainImg}>
-                        <img src={mainImg} alt="이미지1" />
+                        <img src={mainImg} alt="메인 이미지" />
                     </div>
                 </div>
                 <div className={style.inpoBox}>
