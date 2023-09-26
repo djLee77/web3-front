@@ -155,7 +155,9 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         원
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button onClick={() => handleDelBtn(item.cartId)}>x</Button>
+                                        <Button color="error" onClick={() => handleDelBtn(item.cartId)}>
+                                            x
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
