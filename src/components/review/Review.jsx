@@ -6,33 +6,45 @@ import axios from "axios";
 
 const Review = forwardRef((props, ref) => {
     const [reviewList, setReviewList] = useState([]); // 리뷰 목록
-    const [page, setPage] = useState(1); // 페이지
+    const [page, setPage] = useState(0); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
-    const [sortType, setSortType] = useState(""); // 정렬 타입
+    const [sort, setSort] = useState(""); // 정렬 타입
+    const [sortType, setSortType] = useState(""); // 정렬 방법
 
     // 정렬 타입 배열
     const sortTypes = [
         {
             name: "최신순",
-            code: "n",
+            sort: "createdAt",
+            sortType: "asc",
+        },
+        {
+            name: "오래된순",
+            sort: "createdAt",
+            sortType: "desc",
         },
         {
             name: "높은 별점순",
-            code: "hr",
+            sort: "rate",
+            sortType: "asc",
         },
         {
             name: "낮은 별점순",
-            code: "lr",
+            sort: "rate",
+            sortType: "desc",
         },
     ];
 
     //페이지 이동하는 함수
-    const handleChange = (e, value) => {
+    const handleChange = (value) => {
         setPage(value);
     };
 
-    const onClickSortType = (code) => {
-        setSortType(code);
+    // 정렬 방법 클릭
+    const onClickSortType = (sort, sortType) => {
+        setSort(sort);
+        setSortType(sortType);
+        setPage(0);
     };
 
     // 리뷰 가져오는 함수
@@ -41,6 +53,7 @@ const Review = forwardRef((props, ref) => {
         try {
             const res = await axios.get(`/api/public/reviews/${props.id}`, {
                 params: {
+                    sort: sort,
                     sortType: sortType,
                     pageNum: page,
                     pageSize: 10,
@@ -111,7 +124,7 @@ const Review = forwardRef((props, ref) => {
                     <hr />
                     <div className={style.sortBox}>
                         {sortTypes.map((item, idx) => (
-                            <span key={idx} onClick={() => onClickSortType(item.code)}>
+                            <span key={idx} onClick={() => onClickSortType(item.sort, item.sortType)}>
                                 {item.name}
                             </span>
                         ))}
@@ -138,7 +151,7 @@ const Review = forwardRef((props, ref) => {
                         </div>
                     ))}
                     <div className={style.paginationBox}>
-                        <Pagination count={totalPage} page={page} onChange={handleChange} />
+                        <Pagination count={totalPage} page={page + 1} onChange={handleChange} />
                     </div>
                 </>
             )}
