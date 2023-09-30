@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Review = forwardRef((props, ref) => {
     const [reviewList, setReviewList] = useState([]); // 리뷰 목록
-    const [page, setPage] = useState(0); // 페이지
+    const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
     const [sort, setSort] = useState(""); // 정렬 타입
     const [sortType, setSortType] = useState(""); // 정렬 방법
@@ -36,7 +36,7 @@ const Review = forwardRef((props, ref) => {
     ];
 
     //페이지 이동하는 함수
-    const handleChange = (value) => {
+    const handleChange = (e, value) => {
         setPage(value);
     };
 
@@ -44,7 +44,7 @@ const Review = forwardRef((props, ref) => {
     const onClickSortType = (sort, sortType) => {
         setSort(sort);
         setSortType(sortType);
-        setPage(0);
+        setPage(1);
     };
 
     // 리뷰 가져오는 함수
@@ -55,7 +55,7 @@ const Review = forwardRef((props, ref) => {
                 params: {
                     sort: sort,
                     sortType: sortType,
-                    pageNum: page,
+                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
                 headers: {
@@ -151,7 +151,7 @@ const Review = forwardRef((props, ref) => {
                         </div>
                     ))}
                     <div className={style.paginationBox}>
-                        <Pagination count={totalPage} page={page + 1} onChange={handleChange} />
+                        <Pagination count={totalPage} page={page} onChange={handleChange} />
                     </div>
                 </>
             )}

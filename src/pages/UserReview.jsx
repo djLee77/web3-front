@@ -36,7 +36,7 @@ export default function UserReview() {
             console.log(id);
             const res = await axios.get(`/api/users/reviews/${id}`, {
                 params: {
-                    pageNum: pageNum,
+                    pageNum: pageNum - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
                 headers: {

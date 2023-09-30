@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StarRating from "../components/StarRating";
 import NavBar from "../components/seller/NavBar";
 import style from "../css/SellerProduct.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import cookie from "react-cookies";
 import { Button, Pagination } from "@mui/material";
@@ -14,6 +14,7 @@ export default function SellerProduct() {
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
     const [loading, setLoading] = useState(true);
+    const [searchParams] = useSearchParams();
 
     const id = cookie.load("id"); // 로그인한 ID
     const navigate = useNavigate();
@@ -27,8 +28,15 @@ export default function SellerProduct() {
     // 판매 상품 목록 가져오는 상품
     const getProducts = async () => {
         let isSuccess = false;
+        const urlPage = searchParams.get("page");
+        const pageNum = urlPage ? parseInt(urlPage) : 1;
+        setPage(pageNum);
         try {
             const res = await axios.get(`/api/sellers/items/${id}`, {
+                params: {
+                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
+                    pageSize: 10,
+                },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                     "ngrok-skip-browser-warning": "1234",
@@ -93,21 +101,6 @@ export default function SellerProduct() {
                 !isSuccess && onClickDeleteBtn(); // 함수 다시 실행
             }
         }
-    };
-
-    const data = {
-        items: [
-            {
-                itemId: 100110,
-                name: "이쁜 옷",
-                image1: "image1",
-                price: 100,
-                rate: 3.4,
-                reviewCount: 10,
-                stock: 9,
-                sellCnt: 10,
-            },
-        ],
     };
 
     return (
