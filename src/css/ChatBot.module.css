@@ -11,6 +11,7 @@
     width: 400px;
     height: 500px;
     z-index: 9999;
+    border: 1px solid rgb(207, 206, 206);
 }
 
 .header {
@@ -34,8 +35,30 @@
     overflow-x: hidden;
 }
 
+.contentBox::-webkit-scrollbar {
+    width: 10px;
+    /* 스크롤바의 너비 */
+}
+
+.contentBox::-webkit-scrollbar-thumb {
+    height: 30%;
+    /* 스크롤바의 길이 */
+    background: rgb(70, 119, 255);
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+.contentBox::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);
+    /*스크롤바 뒷 배경 색상*/
+}
+
 .faqBox {
     width: 95%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .faq {
@@ -58,25 +81,64 @@
 }
 
 .userMessage {
-    max-width: 50%;
-    border: 1px solid gray;
+    max-width: 70%;
     border-radius: 10px;
     margin-left: auto;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    position: relative;
+    margin-right: 14px;
+    color: white;
+    background-color: #5b94fd;
+}
 
+
+.userMessage:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    border-left-color: #5b94fd;
+    border-right: 0;
+    margin-top: -9px;
+    margin-right: -9px;
 }
 
 .botMessage {
-    max-width: 50%;
-    border: 1px solid gray;
+    max-width: 70%;
     border-radius: 10px;
     margin-right: auto;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    position: relative;
+    margin-left: 10px;
+    background-color: #efefef;
 }
 
-.upScroll {}
+.botMessage:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    border-right-color: #efefef;
+    border-left: 0;
+    margin-top: -9px;
+    margin-left: -9px;
+}
+
+.upScroll {
+    position: fixed;
+    right: 2%;
+    bottom: 6%;
+}
 
 .cancelBtn {
     border: 0;
@@ -86,16 +148,31 @@
 
 .inputBox {
     width: 100%;
-    background-color: orange;
+    display: flex;
 }
 
 .inputBox input {
     width: 80%;
     border: none;
     outline: none;
+    font-size: 12px;
+    margin-left: 10px;
 }
 
 .inputBox button {
     width: 20%;
-    border: 0;
+}
+
+@keyframes loading {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(360px);
+    }
+}
+
+.loadingImg {
+    animation: loading 10s linear infinite;
 }
