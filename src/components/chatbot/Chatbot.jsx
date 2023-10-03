@@ -1,48 +1,86 @@
 import { IconButton } from "@mui/material";
 import style from "../../css/ChatBot.module.css";
 import ClearIcon from "@mui/icons-material/Clear";
-import Message from "./Message";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import io from "socket.io-client"; // Socket.io 클라이언트 라이브러리를 import합니다.
+const socket = io("http://43.201.32.211:3001");
+socket.on("connect", () => {
+    console.log("connected to server");
+});
 
 export default function Chatbot({ setIsOpen, isOpen }) {
-    const [messageList, setMessageList] = useState([]); // 메시지 리스트 배열
-    const [inputMessage, setInputMessage] = useState("");
-    const [result, setResult] = useState([]);
+    const [inputValue, setInputValue] = useState(""); // 질문 입력칸
+    const [response, setResponse] = useState(""); //  질문에 대한 대답
+    const [faqs, setFaqs] = useState([]); // FAQ 목록
+    const [answer, setAnswer] = useState(""); // FAQ에 대한 대답
+    const [messages, setMessages] = useState([]); // 채팅 목록 저장
+    const [loading, setLoading] = useState(false); // 대답 할 때까지 로딩
 
-    // gpt 테스트
-    const sendMessage = async () => {
+    // FAQ 목록 가져오기
+    const fetchQuestions = async () => {
         try {
-            // const res = await axios.post(
-            //     "/message",
-            //     { message: inputMessage },
-            //     {
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //     }
-            // );
-            const res = await fetch("/message", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: inputMessage }),
-            });
-
-            if (res.ok) {
-                const eventSource = new EventSource("/message");
-                eventSource.onmessage = function (event) {
-                    if (event.data === "[DONE]") {
-                        eventSource.close(); // 연결 종료
-                    } else {
-                        setResult((prevText) => prevText + event.data);
-                    }
-                };
-            } else {
-                console.error("Failed to send message");
-            }
+            const response = await axios.get("http://43.201.32.211:3001/faq/question");
+            setFaqs(response.data.questions);
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error fetching questions:", error);
         }
+    };
+
+    // 입력한 메시지 보내기
+    const handleSubmit = () => {
+        socket.emit("message", inputValue);
+        setLoading(true); // 메시지 보내기 전에 로딩 상태를 true로 설정
+        setInputValue(""); // 보냈으면 입력창 초기화
+
+        const message = {
+            message: inputValue,
+            isBot: false,
+        };
+        setMessages([...messages, message]); //  유저가 질문한 내용 메세지에 저장
+    };
+
+    // 엔터 누르면 메시지 보내기
+    const handleOnKeyPress = (e) => {
+        if (e.key === "Enter") {
+            handleSubmit(); // Enter 입력이 되면 클릭 이벤트 실행
+        }
+    };
+
+    useEffect(() => {
+        fetchQuestions();
+
+        socket.on("response", (data) => {
+            const message = {
+                message: data.response.text,
+                isBot: true,
+            };
+            setMessages([...messages, message]); //  챗봇 대답 메세지에 저장
+            console.log("대답왔음!", data);
+            setLoading(false);
+        });
+
+        socket.on("faq-answer", (data) => {
+            const message = {
+                message: data.answer,
+                isBot: true,
+            };
+            setMessages([...messages, message]); // 챗봇이 말한거 메세지에 저장
+        });
+
+        socket.on("error", (data) => {
+            console.error(data.error);
+            setResponse("에러가 발생했습니다.");
+        });
+    }, [messages]);
+
+    const onClickQuestion = (question) => {
+        socket.emit("faq-question", question);
+        const message = {
+            message: question,
+            isBot: false,
+        };
+        setMessages([...messages, message]); // 유저가 선택한 질문 메세지에 저장
     };
 
     return (
@@ -54,16 +92,32 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                 </IconButton>
             </div>
             <div className={style.contentBox}>
-                <Message />
-                <span>{result}</span>
+                <div className={style.faqBox}>
+                    {faqs.map((item) => (
+                        <div className={style.faq} onClick={() => onClickQuestion(item.question)}>
+                            {item.question}
+                        </div>
+                    ))}
+                </div>
+                <div className={style.messageBox}>
+                    {messages.map((item) => (
+                        <div className={item.isBot ? style.botMessage : style.userMessage}>{item.message}</div>
+                    ))}
+                    {loading && <img src="./imgs/Walk.gif" width={80} height={80} />}
+                </div>
+                <div className={style.upScroll}>
+                    <span>맨 위로</span>
+                </div>
             </div>
             <div className={style.inputBox}>
                 <input
                     type="text"
                     placeholder="무엇이든 물어보세요"
-                    onChange={(e) => setInputMessage(e.target.value)}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={handleOnKeyPress}
                 ></input>
-                <button onClick={sendMessage}>보내기</button>
+                <button onClick={handleSubmit}>보내기</button>
             </div>
         </div>
     );

@@ -29,13 +29,58 @@
 
 .contentBox {
     height: 430px;
-    background-color: lightpink;
+    background-color: rgb(253, 253, 253);
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
+.faqBox {
+    width: 95%;
+}
+
+.faq {
+    display: inline-block;
+    padding: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(0, 60, 255, 0.38);
+    border-radius: 18px;
+    margin: 5px;
+    background-color: rgb(232, 240, 255);
+}
+
+.faq:hover {
+    cursor: pointer;
+}
+
+.messageBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.userMessage {
+    max-width: 50%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-left: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+
+}
+
+.botMessage {
+    max-width: 50%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-right: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.upScroll {}
+
 .cancelBtn {
     border: 0;
+    margin-right: auto;
     background-color: transparent;
 }
 
