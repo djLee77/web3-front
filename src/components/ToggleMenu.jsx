@@ -5,13 +5,13 @@ import { Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const ToggleMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isSecondOpen, setIsSecondOpen] = useState(false);
-    const [isThirdOpen, setIsThirdOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSecondOpen, setIsSecondOpen] = useState(false);
+  const [isThirdOpen, setIsThirdOpen] = useState(false);
 
-    const [mainList, setMainList] = useState([]);
-    const [secondLists, setSecondLists] = useState({});
-    const [thirdLists, setThirdLists] = useState({});
+  const [mainList, setMainList] = useState([]);
+  const [secondLists, setSecondLists] = useState({});
+  const [thirdLists, setThirdLists] = useState({});
 
   const [pickedSecondList, setPickedSecondList] = useState([]);
   const [pickedThirdList, setPickedThirdList] = useState([]);
@@ -60,9 +60,9 @@ const ToggleMenu = () => {
     getCategories();
   }, []);
 
-    const ToggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+  const ToggleSidebar = () => {
+    setIsOpen(true);
+  };
 
   const ToggleSecondSidebar = (subject) => {
     setPickedSecondList(secondLists[subject] || []);
@@ -74,32 +74,47 @@ const ToggleMenu = () => {
     setIsThirdOpen(true);
   };
 
+  const CloseSidebar = () => {
+    if (!isSecondOpen) {
+      setIsOpen(false);
+    }
+
+    return;
+  };
+  const CloseSecondSidebar = () => {
+    if (!isThirdOpen) {
+      setIsSecondOpen(false);
+    }
+
+    return;
+  };
+  const CloseThirdSidebar = () => {
+    setIsThirdOpen(false);
+  };
+  
   return (
     <div style={{ float: "left" }}>
       <div
+        className="btnCategory"
         style={{ cursor: "pointer", display: "flex", height: "25px" }}
-        onClick={ToggleSidebar}
+        onMouseOver={ToggleSidebar}
       >
         <Menu /> <p>카테고리</p>
       </div>
       <div className={`sidebar ${isOpen ? "active" : ""}`}>
-        <div className="sd-header">
-          <h4 className="mb-0">카테고리</h4>
-        </div>
         <div className="sd-body">
           <ul>
             {mainList.map((subject, index) => (
-              <li key={index} onClick={() => ToggleSecondSidebar(subject.name)}>
+              <li
+                key={index}
+                onMouseOver={() => ToggleSecondSidebar(subject.name)}
+              >
                 <a className="sd-link">{subject.name}</a>
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <div
-        className={`sidebar-overlay ${isOpen ? "active" : ""}`}
-        onClick={ToggleSidebar}
-      ></div>
 
       <div className={`second-sidebar ${isSecondOpen ? "active" : ""}`}>
         <div className="sd-header"></div>
@@ -118,16 +133,8 @@ const ToggleMenu = () => {
           </ul>
         </div>
       </div>
-      <div
-        className={`sidebar-overlay ${isSecondOpen ? "active" : ""}`}
-        onClick={() => {
-          ToggleSidebar();
-          setIsSecondOpen(false);
-        }}
-      ></div>
 
       <div className={`third-sidebar ${isThirdOpen ? "active" : ""}`}>
-        <div className="sd-header"></div>
         <div className="sd-body">
           <ul>
             {pickedThirdList.map((item, index) => (
@@ -142,8 +149,8 @@ const ToggleMenu = () => {
       </div>
       <div
         className={`sidebar-overlay ${isThirdOpen ? "active" : ""}`}
-        onClick={() => {
-          ToggleSidebar();
+        onMouseOver={() => {
+          setIsOpen(false);
           setIsSecondOpen(false);
           setIsThirdOpen(false);
         }}
