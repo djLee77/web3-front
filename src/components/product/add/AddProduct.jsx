@@ -179,9 +179,11 @@ const AddProduct = () => {
                 }
             );
             console.log(res);
-            alert("상품 등록 완료!");
-            isSuccess = true;
-            navigate("/");
+            if (res.data.code === 201) {
+                alert("상품 등록 완료!");
+                isSuccess = true;
+                navigate("/");
+            }
         } catch (error) {
             // 만약 401(인증) 에러가 나면
             if (error.response.status === 401) {

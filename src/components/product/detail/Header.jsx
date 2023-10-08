@@ -52,7 +52,7 @@ export default function Detail({ product, reviewRef }) {
             );
 
             console.log(res);
-            if (res.status === 200) {
+            if (res.status === 201) {
                 alert("장바구니에 상품을 담았습니다.");
             }
         } catch (error) {

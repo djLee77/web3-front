@@ -97,7 +97,8 @@ export default function CreateReviewModal({ product }) {
             );
 
             console.log(res);
-            if (res.data.code === 200) {
+
+            if (res.data.code === 201) {
                 alert("리뷰 작성 완료!");
                 setOpen(false);
                 isSuccess = true;
