@@ -91,7 +91,7 @@ const ToggleMenu = () => {
   const CloseThirdSidebar = () => {
     setIsThirdOpen(false);
   };
-  
+
   return (
     <div style={{ float: "left" }}>
       <div
@@ -101,50 +101,77 @@ const ToggleMenu = () => {
       >
         <Menu /> <p>카테고리</p>
       </div>
-      <div className={`sidebar ${isOpen ? "active" : ""}`}>
-        <div className="sd-body">
-          <ul>
-            {mainList.map((subject, index) => (
-              <li
-                key={index}
-                onMouseOver={() => ToggleSecondSidebar(subject.name)}
-              >
-                <a className="sd-link">{subject.name}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className={`second-sidebar ${isSecondOpen ? "active" : ""}`}>
-        <div className="sd-header"></div>
-        <div className="sd-body">
-          <ul>
-            {pickedSecondList.map((subject, index) => (
-              <li
-                key={index}
-                onMouseOver={() => ToggleThirdSidebar(subject.name)}
-              >
-                <Link to={`/category/${subject.categoryId}`}>
+      <div
+        onMouseLeave={() => {
+          setIsOpen(false);
+          setIsSecondOpen(false);
+          setIsThirdOpen(false);
+        }}
+      >
+        <div className={`sidebar ${isOpen ? "active" : ""}`}>
+          <div className="sd-body">
+            <ul>
+              {mainList.map((subject, index) => (
+                <li
+                  key={index}
+                  onMouseOver={() => ToggleSecondSidebar(subject.name)}
+                  onMouseLeave={() => setIsSecondOpen(false)}
+                >
                   <a className="sd-link">{subject.name}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div className={`third-sidebar ${isThirdOpen ? "active" : ""}`}>
-        <div className="sd-body">
-          <ul>
-            {pickedThirdList.map((item, index) => (
-              <li key={index}>
-                <Link to={`/category/${item.categoryId}`}>
-                  <a className="sd-link">{item.name}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div
+          className={`second-sidebar ${isSecondOpen ? "active" : ""}`}
+          onMouseOver={() => setIsSecondOpen(true)}
+          onMouseLeave={() => {
+            setIsSecondOpen(false);
+          }}
+        >
+          <div className="sd-header"></div>
+          <div className="sd-body">
+            <ul>
+              {pickedSecondList.map((subject, index) => (
+                <li
+                  key={index}
+                  onMouseOver={() => ToggleThirdSidebar(subject.name)}
+                  onMouseLeave={() => {
+                    setIsThirdOpen(false);
+                  }}
+                >
+                  <Link to={`/category/${subject.categoryId}`}>
+                    <a className="sd-link">{subject.name}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div
+          className={`third-sidebar ${isThirdOpen ? "active" : ""}`}
+          onMouseOver={() => {
+            setIsThirdOpen(true);
+            setIsSecondOpen(true);
+          }}
+          onMouseLeave={() => {
+            setIsThirdOpen(false);
+          }}
+        >
+          <div className="sd-body">
+            <ul>
+              {pickedThirdList.map((item, index) => (
+                <li key={index}>
+                  <Link to={`/category/${item.categoryId}`}>
+                    <a className="sd-link">{item.name}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div
