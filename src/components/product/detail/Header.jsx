@@ -32,6 +32,10 @@ export default function Detail({ product, reviewRef }) {
 
     // 장바구니 담기 버튼 클릭 함수
     const onClickCartBtn = async (productId) => {
+        if (!id) {
+            return alert("로그인 후 이용 가능합니다.");
+        }
+
         try {
             const res = await axios.post(
                 `/api/users/carts/${id}`,
@@ -56,8 +60,12 @@ export default function Detail({ product, reviewRef }) {
         }
     };
 
-    // 구매 버튼 클릭 함수 미완성임
+    // 구매 버튼 클릭 함수
     const onClickPayBtn = async (productId, quantity) => {
+        if (!id) {
+            return alert("로그인 후 이용 가능합니다.");
+        }
+
         try {
             const data = `${productId}:${quantity}`;
             console.log(data);

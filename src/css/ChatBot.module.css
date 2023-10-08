@@ -1,7 +1,8 @@
 .btnBox {
     position: fixed;
     bottom: 5%;
-    right: 5%
+    right: 5%;
+    z-index: 999;
 }
 
 .box {
