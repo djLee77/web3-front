@@ -59,7 +59,12 @@ export default function Cart() {
 
     // 처음 마운트 될때 카테고리 가져오기
     useEffect(() => {
-        getCartList();
+        if (!id) {
+            alert("로그인 후 이용 가능합니다");
+            navigate("/");
+        } else {
+            getCartList();
+        }
     }, []);
 
     // 주문서 데이터 생성

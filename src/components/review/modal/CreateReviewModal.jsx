@@ -6,7 +6,7 @@ import cookie from "react-cookies";
 import style from "../../../css/ReviewModal.module.css";
 import reissueAccToken from "../../../lib/reissueAccToken";
 
-export default function CreateReviewModal({ product }) {
+export default function CreateReviewModal({ product, getMyReviews }) {
     const [open, setOpen] = useState(false);
     const [rate, setRate] = useState(5); // 별점
     const [imgURL, setImgURL] = useState("/imgs/defaultAddImg.png"); // 이미지
@@ -100,6 +100,7 @@ export default function CreateReviewModal({ product }) {
 
             if (res.data.code === 201) {
                 alert("리뷰 작성 완료!");
+                getMyReviews();
                 setOpen(false);
                 isSuccess = true;
             }

@@ -10,40 +10,8 @@ import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
 
 export default function UserOrder() {
-    const data = {
-        items: [
-            {
-                orderDetailId: 923183,
-                orderId: 12391,
-                itemId: 2,
-                name: "이쁜옷1",
-                sellerId: "aF3ksj3",
-                image: "imageUrl",
-                price: 10000,
-                quantity: 10,
-                result: 1,
-                orderDate: "2023-09-16",
-                buyerId: "asdk123",
-                address: "인천 계양구",
-            },
-            {
-                orderDetailId: 923182,
-                orderId: 3,
-                itemId: 3,
-                name: "이쁜옷1",
-                sellerId: "aF3ksj3",
-                image: "imageUrl",
-                price: 10000,
-                quantity: 10,
-                result: 3,
-                orderDate: "2023-09-16",
-                buyerId: "asdk123",
-                address: "인천 계양구",
-            },
-        ],
-    };
-
     const [orders, setOrders] = useState([]); // 주문 목록
+    const [reviewItemIds, setReviewItemIds] = useState([]); // 작성한 리뷰 상품id 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
     const [searchParams] = useSearchParams();
@@ -51,24 +19,23 @@ export default function UserOrder() {
 
     const navigate = useNavigate();
 
+    const id = cookie.load("id");
+
     //페이지 이동하는 함수
     const handleChange = (e, value) => {
         setPage(value);
         navigate(`/user/order?page=${value}`);
     };
 
-    // 주문 목록 가져오는 함수
-    const getOrders = async () => {
+    // 작성한 리뷰 목록 가져오기
+    const getMyReviews = async () => {
         let isSuccess = false;
-        const id = cookie.load("id");
-        const urlPage = searchParams.get("page");
-        const pageNum = urlPage ? parseInt(urlPage) : 1;
-        setPage(pageNum);
         try {
-            const res = await axios.get(`/api/users/orders/${id}`, {
+            console.log(id);
+            const res = await axios.get(`/api/users/reviews/${id}`, {
                 params: {
-                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
-                    pageSize: 10,
+                    pageNum: 0,
+                    pageSize: 1000,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
@@ -76,7 +43,37 @@ export default function UserOrder() {
                 },
             });
 
-            console.log(res);
+            setReviewItemIds(res.data.data.reviews.map((item) => item.itemId));
+            console.log("리뷰 불러옴");
+        } catch (error) {
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && getMyReviews(); // 함수 다시 실행
+            }
+        }
+    };
+
+    // 주문 목록 가져오는 함수
+    const getOrders = async () => {
+        let isSuccess = false;
+        const urlPage = searchParams.get("page");
+        const pageNum = urlPage ? parseInt(urlPage) : 1;
+        setPage(pageNum);
+        try {
+            const res = await axios.get(`/api/users/orders/${id}`, {
+                params: {
+                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
+                    pageSize: 2,
+                },
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
+
+            console.log("주문목록 불러옴");
+
             setOrders(res.data.data.orders);
             setTotalPage(res.data.data.totalPage);
             setLoading(false);
@@ -92,8 +89,17 @@ export default function UserOrder() {
 
     // 페이지 바뀔때 주문 목록 가져오기
     useEffect(() => {
-        getOrders();
+        id && getOrders();
     }, [page]);
+
+    useEffect(() => {
+        if (!id) {
+            alert("로그인 후 이용 가능합니다");
+            navigate("/");
+        } else {
+            getMyReviews();
+        }
+    }, []);
 
     return (
         <>
@@ -111,7 +117,7 @@ export default function UserOrder() {
                             {orders?.map((order, idx) => (
                                 <div className={style.orderBox} key={idx}>
                                     <h4>{order.orderDate.split("T")[0]} 주문</h4>
-                                    {order.orderDetails.map((product) => {
+                                    {order.orderDetails?.map((product, idx) => {
                                         const orderStateByResult = {
                                             0: "입금 확인 중",
                                             1: "배송 전",
@@ -121,7 +127,7 @@ export default function UserOrder() {
                                         };
                                         const orderState = orderStateByResult[product.result];
                                         return (
-                                            <div className={style.orderDetailBox}>
+                                            <div className={style.orderDetailBox} key={idx}>
                                                 <h5
                                                     style={{
                                                         fontWeight: "bold",
@@ -155,9 +161,15 @@ export default function UserOrder() {
                                                         </span>
                                                     </div>
                                                     <div style={{ display: "flex", alignItems: "center" }}>
-                                                        {product.result === 3 && (
-                                                            <CreateReviewModal product={product} />
-                                                        )}
+                                                        {product.result === 3 &&
+                                                            (!reviewItemIds.includes(product.itemId) ? (
+                                                                <CreateReviewModal
+                                                                    product={product}
+                                                                    getMyReviews={getMyReviews}
+                                                                />
+                                                            ) : (
+                                                                <div>리뷰 작성 완료</div>
+                                                            ))}
                                                     </div>
                                                 </div>
                                             </div>

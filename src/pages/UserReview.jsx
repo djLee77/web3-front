@@ -61,7 +61,12 @@ export default function UserReview() {
 
     // 페이지 바뀔때 작성한 리뷰 목록 가져오기
     useEffect(() => {
-        getMyReviews();
+        if (!id) {
+            alert("로그인 후 이용 가능합니다");
+            navigate("/");
+        } else {
+            getMyReviews();
+        }
     }, [page]);
 
     // 리뷰 삭제 버튼 함수
@@ -90,38 +95,6 @@ export default function UserReview() {
         navigate(`/product/detail/${id}`);
     };
 
-    const reviewTest = [
-        {
-            userId: "aF3ksj3”",
-            itemName: "상품1",
-            rate: 3,
-            content: "리뷰 내용~!@~@",
-            image: "이미지",
-            createdAt: "2023-09-01",
-            updatedAt: "2023-09-01",
-        },
-
-        {
-            userId: "aF3ksj3”",
-            itemName: "상품2",
-            rate: 3,
-            content: "리뷰 내용~!@~@",
-            image: "이미지",
-            createdAt: "2023-09-01",
-            updatedAt: "2023-09-01",
-        },
-
-        {
-            userId: "aF3ksj3”",
-            itemName: "상품3",
-            rate: 3,
-            content: "리뷰 내용~!@~@",
-            image: "이미지",
-            createdAt: "2023-09-01",
-            updatedAt: "2023-09-01",
-        },
-    ];
-
     return (
         <>
             {loading ? (
@@ -129,41 +102,49 @@ export default function UserReview() {
             ) : (
                 <div className={style.box}>
                     <NavBar />
-                    <div style={{ width: "700px", margin: "0 auto" }}>
-                        {myReviews?.map((review, idx) => (
-                            <div className={style.reviewBox} key={idx}>
-                                <div className={style.productBox} onClick={() => onClickProduct(review.itemId)}>
-                                    <img src={review.itemImage} alt="상품이미지" width={80} height={80} />
-                                    <span>{review.itemName}</span>
-                                </div>
-                                <hr />
-                                <div className={style.rateBox}>
-                                    <StarRating rate={review.rate} size={18} space={3} />
-                                    <span>{review.updatedAt.split("T")[0]}</span>
-                                </div>
-                                <div>
-                                    <img src={review.reviewImage} alt="리뷰 이미지" width={100} height={100} />
-                                </div>
-                                <p>{review.content}</p>
-                                <div className={style.btnBox}>
-                                    <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
-                                    <Button
-                                        onClick={() => {
-                                            if (window.confirm("정말로 삭제하시겠습니까?")) {
-                                                onClickReviewDelBtn(review.reviewId);
-                                            }
-                                        }}
-                                        color="error"
-                                    >
-                                        삭제
-                                    </Button>
-                                </div>
+                    {myReviews.length === 0 ? (
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <h4>등록한 상품 리뷰가 없습니다.</h4>
+                        </div>
+                    ) : (
+                        <div>
+                            <div style={{ width: "700px", margin: "0 auto" }}>
+                                {myReviews?.map((review, idx) => (
+                                    <div className={style.reviewBox} key={idx}>
+                                        <div className={style.productBox} onClick={() => onClickProduct(review.itemId)}>
+                                            <img src={review.itemImage} alt="상품이미지" width={80} height={80} />
+                                            <span>{review.itemName}</span>
+                                        </div>
+                                        <hr />
+                                        <div className={style.rateBox}>
+                                            <StarRating rate={review.rate} size={18} space={3} />
+                                            <span>{review.updatedAt.split("T")[0]}</span>
+                                        </div>
+                                        <div>
+                                            <img src={review.reviewImage} alt="리뷰 이미지" width={100} height={100} />
+                                        </div>
+                                        <p>{review.content}</p>
+                                        <div className={style.btnBox}>
+                                            <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
+                                            <Button
+                                                onClick={() => {
+                                                    if (window.confirm("정말로 삭제하시겠습니까?")) {
+                                                        onClickReviewDelBtn(review.reviewId);
+                                                    }
+                                                }}
+                                                color="error"
+                                            >
+                                                삭제
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
-                        <Pagination count={totalPage} page={page} onChange={handleChange} />
-                    </div>
+                            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+                                <Pagination count={totalPage} page={page} onChange={handleChange} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </>
