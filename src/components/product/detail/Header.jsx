@@ -6,6 +6,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
@@ -32,6 +33,7 @@ export default function Detail({ product, reviewRef }) {
 
     // 장바구니 담기 버튼 클릭 함수
     const onClickCartBtn = async (productId) => {
+        let isSuccess = false;
         if (!id) {
             return alert("로그인 후 이용 가능합니다.");
         }
@@ -52,16 +54,23 @@ export default function Detail({ product, reviewRef }) {
             );
 
             console.log(res);
-            if (res.status === 201) {
+            if (res.status === 200) {
                 alert("장바구니에 상품을 담았습니다.");
+                isSuccess = true;
             }
         } catch (error) {
             console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickCartBtn(productId); // 함수 다시 실행
+            }
         }
     };
 
     // 구매 버튼 클릭 함수
     const onClickPayBtn = async (productId, quantity) => {
+        let isSuccess = false;
         if (!id) {
             return alert("로그인 후 이용 가능합니다.");
         }
@@ -81,9 +90,14 @@ export default function Detail({ product, reviewRef }) {
 
             console.log(res);
             const orders = res.data.data; // 주문서 저장
+            isSuccess = true;
             navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickPayBtn(productId, quantity); // 함수 다시 실행
+            }
         }
     };
 

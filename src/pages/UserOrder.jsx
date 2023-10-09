@@ -162,7 +162,7 @@ export default function UserOrder() {
                                                     </div>
                                                     <div style={{ display: "flex", alignItems: "center" }}>
                                                         {product.result === 3 &&
-                                                            (!reviewItemIds.includes(product.itemId) ? (
+                                                            (!reviewItemIds?.includes(product.itemId) ? (
                                                                 <CreateReviewModal
                                                                     product={product}
                                                                     getMyReviews={getMyReviews}
