@@ -129,9 +129,9 @@ export default function SellerProduct() {
                                 >
                                     <span>{product.name}</span>
                                     <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-                                    <span>남은 수량 : {product.stock}</span>
+                                    <span>남은 수량 {product.stock}개</span>
                                     <span>
-                                        <StarRating rate={product.rate} size={12} space={2} />
+                                        <StarRating rate={product.avgRating} size={12} space={2} />
                                         <span>({product.reviewCount})</span>
                                     </span>
                                 </div>

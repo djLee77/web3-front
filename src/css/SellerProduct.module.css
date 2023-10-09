@@ -13,13 +13,17 @@
     display: flex;
     width: 800px;
     margin: 0 auto;
-    border-bottom: 1px solid gray;
+    padding: 14px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 18px;
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 
 .imgBox {
     width: 150px;
     height: 150px;
-    padding: 10px;
+    border: 1px solid rgb(201, 201, 201);
 }
 
 .infoBox {
@@ -31,6 +35,15 @@
 
 .infoBox:hover {
     cursor: pointer;
+}
+
+.infoBox span {
+    margin-bottom: 8px;
+}
+
+.infoBox span:first-child {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .btnBox {

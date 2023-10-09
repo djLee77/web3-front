@@ -9,25 +9,6 @@ import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
 
 export default function SellerOrder() {
-    const data = {
-        items: [
-            {
-                orderDetailId: 923183,
-                orderId: 12391,
-                itemId: 11001,
-                name: "이쁜옷1",
-                sellerId: "aF3ksj3",
-                image: "imageUrl",
-                price: 10000,
-                quantity: 10,
-                result: 1,
-                orderDate: "2023-09-16",
-                buyerId: "asdk123",
-                address: "인천 계양구",
-            },
-        ],
-    };
-
     const [orders, setOrders] = useState([]); // 주문 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
