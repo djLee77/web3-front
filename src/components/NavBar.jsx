@@ -9,6 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import axios from "axios";
+
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
 const NavBar = () => {

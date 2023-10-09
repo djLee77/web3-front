@@ -14,7 +14,7 @@ const Home = () => {
         const response = await axios.get("/api/public/items", {
           params: {
             search: "", // 추후 검색기능 구현시 여기에 검색 키워드 입력
-            sortType: "s",
+            sortType: "desc",
             pageNum: 1,
             pageSize: 6, // 카드로 보여줄 상품 수
           },
