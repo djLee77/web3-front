@@ -4,12 +4,10 @@ import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
-export default function DaumPostCodeModal({ setZipcode, setRoadAddress }) {
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => setOpen(true);
+export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode, setRoadAddress }) {
+    const handleOpen = () => setModalOpen(true);
     const handleClose = () => {
-        setOpen(false);
+        setModalOpen(false);
     };
 
     const handleComplete = (data) => {
@@ -38,7 +36,7 @@ export default function DaumPostCodeModal({ setZipcode, setRoadAddress }) {
                 우편번호 검색
             </Button>
             <Modal
-                open={open}
+                open={modalOpen}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"

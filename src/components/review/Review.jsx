@@ -8,21 +8,30 @@ const Review = forwardRef((props, ref) => {
     const [reviewList, setReviewList] = useState([]); // 리뷰 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
-    const [sortType, setSortType] = useState(""); // 정렬 타입
+    const [sort, setSort] = useState(""); // 정렬 타입
+    const [sortType, setSortType] = useState(""); // 정렬 방법
 
     // 정렬 타입 배열
     const sortTypes = [
         {
             name: "최신순",
-            code: "n",
+            sort: "createdAt",
+            sortType: "asc",
+        },
+        {
+            name: "오래된순",
+            sort: "createdAt",
+            sortType: "desc",
         },
         {
             name: "높은 별점순",
-            code: "hr",
+            sort: "rate",
+            sortType: "asc",
         },
         {
             name: "낮은 별점순",
-            code: "lr",
+            sort: "rate",
+            sortType: "desc",
         },
     ];
 
@@ -31,8 +40,11 @@ const Review = forwardRef((props, ref) => {
         setPage(value);
     };
 
-    const onClickSortType = (code) => {
-        setSortType(code);
+    // 정렬 방법 클릭
+    const onClickSortType = (sort, sortType) => {
+        setSort(sort);
+        setSortType(sortType);
+        setPage(1);
     };
 
     // 리뷰 가져오는 함수
@@ -41,8 +53,9 @@ const Review = forwardRef((props, ref) => {
         try {
             const res = await axios.get(`/api/public/reviews/${props.id}`, {
                 params: {
+                    sort: sort,
                     sortType: sortType,
-                    pageNum: page,
+                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
                 headers: {
@@ -97,43 +110,51 @@ const Review = forwardRef((props, ref) => {
     return (
         <div ref={ref}>
             <hr />
-            <div className={style.totalBox}>
-                <h4>총 평점</h4>
-                <StarRating rate={props.rate} size={32} space={2} />
-                <span>({props.reviewCount})</span>
-            </div>
-            <hr />
-            <div className={style.sortBox}>
-                {sortTypes.map((item, idx) => (
-                    <span key={idx} onClick={() => onClickSortType(item.code)}>
-                        {item.name}
-                    </span>
-                ))}
-            </div>
-            {reviewList.map((review) => (
-                <div>
-                    <div className={style.headerBox}>
-                        <Avatar sx={{ width: "48px", height: "48px" }} />
-                        <div className={style.userBox}>
-                            <span className="userId">{review.userId}</span>
-                            <div>
-                                <StarRating rate={review.rate} size={18} space={2} />
-                                <span className={style.createAt}>{review.created_at}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={style.imgBox}>
-                        <img src="" alt="리뷰사진"></img>
-                    </div>
-                    <div className={style.contentBox}>
-                        <span>{review.content}</span>
+            {reviewList.length === 0 ? (
+                <div style={{ display: "flex", justifyContent: "center", fontSize: "18px" }}>
+                    등록된 상품평이 없습니당
+                </div>
+            ) : (
+                <>
+                    <div className={style.totalBox}>
+                        <h4>총 평점</h4>
+                        <StarRating rate={props.rate} size={24} space={2} />
+                        <span>({props.reviewCount})</span>
                     </div>
                     <hr />
-                </div>
-            ))}
-            <div className={style.paginationBox}>
-                <Pagination count={totalPage} page={page} onChange={handleChange} />
-            </div>
+                    <div className={style.sortBox}>
+                        {sortTypes.map((item, idx) => (
+                            <span key={idx} onClick={() => onClickSortType(item.sort, item.sortType)}>
+                                {item.name}
+                            </span>
+                        ))}
+                    </div>
+                    {reviewList.map((review) => (
+                        <div>
+                            <div className={style.headerBox}>
+                                <Avatar sx={{ width: "48px", height: "48px" }} />
+                                <div className={style.userBox}>
+                                    <span className={style.userId}>{review.userId}</span>
+                                    <div className={style.rateBox}>
+                                        <StarRating rate={review.rate} size={14} space={2} />
+                                        <span className={style.updatedAt}>{review.updatedAt.split("T")[0]}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={style.imgBox}>
+                                <img src={review.image} alt="리뷰사진" width={100} height={100}></img>
+                            </div>
+                            <div className={style.contentBox}>
+                                <span>{review.content}</span>
+                            </div>
+                            <hr />
+                        </div>
+                    ))}
+                    <div className={style.paginationBox}>
+                        <Pagination count={totalPage} page={page} onChange={handleChange} />
+                    </div>
+                </>
+            )}
         </div>
     );
 });

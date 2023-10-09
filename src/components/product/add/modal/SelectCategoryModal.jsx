@@ -99,7 +99,9 @@ export default function SelectCategoryModal({ category, setCategory }) {
 
     return (
         <div>
-            <button onClick={handleOpen}>카테고리 선택</button>
+            <Button variant="outlined" onClick={handleOpen}>
+                카테고리 선택
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}

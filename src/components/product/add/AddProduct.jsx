@@ -6,6 +6,7 @@ import SelectCategoryModal from "./modal/SelectCategoryModal";
 import axios from "axios";
 import Content from "./Content";
 import cookie from "react-cookies";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 const AddProduct = () => {
     const [imgURL1, setImgURL1] = useState("/imgs/defaultAddImg.png"); // 이미지1
@@ -20,6 +21,8 @@ const AddProduct = () => {
     const [keyword, setKeyword] = useState(""); // 키워드
     const [searchParams, setSearchParams] = useSearchParams(); // url 파라미터 값
     const [isModify, setIsModify] = useState(false); // 상품 수정인지 확인
+
+    const id = cookie.load("id"); // 로그인한 ID
 
     const navigate = useNavigate();
 
@@ -38,7 +41,6 @@ const AddProduct = () => {
             setPrice(res.data.data.price);
             setStock(res.data.data.stock);
             setContent(res.data.data.content);
-            setCategory({ ...category, categoryId: res.data.da.categoryId });
 
             console.log("상품 정보 : ", res);
         } catch (error) {
@@ -78,6 +80,7 @@ const AddProduct = () => {
 
     // 이미지 업로드 함수
     const handleImageUpload = async (event, idx) => {
+        let isSuccess = false;
         const file = event.target.files?.[0];
         console.log("업로드", idx);
         if (file) {
@@ -103,8 +106,14 @@ const AddProduct = () => {
                     const imageURL = `![](${res.data.data})`; // 이미지 URL 마크다운 형식으로 변경
                     setContent((prevContent) => prevContent + imageURL); // 기존 내용에다가 이미지 삽입
                 }
+
+                isSuccess = true;
             } catch (error) {
-                console.log(error);
+                // 만약 401(인증) 에러가 나면
+                if (error.response.status === 401) {
+                    await reissueAccToken(); // 토큰 재발급 함수 실행
+                    !isSuccess && handleImageUpload(event, idx); // 함수 다시 실행
+                }
             }
         }
     };
@@ -146,20 +155,20 @@ const AddProduct = () => {
     };
     // 상품 등록 버튼 함수
     const onClickAddBtn = async () => {
+        let isSuccess = false;
         setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.post(
-                "/api/sellers/items",
+                `/api/sellers/items/${id}`,
                 {
-                    sellerId: 1,
                     name: name,
                     categoryId: category.categoryId,
                     price: price,
                     stock: stock,
                     content: content,
-                    image1: "이미지1",
-                    image2: "이미지2",
-                    image3: "이미지3",
+                    image1: imgURL1,
+                    image2: imgURL2,
+                    image3: imgURL3,
                     keywords: keywordList,
                 },
                 {
@@ -170,31 +179,37 @@ const AddProduct = () => {
                 }
             );
             console.log(res);
-            if (res.data.code == 201) {
+            if (res.data.code === 201) {
                 alert("상품 등록 완료!");
+                isSuccess = true;
                 navigate("/");
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickAddBtn(); // 함수 다시 실행
+            }
         }
     };
 
     // 상품 수정 버튼 함수
     const onClickModifyBtn = async () => {
+        let isSuccess = false;
         const itemId = searchParams.get("id");
         try {
             const res = await axios.patch(
                 `/api/sellers/items/${itemId}`,
                 {
-                    sellerId: 1,
+                    sellerId: id,
                     name: name,
                     categoryId: category.categoryId,
                     price: price,
                     stock: stock,
                     content: content,
-                    image1: "이미지1",
-                    image2: "이미지2",
-                    image3: "이미지3",
+                    image1: imgURL1,
+                    image2: imgURL2,
+                    image3: imgURL3,
                     keywords: keywordList,
                 },
                 {
@@ -205,12 +220,17 @@ const AddProduct = () => {
                 }
             );
             console.log(res);
-            if (res.data.code == 201) {
+            if (res.data.code == 200) {
                 alert("상품 수정 완료!");
+                isSuccess = true;
                 navigate("/seller/product");
             }
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickModifyBtn(); // 함수 다시 실행
+            }
         }
     };
 
@@ -261,7 +281,7 @@ const AddProduct = () => {
                     {/* 상품 제목 */}
                     <div className={style.input}>
                         <label htmlFor="title-id">상품 제목 : </label>
-                        <TextField id="title-id" size="small" onChange={(e) => setName(e.target.value)} />
+                        <TextField id="title-id" size="small" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
 
                     {/* 카테고리 */}
@@ -278,6 +298,7 @@ const AddProduct = () => {
                             id="price_id"
                             size="small"
                             type="number"
+                            value={price}
                             inputProps={{ step: "0.1", lang: "en-US" }}
                             onChange={(e) => setPrice(e.target.value)}
                         />
@@ -292,6 +313,7 @@ const AddProduct = () => {
                             inputProps={{ maxLength: 3 }}
                             id="count_id"
                             size="small"
+                            value={stock}
                             onChange={(e) => {
                                 setStock(e.target.value.replace(/[^0-9]/g, ""));
                             }}

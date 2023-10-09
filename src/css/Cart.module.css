@@ -6,17 +6,26 @@
     margin: 0 auto;
 }
 
+.title {
+    font-weight: bold;
+    font-size: 24px;
+}
+
 .totalBox {
     display: flex;
     height: 100px;
-    border: 3px solid rgb(0, 30, 255);
+    border: 3px solid rgb(52, 52, 52);
     justify-content: center;
     align-items: center;
     font-size: 18px;
 }
 
+.totalBox span:nth-child(1) {
+    font-size: 14px;
+}
+
 .total {
-    color: red;
+    color: rgb(7, 0, 26);
     font-weight: bold;
     font-size: 24px;
     margin-left: 10px;
@@ -29,19 +38,20 @@
 }
 
 .payBtn {
-    width: 150px;
-    height: 60px;
+    width: 180px;
+    height: 40px;
     border: 0;
-    background-color: #06F;
+    background-color: #1c1c1c;
     font-weight: bold;
     color: white;
-    margin-right: 30px;
 }
 
 .backBtn {
-    width: 150px;
-    height: 60px;
+    width: 180px;
+    height: 40px;
     border: 0;
-    background-color: #FACACA;
+    background-color: #fcfcfc;
+    border: 1px solid gray;
     font-weight: bold;
+    margin-left: 10px;
 }

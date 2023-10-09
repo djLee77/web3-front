@@ -1,7 +1,8 @@
 .btnBox {
     position: fixed;
     bottom: 5%;
-    right: 5%
+    right: 5%;
+    z-index: 999;
 }
 
 .box {
@@ -10,6 +11,8 @@
     right: 0%;
     width: 400px;
     height: 500px;
+    z-index: 9999;
+    border: 1px solid rgb(207, 206, 206);
 }
 
 .header {
@@ -28,28 +31,149 @@
 
 .contentBox {
     height: 430px;
-    background-color: lightpink;
+    background-color: rgb(253, 253, 253);
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
+.contentBox::-webkit-scrollbar {
+    width: 10px;
+    /* 스크롤바의 너비 */
+}
+
+.contentBox::-webkit-scrollbar-thumb {
+    height: 30%;
+    /* 스크롤바의 길이 */
+    background: rgb(70, 119, 255);
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+.contentBox::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);
+    /*스크롤바 뒷 배경 색상*/
+}
+
+.faqBox {
+    width: 95%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.faq {
+    display: inline-block;
+    padding: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(0, 60, 255, 0.38);
+    border-radius: 18px;
+    margin: 5px;
+    background-color: rgb(232, 240, 255);
+}
+
+.faq:hover {
+    cursor: pointer;
+}
+
+.messageBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.userMessage {
+    max-width: 70%;
+    border-radius: 10px;
+    margin-left: auto;
+    padding: 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    position: relative;
+    margin-right: 14px;
+    color: white;
+    background-color: #5b94fd;
+}
+
+
+.userMessage:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    border-left-color: #5b94fd;
+    border-right: 0;
+    margin-top: -9px;
+    margin-right: -9px;
+}
+
+.botMessage {
+    max-width: 70%;
+    border-radius: 10px;
+    margin-right: auto;
+    padding: 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    position: relative;
+    margin-left: 10px;
+    background-color: #efefef;
+}
+
+.botMessage:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    border-right-color: #efefef;
+    border-left: 0;
+    margin-top: -9px;
+    margin-left: -9px;
+}
+
+.upScroll {
+    position: fixed;
+    right: 2%;
+    bottom: 6%;
+}
+
 .cancelBtn {
     border: 0;
+    margin-right: auto;
     background-color: transparent;
 }
 
 .inputBox {
     width: 100%;
-    background-color: orange;
+    display: flex;
 }
 
 .inputBox input {
     width: 80%;
     border: none;
     outline: none;
+    font-size: 12px;
+    margin-left: 10px;
 }
 
 .inputBox button {
     width: 20%;
-    border: 0;
+}
+
+@keyframes loading {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(360px);
+    }
+}
+
+.loadingImg {
+    animation: loading 10s linear infinite;
 }

@@ -1,28 +1,66 @@
 import { TextField } from "@mui/material";
 import style from "../../../css/ProductDetail.module.css";
 import StarRating from "../../StarRating";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import cookie from "react-cookies";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import reissueAccToken from "../../../lib/reissueAccToken";
 
 export default function Detail({ product, reviewRef }) {
-    const [mainImg, setMainImg] = useState(product.image1); // 메인 이미지
+    const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
+    const [totalPrice, setTotalPrice] = useState(""); // 총 금액
+    const [scannerPosition, setScannerPosition] = useState({ x: 0, y: 0 }); // 이미지 스캐너 위치
+
+    const mainImgRef = useRef(null); // 메인 이미지 ref
 
     const id = cookie.load("id"); // 사용자 ID
+    const navigate = useNavigate();
+
+    const scannerStyle = {
+        position: "absolute",
+        top: scannerPosition.y,
+        left: scannerPosition.x,
+        width: 150,
+        height: 150,
+        border: "1px solid #000",
+        backgroundColor: "rgba(255,255,255,0.7)",
+        cursor: "pointer",
+    };
+
+    const onMouseMove = (e) => {
+        const scannerPostionX = e.clientX - 150 / 2;
+        const scannerPostionY = e.clientY - 250 / 2;
+        console.log("ref", mainImgRef.width);
+        setScannerPosition({ x: scannerPostionX, y: scannerPostionY });
+    };
+
+    // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
+    useEffect(() => {
+        setMainImg(product.image1);
+    }, [product]);
+
+    console.log(scannerPosition);
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
         reviewRef.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
     };
 
-    // 서브 이미지에 마우스 올리면 메인이   미지에 이미지 보이도록 하는 함수
+    // 서브 이미지에 마우스 올리면 메인이미지에 이미지 보이도록 하는 함수
     const onMouseOverImg = (img) => {
         setMainImg(img);
     };
 
     // 장바구니 담기 버튼 클릭 함수
     const onClickCartBtn = async (productId) => {
+        let isSuccess = false;
+        if (!id) {
+            return alert("로그인 후 이용 가능합니다.");
+        }
+
         try {
             const res = await axios.post(
                 `/api/users/carts/${id}`,
@@ -41,32 +79,48 @@ export default function Detail({ product, reviewRef }) {
             console.log(res);
             if (res.status === 200) {
                 alert("장바구니에 상품을 담았습니다.");
+                isSuccess = true;
             }
         } catch (error) {
             console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickCartBtn(productId); // 함수 다시 실행
+            }
         }
     };
 
-    // 구매 버튼 클릭 함수 미완성임
+    // 구매 버튼 클릭 함수
     const onClickPayBtn = async (productId, quantity) => {
-        console.log(cookie.load("accessToken"));
+        let isSuccess = false;
+        if (!id) {
+            return alert("로그인 후 이용 가능합니다.");
+        }
+
         try {
-            const res = await axios.patch(
-                `/api/admin/users/${"6OuEWnVpBMOTGGUHcZZlb"}`,
-                {
-                    role: "ROLE_ADMIN",
+            const data = `${productId}:${quantity}`;
+            console.log(data);
+            const res = await axios.get(`/api/users/form/orders/${id}`, {
+                params: {
+                    items: data,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
-                    },
-                }
-            );
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    "ngrok-skip-browser-warning": "1234",
+                },
+            });
 
             console.log(res);
+            const orders = res.data.data; // 주문서 저장
+            isSuccess = true;
+            navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickPayBtn(productId, quantity); // 함수 다시 실행
+            }
         }
     };
 
@@ -85,6 +139,11 @@ export default function Detail({ product, reviewRef }) {
         setQuantity(value);
     };
 
+    // 수량 바뀔때마다 총 금액 업데이트
+    useEffect(() => {
+        setTotalPrice((product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }, [quantity]);
+
     return (
         <div>
             <div className={style.headerBox}>
@@ -101,8 +160,9 @@ export default function Detail({ product, reviewRef }) {
                 </div>
                 {/* 이미지 선택 영역 */}
                 <div className={style.mainImgBox}>
-                    <div className={style.mainImg}>
-                        <img src={mainImg} alt="이미지1" />
+                    <div className={style.mainImg} onMouseMove={onMouseMove}>
+                        <img src={mainImg} alt="메인 이미지" ref={mainImgRef} />
+                        <span style={scannerStyle} />
                     </div>
                 </div>
                 <div className={style.inpoBox}>
@@ -121,16 +181,23 @@ export default function Detail({ product, reviewRef }) {
 
                     {/* 상품 가격 */}
                     <div className={style.price}>
-                        <span>{(product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
+                        <span>{totalPrice}원</span>
                     </div>
 
                     {/* 판매자 정보 */}
                     <div className={style.sellerId}>
-                        <span>판매자 ID : {product.sellerId}</span>
+                        <span>판매자 ID</span> {product.sellerId}
                     </div>
-                    {/* 버튼 영역 */}
-                    <div>
-                        {/* 상품 수량 */}
+
+                    {/* 수량 정보 */}
+                    <div className={style.stock}>
+                        <span>남은 수량</span> {product.stock}
+                    </div>
+
+                    {/* 구매 수량 */}
+                    <div className={style.quantity}>
+                        <span>수량</span>
+                        <hr />
                         <TextField
                             type="number"
                             inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "40px", height: "24px" } }}
@@ -140,17 +207,26 @@ export default function Detail({ product, reviewRef }) {
                             onChange={(e) => {
                                 onChangeQuantity(e);
                             }}
+                            sx={{ backgroundColor: "white" }}
                         />
+                    </div>
+
+                    <div className={style.totalPrice}>
+                        <span>총 주문 금액({quantity})개</span>
+                        <span>{totalPrice}원</span>
+                    </div>
+
+                    {/* 버튼 영역 */}
+                    <div className={style.btnBox}>
                         <button className={style.payBtn} onClick={() => onClickPayBtn(product.itemId, quantity)}>
-                            바로 구매하기
+                            바로 구매
                         </button>
                         <button className={style.cartBtn} onClick={() => onClickCartBtn(product.itemId)}>
-                            장바구니에 담기
+                            장바구니
                         </button>
                     </div>
                 </div>
             </div>
-            <hr />
         </div>
     );
 }
