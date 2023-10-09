@@ -6,6 +6,7 @@ import style from "../css/Cart.module.css";
 import cookie from "react-cookies";
 import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
 export default function Cart() {
     const [cartList, setCartList] = useState([]); // 장바구니 목록
@@ -114,7 +115,7 @@ export default function Cart() {
                 <Loading content="장바구니 목록을 불러오는 중입니다.." />
             ) : (
                 <div className={style.box}>
-                    <h4 className={style.title}>장바구니</h4>
+                    <h4 className={style.title}>🛒 장바구니</h4>
                     <CartList
                         cartList={cartList}
                         selectAll={selectAll}
