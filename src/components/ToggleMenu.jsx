@@ -74,32 +74,24 @@ const ToggleMenu = () => {
     setIsThirdOpen(true);
   };
 
-  const CloseSidebar = () => {
-    if (!isSecondOpen) {
-      setIsOpen(false);
-    }
-
-    return;
-  };
-  const CloseSecondSidebar = () => {
-    if (!isThirdOpen) {
-      setIsSecondOpen(false);
-    }
-
-    return;
-  };
-  const CloseThirdSidebar = () => {
-    setIsThirdOpen(false);
-  };
-
   return (
     <div style={{ float: "left" }}>
       <div
         className="btnCategory"
         style={{ cursor: "pointer", display: "flex", height: "25px" }}
         onMouseOver={ToggleSidebar}
+        onMouseLeave={() => {
+          setIsOpen(false);
+          setIsSecondOpen(false);
+          setIsThirdOpen(false);
+        }}
       >
-        <Menu /> <p>카테고리</p>
+        <div>
+          <Menu />
+        </div>
+        <div style={{ paddingTop: "18px" }}>
+          <p>카테고리</p>
+        </div>
       </div>
       <div
         onMouseLeave={() => {
@@ -108,7 +100,7 @@ const ToggleMenu = () => {
           setIsThirdOpen(false);
         }}
       >
-        <div className={`sidebar ${isOpen ? "active" : ""}`}>
+        <div className={`sidebar ${isOpen ? "active" : ""}`} onMouseOver={()=>{setIsOpen(true)}}>
           <div className="sd-body">
             <ul>
               {mainList.map((subject, index) => (
@@ -174,14 +166,6 @@ const ToggleMenu = () => {
           </div>
         </div>
       </div>
-      <div
-        className={`sidebar-overlay ${isThirdOpen ? "active" : ""}`}
-        onMouseOver={() => {
-          setIsOpen(false);
-          setIsSecondOpen(false);
-          setIsThirdOpen(false);
-        }}
-      ></div>
     </div>
   );
 };

@@ -1,7 +1,12 @@
+.hamburger{
+    margin-left : 30px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+}
 
 .containerBg{
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
@@ -18,11 +23,16 @@
     margin-right: 10%;
 }
 
+.item:first-child{
+    margin: 0px;
+    align-items: flex-end;
+}
+
 .item{
     margin : 5px;
 }
 
-.item:nth-child(4){
+.item:nth-child(3){
     display : flex;
 }
 

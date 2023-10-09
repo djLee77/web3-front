@@ -1,113 +1,100 @@
 @import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css);
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap");
-.btnCategory{
-    position : relative;
+.btnCategory {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .text-primary {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .btn-primary {
-    background-color: white;
-    color : black;
+  background-color: white;
+  color: black;
 }
 
 .sidebar {
-    font-size: small;
-    position: absolute;
-    width: 120px;
-    height: 300px;
-    top: 0;
-    left: -100%;
-    z-index: 3;
-    background-color: #FFF;
-    box-shadow: 1px 1px 2px 0.0025px gray;
+  font-size: small;
+  position: absolute;
+  width: 120px;
+  height: 300px;
+  top: 0;
+  left: -100%;
+  z-index: 3;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px 0.0025px gray;
 }
 
 .sidebar.active {
-    position: absolute;
-    top : 62px;
-    left: 44px;
+  position: absolute;
+  top: 54px;
+  left: 32px;
 }
 
 .second-sidebar {
-    font-size: small;
-    position: absolute;
-    width: 120px;
-    height: 300px;
-    top: 0;
-    left: -100%;
-    z-index: 2;
-    background-color: #FFF;
-    box-shadow: 1px 1px 2px 0.0025px gray;
+  font-size: small;
+  position: absolute;
+  width: 120px;
+  height: 300px;
+  top: 0;
+  left: -100%;
+  z-index: 2;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px 0.0025px gray;
 }
 
 .second-sidebar.active {
-    position : absolute;
-    top: 62px;
-    left: 164px;
+  position: absolute;
+  top: 54px;
+  left: 152px;
 }
 
 .third-sidebar {
-    font-size: small;
-    position: absolute;
-    width: 120px;
-    height: 300px;
-    top: 0;
-    left: -100%;
-    z-index: 1;
-    background-color: #FFF;
-    box-shadow: 1px 1px 2px 0.0025px gray;
+  font-size: small;
+  position: absolute;
+  width: 120px;
+  height: 300px;
+  top: 0;
+  left: -100%;
+  z-index: 1;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px 0.0025px gray;
 }
 
 .third-sidebar.active {
-    position:absolute;
-    top : 62px;
-    left : 284px;
-}
-
-.sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-}
-
-.sidebar-overlay.active {
-    opacity: 1;
-    visibility: visible;
+  position: absolute;
+  top: 54px;
+  left: 272px;
 }
 
 .sd-body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .sd-body ul {
-    display: inline-block;
-    width: 100%;
-    margin-bottom: 0;
-    padding: 0;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .sd-body ul li {
-    list-style: none;
+  list-style: none;
 }
 
 .sd-body ul li .sd-link {
-    display: inline-block;
-    width: 100%;
-    padding: 10px 16px;
-    color: #475f7b;
-    cursor: pointer;
-    text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 16px;
+  color: #475f7b;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.sd-body ul li :hover{
-    color: #0185FF;
-    font-weight: bold;
-    text-decoration: underline;
+.sd-body ul li :hover {
+  color: #0185ff;
+  font-weight: bold;
+  text-decoration: underline;
 }

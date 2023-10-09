@@ -34,11 +34,7 @@ const CategoryResult = () => {
   useEffect(() => {
     const getProudctList = async () => {
       try {
-        const categoryRes = await axios.get("/api/public/categories", {
-          headers: {
-            "ngrok-skip-browser-warning": "1234",
-          },
-        });
+        const categoryRes = await axios.get("/api/public/categories");
         if (categoryRes.data.code === 200) {
           const pathNames = findNodeAndPath(
             categoryRes.data.data[0].child,
@@ -49,13 +45,10 @@ const CategoryResult = () => {
         }
 
         const res = await axios.get(`/api/public/categories/${id}/items`, {
-          headers: {
-            "ngrok-skip-browser-warning": "1234",
-          },
           params: {
-            sortType: "n", // 기본값
-            pageNum: pageNum, // 기본값
-            pageSize: 6, // 기본값
+            sortType: "desc", // 기본값
+            pageNum: pageNum-1, // 기본값
+            pageSize: 9, // 기본값
           },
         });
 

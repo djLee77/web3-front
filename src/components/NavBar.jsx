@@ -98,8 +98,8 @@ const NavBar = () => {
   };
 
   const OnClickAlert = () => {
-    alert("로그인 후 이용해주십시오.")
-  }
+    alert("로그인 후 이용해주십시오.");
+  };
 
   // 계정 연결 됐으면
   useEffect(() => {
@@ -126,10 +126,10 @@ const NavBar = () => {
 
   return (
     <div className={style.containerBg}>
+      <div className={style.hamburger}>
+        <ToggleMenu />
+      </div>
       <div className={style.container}>
-        <div className={style.item}>
-          <ToggleMenu />
-        </div>
         <div className={style.item}>
           <a href="/">
             <img src="imgs/logo3.png" style={{ width: "150px" }}></img>

@@ -6,7 +6,6 @@
     border-radius: 30px;
 }
 
-
 .input:focus{
     outline: none;
     background-color: grey;
