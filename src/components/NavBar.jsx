@@ -139,7 +139,7 @@ const NavBar = () => {
             <div className={style.container}>
                 <div className={style.item}>
                     <a href="/">
-                        <img src="imgs/logo3.png" style={{ width: "150px" }}></img>
+                        <img src="/imgs/logo3.png" style={{ width: "150px" }}></img>
                     </a>
                 </div>
                 <div className={style.item}>

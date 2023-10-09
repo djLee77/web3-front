@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import ProductForm from "./pages/ProductForm";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
-import ChatbotBtn from "./components/fab/ChatbotBtn";
+import ChatbotBtn from "./components/fab/chatbotBtn";
 import SearchResult from "./pages/SearchResult";
 import CategoryResult from "./pages/CategoryResult";
 import Payment from "./pages/Payment";
