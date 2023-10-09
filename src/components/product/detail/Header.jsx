@@ -41,8 +41,8 @@ export default function Detail({ product, reviewRef }) {
         border: "1px solid gray",
         backgroundImage: `url(${mainImg})`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: `-200px ${scannerPosition?.y * -2}px`,
-        backgroundSize: "320% 280%",
+        backgroundPosition: `${(scannerPosition?.x - 291.5) * -2.8}px ${scannerPosition?.y * -2.8}px`,
+        backgroundSize: "280% 280%",
         display: scannerPosition ? "block" : "none",
     };
 
