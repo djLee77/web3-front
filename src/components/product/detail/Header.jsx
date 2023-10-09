@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import style from "../../../css/ProductDetail.module.css";
 import StarRating from "../../StarRating";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import cookie from "react-cookies";
 import { useEffect } from "react";
@@ -12,14 +12,37 @@ export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
     const [totalPrice, setTotalPrice] = useState(""); // 총 금액
+    const [scannerPosition, setScannerPosition] = useState({ x: 0, y: 0 }); // 이미지 스캐너 위치
+
+    const mainImgRef = useRef(null); // 메인 이미지 ref
 
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
+
+    const scannerStyle = {
+        position: "absolute",
+        top: scannerPosition.y,
+        left: scannerPosition.x,
+        width: 150,
+        height: 150,
+        border: "1px solid #000",
+        backgroundColor: "rgba(255,255,255,0.7)",
+        cursor: "pointer",
+    };
+
+    const onMouseMove = (e) => {
+        const scannerPostionX = e.clientX - 150 / 2;
+        const scannerPostionY = e.clientY - 250 / 2;
+        console.log("ref", mainImgRef.width);
+        setScannerPosition({ x: scannerPostionX, y: scannerPostionY });
+    };
 
     // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
     useEffect(() => {
         setMainImg(product.image1);
     }, [product]);
+
+    console.log(scannerPosition);
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
@@ -137,8 +160,9 @@ export default function Detail({ product, reviewRef }) {
                 </div>
                 {/* 이미지 선택 영역 */}
                 <div className={style.mainImgBox}>
-                    <div className={style.mainImg}>
-                        <img src={mainImg} alt="메인 이미지" />
+                    <div className={style.mainImg} onMouseMove={onMouseMove}>
+                        <img src={mainImg} alt="메인 이미지" ref={mainImgRef} />
+                        <span style={scannerStyle} />
                     </div>
                 </div>
                 <div className={style.inpoBox}>
