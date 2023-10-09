@@ -39,10 +39,11 @@ export default function Detail({ product, reviewRef }) {
         width: 440,
         height: 440,
         border: "1px solid gray",
+        backgroundColor: "white",
         backgroundImage: `url(${mainImg})`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: `${(scannerPosition?.x - 291.5) * -2.8}px ${scannerPosition?.y * -2.8}px`,
-        backgroundSize: "280% 280%",
+        backgroundPosition: `${(scannerPosition?.x - 291.5) * -3}px ${scannerPosition?.y * -3}px`,
+        backgroundSize: "300% 300%",
         display: scannerPosition ? "block" : "none",
     };
 
@@ -55,8 +56,8 @@ export default function Detail({ product, reviewRef }) {
             scannerPostionX = left;
         }
 
-        if (scannerPostionX > 580) {
-            scannerPostionX = 580;
+        if (scannerPostionX > 590) {
+            scannerPostionX = 590;
         }
 
         if (scannerPostionY < 0) {
