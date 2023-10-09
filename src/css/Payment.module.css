@@ -3,6 +3,17 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-content: center;
+    margin-top: 30px;
+
+}
+
+.deliveryBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    border: 1.5px solid rgb(1, 133, 255);
+    border-radius: 10px;
 }
 
 .zipCodeBox {
@@ -19,7 +30,14 @@
 }
 
 .orderListBox {
-    width: 420px;
-    height: 300px;
-    overflow: auto;
+    padding: 30px;
+    border: 1.5px solid rgb(1, 133, 255);
+    border-radius: 10px;
+    margin-left: 30px;
+}
+
+.btnBox {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
 }

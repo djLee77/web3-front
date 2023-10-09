@@ -1,19 +1,20 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Select,
-  MenuItem,
-  Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Select,
+    MenuItem,
+    Checkbox,
 } from "@mui/material";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import cookie from "react-cookies";
+import reissueAccToken from "../../lib/reissueAccToken";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     // 상품 전체 선택 함수
@@ -23,25 +24,26 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
         //  체크하면 선택한 상품 배열에 모든 값 넣기 해제하면 빈 배열로 상태 저장
         if (checked) {
-            setSelectedItems(cartList.map((item) => item.cartId));
+            setSelectedItems(cartList.map((item) => ({ itemId: item.itemId, quantity: item.quantity })));
         } else {
             setSelectedItems([]);
         }
     };
 
     // 각 상품 선택 함수
-    const handleSelectOne = (event, cartId) => {
+    const handleSelectOne = (event, itemId, quantity) => {
         const checked = event.target.checked;
 
         if (checked) {
-            setSelectedItems((prevSelected) => [...prevSelected, cartId]);
+            setSelectedItems((prevSelected) => [...prevSelected, { itemId, quantity }]);
         } else {
-            setSelectedItems((prevSelected) => prevSelected.filter((id) => id !== cartId));
+            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.itemId !== itemId));
         }
     };
 
     // 삭제 버튼 함수
     const handleDelBtn = async (id) => {
+        let isSuccess = false;
         try {
             const res = await axios.delete(`/api/users/carts/${id}`, {
                 headers: {
@@ -51,13 +53,20 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
             });
             console.log("삭제 : ", res);
             getCartList();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && handleDelBtn(); // 함수 다시 실행
+            }
+            console.log("에러:", error);
         }
     };
 
     // 상품 수량 변경 함수
     const handleCountChange = async (id, e) => {
+        let isSuccess = false;
         try {
             const res = await axios.patch(
                 `/api/users/carts/${id}`,
@@ -74,8 +83,14 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
             console.log("수량 변경 : ", res);
             getCartList();
+            isSuccess = true;
         } catch (error) {
-            console.log(error);
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && handleCountChange(); // isSuccess가 false면은 장바구니 목록 함수 실행
+            }
+            console.log("에러:", error);
         }
     };
 
@@ -113,7 +128,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         />
                                     </TableCell>
                                     <TableCell align="center">
-                                        <img src={item.image} alt={item.name} />
+                                        <img src={item.image1} alt={item.name} width={100} height={100} />
                                     </TableCell>
                                     <TableCell align="left" sx={{ fontSize: "16px" }}>
                                         {item.name}
@@ -140,7 +155,9 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         원
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button onClick={() => handleDelBtn(item.cartId)}>x</Button>
+                                        <Button color="error" onClick={() => handleDelBtn(item.cartId)}>
+                                            x
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

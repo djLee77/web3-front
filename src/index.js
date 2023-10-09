@@ -9,16 +9,14 @@ import { Web3Provider } from "@ethersproject/providers";
 
 // web3-react가 사용할 web3 provider를 제공하는 역할
 const getLibrary = (provider) => {
-  console.log("[getLibrary] provider", provider);
-  return new Web3Provider(provider);
+    console.log("[getLibrary] provider", provider);
+    return new Web3Provider(provider);
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <React.StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <App />
+        <App />
     </Web3ReactProvider>
-  </React.StrictMode>
 );

@@ -1,0 +1,40 @@
+.label {
+    display: inline-block;
+    font-size: 12px;
+    color: rgb(173, 173, 173);
+    margin-bottom: 14px;
+}
+
+.productBox {
+    display: flex;
+    height: 140px;
+}
+
+.productBox img {
+    border: 1px solid gray;
+    width: 140px;
+    height: 140px;
+}
+
+.productBox span {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.imgBox {
+    width: 100px;
+    height: 100px;
+}
+
+.imgBtn {
+    padding: 0;
+    width: 100px;
+    height: 100px;
+    border: none;
+}
+
+.btnBox {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
