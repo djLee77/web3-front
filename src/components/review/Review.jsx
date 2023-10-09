@@ -70,10 +70,10 @@ const Review = forwardRef((props, ref) => {
         }
     };
 
-    // 페이지 바뀔때 마다 리뷰 가져오기
+    // 페이지, 정렬 방법 바뀔때 마다 리뷰 가져오기
     useEffect(() => {
         getReview();
-    }, [page, sortType]);
+    }, [page, sortType, sort]);
 
     const testReivew = {
         data: {
