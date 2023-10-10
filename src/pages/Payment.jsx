@@ -174,12 +174,16 @@ export default function Payment() {
                         {orders?.map((item, idx) => (
                             <div key={idx} style={{ display: "flex" }}>
                                 <div>
-                                    <img src={item.image} alt="상품 이미지" width={180} height={180} />
+                                    <img src={item.image} alt="상품 이미지" width={150} height={150} />
                                 </div>
-                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                <div className={style.orderProductBox}>
                                     <span>{item.itemName}</span>
-                                    <span>수량 : {item.quantity}</span>
-                                    <span>가격 : {item.price}</span>
+                                    <span>수량 {item.quantity}개</span>
+                                    <span>
+                                        가격{" "}
+                                        {(item.quantity * item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                        원
+                                    </span>
                                 </div>
                             </div>
                         ))}

@@ -12,7 +12,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 30px;
-    border: 1.5px solid rgb(1, 133, 255);
+    border: 1.5px solid rgb(145, 145, 145);
     border-radius: 10px;
 }
 
@@ -31,9 +31,24 @@
 
 .orderListBox {
     padding: 30px;
-    border: 1.5px solid rgb(1, 133, 255);
+    border: 1.5px solid rgb(145, 145, 145);
     border-radius: 10px;
     margin-left: 30px;
+}
+
+.orderProductBox {
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+}
+
+.orderProductBox span {
+    margin-bottom: 14px;
+}
+
+.orderProductBox span:first-child {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .btnBox {
