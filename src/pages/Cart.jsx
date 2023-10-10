@@ -7,6 +7,7 @@ import cookie from "react-cookies";
 import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import numberComma from "../lib/numberComma";
 
 export default function Cart() {
     const [cartList, setCartList] = useState([]); // 장바구니 목록
@@ -127,9 +128,7 @@ export default function Cart() {
                     <div className={style.box}>
                         <div className={style.totalBox}>
                             <span>총 주문 금액 : </span>
-                            <span className={style.total}>
-                                {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
-                            </span>
+                            <span className={style.total}>{numberComma(total)}원</span>
                         </div>
 
                         {/* 버튼 영역 */}

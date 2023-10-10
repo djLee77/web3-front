@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
+import numberComma from "../lib/numberComma";
 
 export default function SellerOrder() {
     const [orders, setOrders] = useState([]); // 주문 목록
@@ -110,8 +111,7 @@ export default function SellerOrder() {
                                     <div className={style.infoBox}>
                                         <span>{product.name}</span>
                                         <span>
-                                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 |{" "}
-                                            {product.quantity}개
+                                            {numberComma(product.price)}원 | {product.quantity}개
                                         </span>
                                         <span>구매자 ID : {product.sellerId}</span>
                                         {/* <span>배송지 : {product.address}</span> */}

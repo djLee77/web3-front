@@ -8,6 +8,7 @@ import { Pagination } from "@mui/material";
 import style from "../css/UserOrder.module.css";
 import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
+import numberComma from "../lib/numberComma";
 
 export default function UserOrder() {
     const [orders, setOrders] = useState([]); // 주문 목록
@@ -154,10 +155,7 @@ export default function UserOrder() {
                                                     >
                                                         <span>{product.itemName}</span>
                                                         <span>
-                                                            {product.price
-                                                                .toString()
-                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                                            원 | {product.quantity}개
+                                                            {numberComma(product.price)}원 | {product.quantity}개
                                                         </span>
                                                     </div>
                                                     <div style={{ display: "flex", alignItems: "center" }}>

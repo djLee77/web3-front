@@ -6,6 +6,7 @@ import style from "../css/Payment.module.css";
 import axios from "axios";
 import cookie from "react-cookies";
 import reissueAccToken from "../lib/reissueAccToken";
+import numberComma from "../lib/numberComma";
 
 export default function Payment() {
     const [name, setName] = useState(""); // 이름
@@ -179,11 +180,7 @@ export default function Payment() {
                                 <div className={style.orderProductBox}>
                                     <span>{item.itemName}</span>
                                     <span>수량 {item.quantity}개</span>
-                                    <span>
-                                        가격{" "}
-                                        {(item.quantity * item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                        원
-                                    </span>
+                                    <span>가격 {numberComma(item.quantity * item.price)}원</span>
                                 </div>
                             </div>
                         ))}

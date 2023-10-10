@@ -7,6 +7,7 @@ import cookie from "react-cookies";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import reissueAccToken from "../../../lib/reissueAccToken";
+import numberComma from "../../../lib/numberComma";
 
 export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
@@ -175,7 +176,7 @@ export default function Detail({ product, reviewRef }) {
 
     // 수량 바뀔때마다 총 금액 업데이트
     useEffect(() => {
-        setTotalPrice((product.price * quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        setTotalPrice(numberComma(product.price * quantity));
     }, [quantity]);
 
     return (

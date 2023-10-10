@@ -1,6 +1,7 @@
 import style from "../../css/Card.module.css";
 import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
+import numberComma from "../../lib/numberComma";
 
 const Card = ({ product }) => {
     return (
@@ -17,9 +18,7 @@ const Card = ({ product }) => {
                     </div>
                     <div className={style.contentBox}>
                         <span className={style.title}>{product.name}</span>
-                        <span className={style.price}>
-                            {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
-                        </span>
+                        <span className={style.price}>{numberComma(product.price)}원</span>
                         <span className={style.rate}>
                             <StarRating rate={product.avgRating} size={12} space={2} />
                             <span>({product.reviewCount})</span>

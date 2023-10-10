@@ -15,6 +15,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
+import numberComma from "../../lib/numberComma";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     // 상품 전체 선택 함수
@@ -151,8 +152,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         </Select>
                                     </TableCell>
                                     <TableCell align="center" sx={{ fontSize: "16px", fontWeight: "bold" }}>
-                                        {(item.quantity * item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                        원
+                                        {numberComma(item.quantity * item.price)}원
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button color="error" onClick={() => handleDelBtn(item.cartId)}>

@@ -8,6 +8,7 @@ import cookie from "react-cookies";
 import { Button, Pagination } from "@mui/material";
 import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
+import numberComma from "../lib/numberComma";
 
 export default function SellerProduct() {
     const [productcs, setProducts] = useState([]); // 판매중인 상품 목록
@@ -128,7 +129,7 @@ export default function SellerProduct() {
                                     }}
                                 >
                                     <span>{product.name}</span>
-                                    <span>{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
+                                    <span>{numberComma(product.price)}원</span>
                                     <span>남은 수량 {product.stock}개</span>
                                     <span>
                                         <StarRating rate={product.avgRating} size={12} space={2} />
