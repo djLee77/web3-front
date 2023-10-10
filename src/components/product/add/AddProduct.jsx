@@ -158,6 +158,7 @@ const AddProduct = () => {
         let isSuccess = false;
         setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
+            console.log(keywordList);
             const res = await axios.post(
                 `/api/sellers/items/${id}`,
                 {
@@ -197,6 +198,7 @@ const AddProduct = () => {
     const onClickModifyBtn = async () => {
         let isSuccess = false;
         const itemId = searchParams.get("id");
+        setKeywordList([...keywordList, name]); // 키워드에 제목도 넣어주기
         try {
             const res = await axios.patch(
                 `/api/sellers/items/${itemId}`,
