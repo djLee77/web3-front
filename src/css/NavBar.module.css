@@ -8,6 +8,7 @@
 .containerBg {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #dadce0;
 }
 
 .container {
@@ -15,7 +16,6 @@
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-    border-bottom: 1px solid #dadce0;
     width: 100%;
 }
 
@@ -34,7 +34,6 @@
 
 .item:hover {
     cursor: pointer;
-    color: #0185FF;
 }
 
 .item:nth-child(3) {
@@ -45,6 +44,10 @@
     margin: 10px;
 }
 
-.lilItem:last-child:hover {
+.lilItem:first-child:hover{
+    color: #0185FF;
+}
+
+.lilItem:nth-child(2):hover{
     color: #0185FF;
 }

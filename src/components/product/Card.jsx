@@ -28,7 +28,7 @@ const Card = ({ product }) => {
                             {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                         </span>
                         <span className={style.rate}>
-                            <StarRating rate={product.rate} size={12} space={2} />
+                            <StarRating rate={product.avgRating} size={12} space={2} />
                             <span>({product.reviewCount})</span>
                         </span>
                     </div>

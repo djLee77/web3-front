@@ -33,6 +33,12 @@ const imageData = [
     alt: "image5",
     url: "https://image8.coupangcdn.com/image/ccm/banner/211039ebb87c367467616b7b412a8f11.jpg",
   },
+
+  {
+    label: "Image 6",
+    alt: "image6",
+    url: "https://cdn.imweb.me/thumbnail/20220831/e264e2f2870b5.png",
+  }
 ];
 
 const renderSlides = imageData.map((image) => (
