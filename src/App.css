@@ -21,3 +21,28 @@
     transform: rotate(360deg);
   }
 }
+
+.NavBarFixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  transition: all 0.8s ease;
+  background-color: #FFF;
+}
+
+.NavBar {
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+}
+
+.bodyScrolled {
+  padding-top: 59px;
+}
