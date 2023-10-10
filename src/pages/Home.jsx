@@ -17,7 +17,7 @@ const Home = () => {
                         search: "", // 추후 검색기능 구현시 여기에 검색 키워드 입력
                         sort: "sales",
                         sortType: "desc",
-                        pageNum: 1,
+                        pageNum: 0,
                         pageSize: 6, // 카드로 보여줄 상품 수
                     },
                     headers: {
@@ -50,34 +50,15 @@ const Home = () => {
                 <SlideImg />
             </div>
             <div className={style.item}>
-                <div>
-                    <p>인기 상품</p>
+                <div style={{margin : "30px", marginTop : "20px", fontWeight : "bolder", borderBottom: "1px solid #dadce0"}}>
+                    <h5>인기 상품</h5>
                 </div>
-                <div className="card-list">
+                <div className={style.cardList}>
                     {products.map((product) => (
                         <Card key={product.itemId} product={product} />
                     ))}
                 </div>
             </div>
-            <style jsx>{`
-                .container {
-                    width: 100%;
-                    max-width: 100vw; // viewport의 100%와 같음
-                    overflow-x: hidden; // 가로 스크롤 방지
-                }
-
-                .item {
-                    width: 100%;
-                }
-
-                .card-list {
-                    display: grid;
-                    grid-template-columns: repeat(6, 1fr);
-                    grid-gap: 20px;
-                    width: 1212px;
-                    margin: 0 auto; // 중앙 정렬
-                }
-            `}</style>
         </div>
     );
 };

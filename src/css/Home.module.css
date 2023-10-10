@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.item {
+  width: 100%;
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 20px;
+  width: 1212px;
+  margin: 0 auto;
+}
