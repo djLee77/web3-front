@@ -8,7 +8,7 @@ import { useRef } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SendIcon from "@mui/icons-material/Send";
 
-const socket = io("http://43.201.32.211:3001");
+const socket = io("http://54.180.92.154:3001/");
 
 export default function Chatbot({ setIsOpen, isOpen }) {
     const [inputValue, setInputValue] = useState(""); // 질문 입력칸
@@ -22,7 +22,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
     // FAQ 목록 가져오기
     const fetchQuestions = async () => {
         try {
-            const response = await axios.get("http://43.201.32.211:3001/faq/question");
+            const response = await axios.get("http://54.180.92.154:3001/faq/question");
             setFaqs(response.data.questions);
         } catch (error) {
             console.error("Error fetching questions:", error);
@@ -57,7 +57,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
         // 질문에 대한 대답
         socket.on("response", (data) => {
             const message = {
-                message: data.response.text,
+                message: data.response.kwargs.content,
                 isBot: true,
             };
             setMessages([...messages, message]); //  챗봇 대답 메세지에 저장
@@ -131,7 +131,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                 <div className={style.messageBox}>
                     {messages.map((item, idx) => (
                         <div key={idx} style={{ display: "flex", marginLeft: "10px" }}>
-                            {item.isBot && <Avatar alt="Remy Sharp" src="/imgs/bot.png" />}
+                            {item.isBot && <Avatar alt="ChatBot" />}
                             <div className={item.isBot ? style.botMessage : style.userMessage} ref={messageRef}>
                                 {item.message}
                             </div>
