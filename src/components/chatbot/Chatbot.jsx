@@ -71,6 +71,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                 message: data.answer,
                 isBot: true,
             };
+            console.log(data.images);
             setMessages([...messages, message]); // 챗봇이 말한거 메세지에 저장
         });
 
