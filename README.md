@@ -36,5 +36,5 @@ Web3 쇼핑몰은 Metamask 암호화폐 지갑을 사용하는 쇼핑몰 플랫�
 * [이병선](https://github.com/dlqudtjs) <br>
 * 김봉준
 
-## 📑Api Docs
-https://mallba.netlify.app/
+# 📑Api Docs
+https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html
