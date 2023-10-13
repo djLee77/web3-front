@@ -1,4 +1,4 @@
-# Web3 쇼핑몰
+# 🌐Web3 쇼핑몰
 
 메타마스크를 활용한 Web3 쇼핑몰 플랫폼입니다.
 
@@ -24,14 +24,17 @@ Web3 쇼핑몰은 Metamask 암호화폐 지갑을 사용하는 쇼핑몰 플랫�
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-## 배포 방법
+## ⛵배포 방법
 * netlify
 
-## 참여인원
-### Frontend
-[이대준](https://github.com/djLee77) <br>
-김동건
+## 👨‍👩‍👧‍👦참여인원
+### 🌞Frontend
+* [이대준](https://github.com/djLee77) <br>
+* 김동건
 
-### Backend
-[이병선](https://github.com/dlqudtjs) <br>
-김봉준
+### 🌚Backend
+* [이병선](https://github.com/dlqudtjs) <br>
+* 김봉준
+
+## 📑Api Docs
+https://mallba.netlify.app/
