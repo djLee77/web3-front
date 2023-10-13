@@ -20,6 +20,8 @@ const style = {
 };
 
 export default function SelectCategoryModal({ category, setCategory }) {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [open, setOpen] = useState(false);
     const [isSecondOpen, setIsSecondOpen] = useState(false);
     const [isThirdOpen, setIsThirdOpen] = useState(false);
@@ -39,10 +41,8 @@ export default function SelectCategoryModal({ category, setCategory }) {
     };
 
     const getCategrories = async () => {
-        const response = await axios.get("/api/public/categories", {
-            headers: {
-                "ngrok-skip-browser-warning": "1234",
-            },
+        const response = await axios.get(`${serverUrl}/api/public/categories`, {
+            credentials: true,
         });
         console.log("data:", response.data.data[0]);
         const categories = response.data.data[0].child;

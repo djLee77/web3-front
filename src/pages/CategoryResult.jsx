@@ -7,9 +7,11 @@ import style from "../css/CategoryResult.module.css";
 import Loading from "../components/Loading";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { FormControl} from "@mui/material";
+import { FormControl } from "@mui/material";
 
 const CategoryResult = () => {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [categoryNames, setCategoryNames] = useState([]);
@@ -19,10 +21,10 @@ const CategoryResult = () => {
   const [sortTypes, setSortTypes] = useState(["createdAt", "desc"]);
   const [selectedType, setSelectedType] = useState("최신순");
   const typesObj = {
-    "판매량순" : ["sales", "desc"],
-    "낮은가격순" : ["price", "asc"],
-    "높은가격순" : ["price", "desc"],
-    "최신순" : ["createdAt", "desc"],
+    판매량순: ["sales", "desc"],
+    낮은가격순: ["price", "asc"],
+    높은가격순: ["price", "desc"],
+    최신순: ["createdAt", "desc"],
     "별점 높은순": ["avgRating", "desc"],
   };
   const handleSortType = (event) => {
@@ -53,7 +55,10 @@ const CategoryResult = () => {
   useEffect(() => {
     const getProudctList = async () => {
       try {
-        const categoryRes = await axios.get("/api/public/categories");
+        const categoryRes = await axios.get(
+          `${serverUrl}/api/public/categories`,
+          { credentials: true }
+        );
         if (categoryRes.data.code === 200) {
           const pathNames = findNodeAndPath(
             categoryRes.data.data[0].child,
@@ -62,13 +67,14 @@ const CategoryResult = () => {
           setCategoryNames(pathNames || []);
         }
 
-        const res = await axios.get(`/api/public/categories/${id}/items`, {
+        const res = await axios.get(`${serverUrl}/api/public/categories/${id}/items`, {
           params: {
             sort: sortTypes[0],
             sortType: sortTypes[1], // 기본값
             pageNum: pageNum - 1, // 기본값
             pageSize: 9, // 기본값
           },
+          credentials: true,
         });
 
         if (res.data.code === 200) {
@@ -108,7 +114,6 @@ const CategoryResult = () => {
               <MenuItem value={"별점 높은순"}>별점 높은순</MenuItem>
               <MenuItem value={"낮은가격순"}>낮은가격순</MenuItem>
               <MenuItem value={"높은가격순"}>높은가격순</MenuItem>
-              
             </Select>
           </FormControl>
         </div>

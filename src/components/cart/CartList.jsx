@@ -24,6 +24,7 @@ export default function CartList({
   setSelectedItems,
   getCartList,
 }) {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
   // 상품 전체 선택 함수
   const handleSelectAll = (event) => {
     const checked = event.target.checked;
@@ -62,11 +63,11 @@ export default function CartList({
   const handleDelBtn = async (id) => {
     let isSuccess = false;
     try {
-      const res = await axios.delete(`/api/users/carts/${id}`, {
+      const res = await axios.delete(`${serverUrl}/api/users/carts/${id}`, {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
-          "ngrok-skip-browser-warning": "1234",
         },
+        credentials: true,
       });
       console.log("삭제 : ", res);
       getCartList();
@@ -86,7 +87,7 @@ export default function CartList({
     let isSuccess = false;
     try {
       const res = await axios.patch(
-        `/api/users/carts/${id}`,
+        `${serverUrl}/api/users/carts/${id}`,
         {
           quantity: e.target.value,
         },
@@ -94,6 +95,7 @@ export default function CartList({
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
+          credentials: true,
         }
       );
 
