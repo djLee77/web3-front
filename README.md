@@ -25,16 +25,20 @@ Web3 쇼핑몰은 Metamask 암호화폐 지갑을 사용하는 쇼핑몰 플랫�
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 ## ⛵배포 방법
-* netlify
+* netlify - web
+* cloudType - server
 
 ## 👨‍👩‍👧‍👦참여인원
-### 🌞Frontend
+### 🌞Front-end
 * [이대준](https://github.com/djLee77) <br>
 * 김동건
 
-### 🌚Backend
+### 🌚Back-end
 * [이병선](https://github.com/dlqudtjs) <br>
-* 김봉준
+* 김봉준 - (챗봇)
+
+## 🏡협업 공간
+[Notion](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)
 
 # 📑Api Docs
 https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html
