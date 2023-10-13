@@ -5,10 +5,6 @@ import { Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const ToggleMenu = () => {
-  const instance = axios.create({
-    baseURL: "https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/",
-  });
-
   const [isOpen, setIsOpen] = useState(false);
   const [isSecondOpen, setIsSecondOpen] = useState(false);
   const [isThirdOpen, setIsThirdOpen] = useState(false);
@@ -21,8 +17,7 @@ const ToggleMenu = () => {
   const [pickedThirdList, setPickedThirdList] = useState([]);
 
   const getCategories = async () => {
-    const response = await instance.get("/api/public/categories",{
-      withCredentials: true,
+    const response = await axios.get("/api/public/categories",{
     });
     const categories = response.data.data[0].child;
 

@@ -5,10 +5,6 @@ import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
 
 export default function UserRoleModal({ setIsOpen, isOpen }) {
-  const instance = axios.create({
-    baseURL: "https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/",
-  });
-
   const ROLE_ADMIN = "ROLE_ADMIN";
   const ROLE_SELLER = "ROLE_SELLER";
   const ROLE_USER = "ROLE_USER";
@@ -33,7 +29,7 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
     }
 
     try {
-      const res = await instance.patch(
+      const res = await axios.patch(
         `/api/admin/users/${userId}`,
         {
           role: role,
@@ -42,7 +38,6 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          withCredentials: true,
         }
       );
 

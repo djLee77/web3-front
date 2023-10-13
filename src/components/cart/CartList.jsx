@@ -24,10 +24,6 @@ export default function CartList({
   setSelectedItems,
   getCartList,
 }) {
-  const instance = axios.create({
-    baseURL: "https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/",
-  });
-
   // 상품 전체 선택 함수
   const handleSelectAll = (event) => {
     const checked = event.target.checked;
@@ -89,7 +85,7 @@ export default function CartList({
   const handleCountChange = async (id, e) => {
     let isSuccess = false;
     try {
-      const res = await instance.patch(
+      const res = await axios.patch(
         `/api/users/carts/${id}`,
         {
           quantity: e.target.value,
@@ -97,7 +93,6 @@ export default function CartList({
         {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
-            withCredentials: true,
           },
         }
       );
