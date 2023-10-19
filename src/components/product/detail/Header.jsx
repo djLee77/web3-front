@@ -13,10 +13,14 @@ export default function Detail({ product, reviewRef }) {
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
     const [totalPrice, setTotalPrice] = useState(""); // 총 금액
+    const [mainImgRect, setMainImgRect] = useState({});
     const [scannerPosition, setScannerPosition] = useState(null); // 이미지 스캐너 위치
 
     const mainImgRef = useRef(null); // 메인 이미지 ref
-    const mainImgRect = mainImgRef.current?.getBoundingClientRect(); // 메인이미지 위치 값
+
+    useEffect(() => {
+        setMainImgRect(mainImgRef.current?.getBoundingClientRect()); // 메인이미지 위치 값
+    }, [mainImgRect]);
 
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
@@ -37,7 +41,7 @@ export default function Detail({ product, reviewRef }) {
         zIndex: 1,
         position: "absolute",
         top: 0,
-        left: mainImgRect.right + 40 + "px",
+        left: mainImgRect?.right + 40 + "px",
         width: 440,
         height: 440,
         border: "1px solid gray",
