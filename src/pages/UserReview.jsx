@@ -140,7 +140,14 @@ export default function UserReview() {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: "30px",
+                                    marginBottom: "30px",
+                                }}
+                            >
                                 <Pagination count={totalPage} page={page} onChange={handleChange} />
                             </div>
                         </div>

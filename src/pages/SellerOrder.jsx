@@ -132,7 +132,7 @@ export default function SellerOrder() {
                             </div>
                         ))}
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "30px" }}>
                         <Pagination count={totalPage} page={page} onChange={handleChange} />
                     </div>
                 </div>
