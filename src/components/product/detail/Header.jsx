@@ -16,6 +16,7 @@ export default function Detail({ product, reviewRef }) {
     const [scannerPosition, setScannerPosition] = useState(null); // 이미지 스캐너 위치
 
     const mainImgRef = useRef(null); // 메인 이미지 ref
+    const mainImgRect = mainImgRef.current?.getBoundingClientRect(); // 메인이미지 위치 값
 
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
@@ -36,20 +37,20 @@ export default function Detail({ product, reviewRef }) {
         zIndex: 1,
         position: "absolute",
         top: 0,
-        left: 750,
+        left: mainImgRect.right + 40 + "px",
         width: 440,
         height: 440,
         border: "1px solid gray",
         backgroundColor: "white",
         backgroundImage: `url(${mainImg})`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: `${(scannerPosition?.x - 291.5) * -3}px ${scannerPosition?.y * -3}px`,
+        backgroundPosition: `${(scannerPosition?.x - mainImgRect.left) * -3}px ${scannerPosition?.y * -3}px`,
         backgroundSize: "300% 300%",
         display: scannerPosition ? "block" : "none",
     };
 
     const onMouseMove = (e) => {
-        const { left, top } = mainImgRef.current.getBoundingClientRect();
+        const { left, top } = mainImgRect;
         let scannerPostionX = e.clientX - 75;
         let scannerPostionY = e.clientY - 120;
 
@@ -57,8 +58,8 @@ export default function Detail({ product, reviewRef }) {
             scannerPostionX = left;
         }
 
-        if (scannerPostionX > 590) {
-            scannerPostionX = 590;
+        if (scannerPostionX > left + 280) {
+            scannerPostionX = left + 280;
         }
 
         if (scannerPostionY < 0) {
@@ -69,7 +70,7 @@ export default function Detail({ product, reviewRef }) {
             scannerPostionY = 290;
         }
 
-        console.log(scannerPosition?.x - 291.5, scannerPosition?.y);
+        console.log(scannerPosition?.x, scannerPosition?.y);
 
         setScannerPosition({ x: scannerPostionX, y: scannerPostionY });
     };
