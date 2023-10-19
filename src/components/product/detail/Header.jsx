@@ -53,8 +53,9 @@ export default function Detail({ product, reviewRef }) {
         display: scannerPosition ? "block" : "none",
     };
 
+    // 상세 이미지 스캐너 움직이는 함수
     const onMouseMove = (e) => {
-        const { left, top } = mainImgRect;
+        const { left } = mainImgRect;
         let scannerPostionX = e.clientX - 75;
         let scannerPostionY = e.clientY - 120;
 
