@@ -11,6 +11,8 @@ const Review = forwardRef((props, ref) => {
     const [sort, setSort] = useState(""); // 정렬 타입
     const [sortType, setSortType] = useState(""); // 정렬 방법
 
+    const defaultReviewImgURL = "/imgs/defaultAddImg.png"; // 리뷰 기본 이미지 경로
+
     // 정렬 타입 배열
     const sortTypes = [
         {
@@ -141,9 +143,12 @@ const Review = forwardRef((props, ref) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={style.imgBox}>
-                                <img src={review.image} alt="리뷰사진" width={100} height={100}></img>
-                            </div>
+                            {review.image !== defaultReviewImgURL && (
+                                <div className={style.imgBox}>
+                                    <img src={review.image} alt="리뷰 이미지" width={100} height={100}></img>
+                                </div>
+                            )}
+
                             <div className={style.contentBox}>
                                 <span>{review.content}</span>
                             </div>

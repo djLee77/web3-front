@@ -18,6 +18,7 @@ export default function UserReview() {
     const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState(true);
 
+    const defaultReviewImgURL = "/imgs/defaultAddImg.png"; // 리뷰 기본 이미지 경로
     const navigate = useNavigate();
 
     //페이지 이동하는 함수
@@ -120,9 +121,17 @@ export default function UserReview() {
                                             <StarRating rate={review.rate} size={18} space={3} />
                                             <span>{review.updatedAt.split("T")[0]}</span>
                                         </div>
-                                        <div>
-                                            <img src={review.reviewImage} alt="리뷰 이미지" width={100} height={100} />
-                                        </div>
+                                        {review.reviewImage !== defaultReviewImgURL && (
+                                            <div>
+                                                <img
+                                                    src={review.reviewImage}
+                                                    alt="리뷰 이미지"
+                                                    width={100}
+                                                    height={100}
+                                                />
+                                            </div>
+                                        )}
+
                                         <p>{review.content}</p>
                                         <div className={style.btnBox}>
                                             <ModifyReviewModal id={id} review={review} getMyReviews={getMyReviews} />
