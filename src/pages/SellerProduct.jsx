@@ -11,6 +11,8 @@ import reissueAccToken from "../lib/reissueAccToken";
 import numberComma from "../lib/numberComma";
 
 export default function SellerProduct() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [productcs, setProducts] = useState([]); // 판매중인 상품 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
@@ -33,15 +35,15 @@ export default function SellerProduct() {
         const pageNum = urlPage ? parseInt(urlPage) : 1;
         setPage(pageNum);
         try {
-            const res = await axios.get(`/api/sellers/items/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/sellers/items/${id}`, {
                 params: {
                     pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log(res);
@@ -82,11 +84,11 @@ export default function SellerProduct() {
     const onClickDeleteBtn = async (id) => {
         let isSuccess = false;
         try {
-            const res = await axios.delete(`/api/sellers/items/${id}`, {
+            const res = await axios.delete(`${serverUrl}/api/sellers/items/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log("삭제", res);

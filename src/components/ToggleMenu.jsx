@@ -5,6 +5,8 @@ import { Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const ToggleMenu = () => {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSecondOpen, setIsSecondOpen] = useState(false);
   const [isThirdOpen, setIsThirdOpen] = useState(false);
@@ -17,10 +19,10 @@ const ToggleMenu = () => {
   const [pickedThirdList, setPickedThirdList] = useState([]);
 
   const getCategories = async () => {
-    const response = await axios.get("/api/public/categories", {
-      headers: {
-        "ngrok-skip-browser-warning": "1234",
-      },
+    console.log("Server URL:", serverUrl);
+
+    const response = await axios.get(`${serverUrl}/api/public/categories`, {
+      credentials: true,
     });
     const categories = response.data.data[0].child;
 
@@ -100,7 +102,12 @@ const ToggleMenu = () => {
           setIsThirdOpen(false);
         }}
       >
-        <div className={`sidebar ${isOpen ? "active" : ""}`} onMouseOver={()=>{setIsOpen(true)}}>
+        <div
+          className={`sidebar ${isOpen ? "active" : ""}`}
+          onMouseOver={() => {
+            setIsOpen(true);
+          }}
+        >
           <div className="sd-body">
             <ul>
               {mainList.map((subject, index) => (

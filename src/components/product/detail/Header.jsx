@@ -10,6 +10,8 @@ import reissueAccToken from "../../../lib/reissueAccToken";
 import numberComma from "../../../lib/numberComma";
 
 export default function Detail({ product, reviewRef }) {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
     const [totalPrice, setTotalPrice] = useState(""); // 총 금액
@@ -104,7 +106,7 @@ export default function Detail({ product, reviewRef }) {
 
         try {
             const res = await axios.post(
-                `/api/users/carts/${id}`,
+                `${serverUrl}/api/users/carts/${id}`,
                 {
                     itemId: productId,
                     quantity: quantity,
@@ -112,8 +114,8 @@ export default function Detail({ product, reviewRef }) {
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
                     },
+                    credentials: true,
                 }
             );
 
@@ -142,14 +144,14 @@ export default function Detail({ product, reviewRef }) {
         try {
             const data = `${productId}:${quantity}`;
             console.log(data);
-            const res = await axios.get(`/api/users/form/orders/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/form/orders/${id}`, {
                 params: {
                     items: data,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log(res);
@@ -247,7 +249,12 @@ export default function Detail({ product, reviewRef }) {
                         <hr />
                         <TextField
                             type="number"
-                            inputProps={{ maxLength: 2, min: 1, max: 99, style: { width: "40px", height: "24px" } }}
+                            inputProps={{
+                                maxLength: 2,
+                                min: 1,
+                                max: 99,
+                                style: { width: "40px", height: "24px" },
+                            }}
                             value={quantity}
                             id="count_id"
                             size="small"

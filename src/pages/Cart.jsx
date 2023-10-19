@@ -10,6 +10,8 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import numberComma from "../lib/numberComma";
 
 export default function Cart() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [cartList, setCartList] = useState([]); // 장바구니 목록
     const [selectAll, setSelectAll] = useState(false); // 상품 전체 선택
     const [selectedItems, setSelectedItems] = useState([]); // 선택한 상품 목록
@@ -39,11 +41,11 @@ export default function Cart() {
         let isSuccess = false;
         setLoading(true);
         try {
-            const res = await axios.get(`/api/users/carts/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/carts/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
             console.log("장바구니 : ", res.data.data);
             setCartList(res.data.data);
@@ -76,14 +78,14 @@ export default function Cart() {
             console.log(selectedItems);
             const data = selectedItems.map(({ itemId, quantity }) => `${itemId}:${quantity}`).join(",");
             console.log(data);
-            const res = await axios.get(`/api/users/form/orders/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/form/orders/${id}`, {
                 params: {
                     items: data,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log(res);
@@ -116,7 +118,9 @@ export default function Cart() {
                 <Loading content="장바구니 목록을 불러오는 중입니다.." />
             ) : (
                 <div className={style.box}>
-                    <h4 className={style.title}>장바구니</h4>
+                    <h4 className={style.title} style={{ marginTop: "5%" }}>
+                        장바구니
+                    </h4>
                     <CartList
                         cartList={cartList}
                         selectAll={selectAll}

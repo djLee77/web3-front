@@ -16,6 +16,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { Tooltip } from "@mui/material";
 
 const NavBar = () => {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
     // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
     const chainIds = {
         1: { name: "Ethereum mainnet", symbol: "ETH" },
@@ -68,14 +69,12 @@ const NavBar = () => {
         console.log("계정 : ", id, checkId);
         try {
             const res = await axios.post(
-                `/api/public/login/${id}`,
+                `${serverUrl}/api/public/login/${id}`,
                 {
                     checkId: checkId,
                 },
                 {
-                    headers: {
-                        "ngrok-skip-browser-warning": "1234",
-                    },
+                    credentials: true,
                 }
             );
 

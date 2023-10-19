@@ -11,6 +11,8 @@ import reissueAccToken from "../lib/reissueAccToken";
 import numberComma from "../lib/numberComma";
 
 export default function UserOrder() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [orders, setOrders] = useState([]); // 주문 목록
     const [reviewItemIds, setReviewItemIds] = useState([]); // 작성한 리뷰 상품id 목록
     const [page, setPage] = useState(1); // 페이지
@@ -33,15 +35,15 @@ export default function UserOrder() {
         let isSuccess = false;
         try {
             console.log(id);
-            const res = await axios.get(`/api/users/reviews/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/reviews/${id}`, {
                 params: {
                     pageNum: 0,
                     pageSize: 1000,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             setReviewItemIds(res.data.data.reviews.map((item) => item.itemId));
@@ -62,15 +64,15 @@ export default function UserOrder() {
         const pageNum = urlPage ? parseInt(urlPage) : 1;
         setPage(pageNum);
         try {
-            const res = await axios.get(`/api/users/orders/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/orders/${id}`, {
                 params: {
                     pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 2,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log("주문목록 불러옴");

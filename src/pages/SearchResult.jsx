@@ -10,6 +10,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { FormControl } from "@mui/material";
 
 const SearchResult = () => {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -34,7 +36,7 @@ const SearchResult = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/api/public/items", {
+        const res = await axios.get(`${serverUrl}/api/public/items`, {
           params: {
             search: query,
             sort: sortTypes[0],
@@ -42,6 +44,7 @@ const SearchResult = () => {
             pageNum: pageNum - 1, // 기본값
             pageSize: 9, // 기본값
           },
+          credentials: true,
         });
         if (res.data.code === 200) {
           setProducts(res.data.data.items);
@@ -102,8 +105,7 @@ const SearchResult = () => {
       </div>
       <div className={style.containerBig}>
         <div className={style.containerSmall}>
-          <div className={style.item}>
-          </div>
+          <div className={style.item}></div>
           <div className={style.item}>
             {products?.map((product) => (
               <Card key={product.itemId} product={product} />

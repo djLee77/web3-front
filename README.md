@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# 🌐Web3 쇼핑몰
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+메타마스크를 활용한 Web3 쇼핑몰 플랫폼입니다.
 
-## Available Scripts
+## 📒목차
 
-In the project directory, you can run:
+- [프로젝트 소개](#프로젝트-소개)
+- [실행 방법](#실행-방법)
+- [기술 스택](#기술-스택)
+- [배포 방법](#배포-방법)
 
-### `npm start`
+## ✏프로젝트 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Web3 쇼핑몰은 Metamask 암호화폐 지갑을 사용하는 쇼핑몰 플랫폼입니다.
+사용자는 웹3 지갑을 통해 웹에 로그인하고 상품을 구매 및 판매할 수 있습니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🎁실행 방법
+[여기](https://mallba.netlify.app/cart)에서 실제 사이트를 사용해 볼 수 있습니다.
 
-### `npm test`
+## ✨🛠기술 스택
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ⛵배포 방법
+* netlify - web
+* cloudType - server
 
-### `npm run build`
+## 👨‍👩‍👧‍👦참여인원
+### 🌞Front-end
+* [이대준](https://github.com/djLee77) <br>
+* 김동건
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🌚Back-end
+* [이병선](https://github.com/dlqudtjs) <br>
+* 김봉준 - (챗봇)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🏡협업 공간
+* [노션](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 📑Api Docs
+https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html

@@ -18,6 +18,7 @@ import reissueAccToken from "../../lib/reissueAccToken";
 import numberComma from "../../lib/numberComma";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
     // 상품 전체 선택 함수
     const handleSelectAll = (event) => {
         const checked = event.target.checked;
@@ -25,7 +26,12 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
 
         //  체크하면 선택한 상품 배열에 모든 값 넣기 해제하면 빈 배열로 상태 저장
         if (checked) {
-            setSelectedItems(cartList.map((item) => ({ itemId: item.itemId, quantity: item.quantity })));
+            setSelectedItems(
+                cartList.map((item) => ({
+                    itemId: item.itemId,
+                    quantity: item.quantity,
+                }))
+            );
         } else {
             setSelectedItems([]);
         }
@@ -46,11 +52,11 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     const handleDelBtn = async (id) => {
         let isSuccess = false;
         try {
-            const res = await axios.delete(`/api/users/carts/${id}`, {
+            const res = await axios.delete(`${serverUrl}/api/users/carts/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
             console.log("삭제 : ", res);
             getCartList();
@@ -70,15 +76,15 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
         let isSuccess = false;
         try {
             const res = await axios.patch(
-                `/api/users/carts/${id}`,
+                `${serverUrl}/api/users/carts/${id}`,
                 {
                     quantity: e.target.value,
                 },
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
                     },
+                    credentials: true,
                 }
             );
 

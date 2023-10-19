@@ -5,6 +5,8 @@ import style from "../../css/Review.module.css";
 import axios from "axios";
 
 const Review = forwardRef((props, ref) => {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [reviewList, setReviewList] = useState([]); // 리뷰 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
@@ -53,16 +55,14 @@ const Review = forwardRef((props, ref) => {
     const getReview = async () => {
         console.log(page);
         try {
-            const res = await axios.get(`/api/public/reviews/${props.id}`, {
+            const res = await axios.get(`${serverUrl}/api/public/reviews/${props.id}`, {
                 params: {
                     sort: sort,
                     sortType: sortType,
                     pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
-                headers: {
-                    "ngrok-skip-browser-warning": "1234",
-                },
+                credentials: true,
             });
             setReviewList(res.data.data.reviews);
             setTotalPage(res.data.data.totalPage);

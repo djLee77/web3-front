@@ -11,6 +11,8 @@ import Loading from "../components/Loading";
 import reissueAccToken from "../lib/reissueAccToken";
 
 export default function UserReview() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [myReviews, setMyReviews] = useState([]); // 작성한 리뷰 목록
     const id = cookie.load("id"); // 로그인한 쇼핑몰 ID
     const [page, setPage] = useState(1); // 페이지
@@ -35,15 +37,15 @@ export default function UserReview() {
         setPage(pageNum);
         try {
             console.log(id);
-            const res = await axios.get(`/api/users/reviews/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/users/reviews/${id}`, {
                 params: {
                     pageNum: pageNum - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             setMyReviews(res.data.data.reviews);
@@ -74,11 +76,11 @@ export default function UserReview() {
     const onClickReviewDelBtn = async (id) => {
         let isSuccess = false;
         try {
-            const res = await axios.delete(`/api/users/reviews/${id}`, {
+            const res = await axios.delete(`${serverUrl}/api/users/reviews/${id}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
             console.log(res);
             getMyReviews();

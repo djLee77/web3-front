@@ -9,6 +9,8 @@ import reissueAccToken from "../lib/reissueAccToken";
 import numberComma from "../lib/numberComma";
 
 export default function Payment() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [name, setName] = useState(""); // 이름
     const [isNameInput, setIsNameInput] = useState(true); // 이름 입력했는지 확인
     const [phone, setPhone] = useState(""); // 전화번호
@@ -67,7 +69,7 @@ export default function Payment() {
 
         try {
             const res = await axios.post(
-                `/api/users/payments/${id}`,
+                `${serverUrl}/api/users/payments/${id}`,
                 {
                     recipient: name,
                     address: roadAddress,
@@ -81,8 +83,8 @@ export default function Payment() {
                     },
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
                     },
+                    credentials: true,
                 }
             );
 

@@ -10,6 +10,8 @@ import reissueAccToken from "../lib/reissueAccToken";
 import numberComma from "../lib/numberComma";
 
 export default function SellerOrder() {
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const [orders, setOrders] = useState([]); // 주문 목록
     const [page, setPage] = useState(1); // 페이지
     const [totalPage, setTotalPage] = useState(10); // 전체 페이지
@@ -26,7 +28,7 @@ export default function SellerOrder() {
         const pageNum = urlPage ? parseInt(urlPage) : 1;
         setPage(pageNum);
         try {
-            const res = await axios.get(`/api/sellers/orders/${id}`, {
+            const res = await axios.get(`${serverUrl}/api/sellers/orders/${id}`, {
                 params: {
                     pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
                     pageSize: 10,
@@ -34,8 +36,8 @@ export default function SellerOrder() {
 
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    "ngrok-skip-browser-warning": "1234",
                 },
+                credentials: true,
             });
 
             console.log(res);
@@ -68,15 +70,15 @@ export default function SellerOrder() {
         let isSuccess = false;
         try {
             const res = await axios.patch(
-                `/api/sellers/orders/${id}`,
+                `${serverUrl}/api/sellers/orders/${id}`,
                 {
                     result: e.target.value,
                 },
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
-                        "ngrok-skip-browser-warning": "1234",
                     },
+                    credentials: true,
                 }
             );
             console.log("주문 상태 변경 ", res);
