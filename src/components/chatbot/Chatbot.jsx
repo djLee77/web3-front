@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import io from "socket.io-client"; // Socket.io 클라이언트 라이브러리를 import합니다.
 import { useRef } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -17,9 +19,30 @@ export default function Chatbot({ setIsOpen, isOpen }) {
     const [faqs, setFaqs] = useState([]); // FAQ 목록
     const [messages, setMessages] = useState([]); // 채팅 목록 저장
     const [loading, setLoading] = useState(false); // 대답 할 때까지 로딩
+    const [selectedImage, setSelectedImage] = useState(""); // 클릭한 이미지
+    const [open, setOpen] = useState(false); // 이미지 크게 보기 위한 모달 창 열기
+    const handleOpen = (image) => {
+        setSelectedImage(image);
+        setOpen(true);
+    };
+    // 모달창 열기
+    const handleClose = () => setOpen(false); // 모달창 닫기
 
     const faqRef = useRef(null);
     const messageRef = useRef(null);
+
+    //모달 스타일
+    const modalStyle = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 600,
+        bgcolor: "background.paper",
+        border: "1px solid #000",
+        p: 4,
+        zIndex: 9999,
+    };
 
     // FAQ 목록 가져오기
     const fetchQuestions = async () => {
@@ -126,7 +149,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
             </div>
             <div className={style.contentBox}>
                 <div className={style.faqBox} ref={faqRef}>
-                    {faqs.map((item, idx) => (
+                    {faqs?.map((item, idx) => (
                         <div key={idx} className={style.faq} onClick={() => onClickQuestion(item.question)}>
                             {item.question}
                         </div>
@@ -144,8 +167,18 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                             {item.images && (
                                 <div className={style.imageBox}>
                                     {item.images?.map((image, idx) => (
-                                        <img src={image} key={idx} width={180} height={180}></img>
+                                        <img
+                                            src={image}
+                                            onClick={() => handleOpen(image)}
+                                            width={180}
+                                            height={180}
+                                        ></img>
                                     ))}
+                                    <Modal open={open} onClose={handleClose}>
+                                        <Box sx={modalStyle}>
+                                            <img src={selectedImage} width={500} height={500}></img>
+                                        </Box>
+                                    </Modal>
                                 </div>
                             )}
                         </>

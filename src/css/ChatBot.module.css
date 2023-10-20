@@ -11,7 +11,7 @@
     right: 0%;
     width: 400px;
     height: 500px;
-    z-index: 9999;
+    z-index: 999;
     border: 1px solid rgb(207, 206, 206);
 }
 
@@ -169,6 +169,10 @@
     margin-left: 14px;
 }
 
+.imageBox img:hover {
+    cursor: pointer;
+}
+
 .upScroll {
     position: fixed;
     right: 2%;
@@ -184,6 +188,7 @@
 .inputBox {
     width: 100%;
     display: flex;
+    background-color: white;
 }
 
 .inputBox input {
