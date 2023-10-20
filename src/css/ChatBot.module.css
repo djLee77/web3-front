@@ -135,6 +135,40 @@
     margin-left: -9px;
 }
 
+.imageBox {
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    margin-left: 14px;
+    margin-right: 14px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.imageBox::-webkit-scrollbar {
+    height: 4px;
+    /* 스크롤바의 너비 */
+}
+
+.imageBox::-webkit-scrollbar-thumb {
+    height: 3%;
+    /* 스크롤바의 길이 */
+    background: rgb(84, 84, 84);
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+.imageBox::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);
+    /*스크롤바 뒷 배경 색상*/
+}
+
+
+.imageBox img {
+    border: 1px solid gray;
+    margin-left: 14px;
+}
+
 .upScroll {
     position: fixed;
     right: 2%;

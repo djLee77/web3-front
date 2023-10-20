@@ -8,7 +8,9 @@ import { useRef } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SendIcon from "@mui/icons-material/Send";
 
-const socket = io("http://54.180.92.154:3001/");
+const chatbotURL = process.env.REACT_APP_CHATBOT_URL;
+
+const socket = io(`${chatbotURL}/`);
 
 export default function Chatbot({ setIsOpen, isOpen }) {
     const [inputValue, setInputValue] = useState(""); // 질문 입력칸
@@ -22,7 +24,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
     // FAQ 목록 가져오기
     const fetchQuestions = async () => {
         try {
-            const response = await axios.get("http://54.180.92.154:3001/faq/question");
+            const response = await axios.get(`${chatbotURL}/faq/question`);
             setFaqs(response.data.questions);
         } catch (error) {
             console.error("Error fetching questions:", error);
@@ -69,6 +71,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
         socket.on("faq-answer", (data) => {
             const message = {
                 message: data.answer,
+                images: data.images,
                 isBot: true,
             };
             console.log(data.images);
@@ -83,7 +86,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
             };
             setMessages([...messages, message]); // 챗봇이 말한거 메세지에 저장
             setLoading(false);
-            console.error(data.error);
+            console.error(data);
         });
 
         messageRef.current?.scrollIntoView({ behavior: "smooth" }); // 부드럽게 해당 위치로 이동
@@ -131,12 +134,21 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                 </div>
                 <div className={style.messageBox}>
                     {messages.map((item, idx) => (
-                        <div key={idx} style={{ display: "flex", marginLeft: "10px" }}>
-                            {item.isBot && <Avatar alt="ChatBot" />}
-                            <div className={item.isBot ? style.botMessage : style.userMessage} ref={messageRef}>
-                                {item.message}
+                        <>
+                            <div key={idx} style={{ display: "flex", marginLeft: "10px" }}>
+                                {item.isBot && <Avatar alt="ChatBot" />}
+                                <div className={item.isBot ? style.botMessage : style.userMessage} ref={messageRef}>
+                                    {item.message}
+                                </div>
                             </div>
-                        </div>
+                            {item.images && (
+                                <div className={style.imageBox}>
+                                    {item.images?.map((image, idx) => (
+                                        <img src={image} key={idx} width={180} height={180}></img>
+                                    ))}
+                                </div>
+                            )}
+                        </>
                     ))}
                     {loading && <img src="./imgs/Walk.gif" width={80} height={80} className={style.loadingImg} />}
                 </div>
