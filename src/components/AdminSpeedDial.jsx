@@ -36,7 +36,7 @@ export default function AdminSpeedDial() {
             <Box>
                 <SpeedDial
                     ariaLabel="SpeedDial controlled open example"
-                    sx={{ position: "fixed", bottom: "5%", right: "5%" }}
+                    sx={{ position: "fixed", bottom: "5%", right: "5%", zIndex: 2 }}
                     icon={<SpeedDialIcon />}
                     onClose={onClickIcon}
                     onOpen={handleOpen}

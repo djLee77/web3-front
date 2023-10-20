@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 5%;
     right: 5%;
-    z-index: 999;
+    z-index: 99;
 }
 
 .box {
@@ -11,7 +11,7 @@
     right: 0%;
     width: 400px;
     height: 500px;
-    z-index: 999;
+    z-index: 99;
     border: 1px solid rgb(207, 206, 206);
 }
 

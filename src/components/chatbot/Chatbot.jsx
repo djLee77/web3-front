@@ -41,7 +41,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
         bgcolor: "background.paper",
         border: "1px solid #000",
         p: 4,
-        zIndex: 9999,
+        zIndex: 100,
     };
 
     // FAQ 목록 가져오기
