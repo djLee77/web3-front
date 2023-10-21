@@ -55,4 +55,24 @@
     margin-top: 30px;
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.payBtn {
+    width: 180px;
+    height: 40px;
+    border: 0;
+    background-color: #1c1c1c;
+    font-weight: bold;
+    color: white;
+}
+
+.backBtn {
+    width: 180px;
+    height: 40px;
+    border: 0;
+    background-color: #fcfcfc;
+    border: 1px solid gray;
+    font-weight: bold;
+    margin-left: 10px;
 }

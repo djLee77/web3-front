@@ -19,20 +19,20 @@ export default function Payment() {
     const [roadAddress, setRoadAddress] = useState(""); // 도로명 주소
     const [detailAddress, setDetailAddress] = useState(""); // 상세 주소
     const [isDetailAddressInput, setIsDetailAddressInput] = useState(true); // 상세주소 입력했는지 확인
-    const [modalOpen, setModalOpen] = useState(false); // 모달창 여닫기
+    const [modalOpen, setModalOpen] = useState(false); // 우편번호 모달창 여닫기
 
     const navigate = useNavigate();
-    const location = useLocation();
+    const location = useLocation(); // url 정보 가져오기
 
     const nameRef = useRef(); // 이름 인풋창 ref
     const phoneRef = useRef(); //전화번호 인풋창 ref
     const detailAddressRef = useRef(); // 상세주소 인풋창 ref
 
-    const orders = location.state.orders; // 주문서 폼
-    const data = location.state.data; // 상품 id, 수량
+    const orders = location.state.orders; // location에 있는 주문서 폼
+    const data = location.state.data; // location에 있는 상품 id, 수량
 
+    // 전화번호 형식으로 정규화 함수
     const onChangePhone = (e) => {
-        // 전화번호 형식으로 정규화
         const regex = /^[0-9\b -]{0,13}$/;
         if (regex.test(e.target.value)) {
             setPhone(e.target.value);
@@ -43,7 +43,8 @@ export default function Payment() {
     const onClickPaymentBtn = async () => {
         const id = cookie.load("id");
         let isSuccess = false;
-        // 값들 제대로 썼는지 확인
+
+        // 값들 제대로 썼는지 확인 제대로 안 썼으면 인풋창 포커스 한 후 false 리턴
         if (name === "") {
             nameRef.current.focus();
             return setIsNameInput(false);
@@ -115,14 +116,6 @@ export default function Payment() {
         }
     }, [phone]);
 
-    // 주문 데이터가 없으면 이전 페이지로 돌아가기
-    // useEffect(() => {
-    //     if (orders.length === undefined) {
-    //         alert("주문 상품 목록이 없습니다. 이전 페이지로 돌아갑니다.");
-    //         navigate(-1);
-    //     }
-    // }, []);
-
     return (
         <div className={style.box}>
             <div style={{ display: "flex" }}>
@@ -190,12 +183,12 @@ export default function Payment() {
                 </div>
             </div>
             <div className={style.btnBox}>
-                <Button variant="contained" sx={{ marginRight: "20px" }} onClick={onClickPaymentBtn}>
+                <button className={style.payBtn} onClick={onClickPaymentBtn}>
                     결제하기
-                </Button>
-                <Button variant="outlined" onClick={() => navigate("/")}>
+                </button>
+                <button className={style.backBtn} onClick={() => navigate("/")}>
                     취소
-                </Button>
+                </button>
             </div>
         </div>
     );

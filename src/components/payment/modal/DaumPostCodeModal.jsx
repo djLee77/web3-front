@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode, setRoadAddress }) {
@@ -10,6 +9,7 @@ export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode,
         setModalOpen(false);
     };
 
+    // 주소 클릭시 우편번호, 도로명 저장 함수
     const handleComplete = (data) => {
         console.log("주소 : ", data);
         setZipcode(data.zonecode);
@@ -17,6 +17,7 @@ export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode,
         handleClose();
     };
 
+    // 모달 창 스타일
     const style = {
         position: "absolute",
         top: "40%",
