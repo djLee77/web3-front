@@ -46,6 +46,7 @@ export default function UserOrder() {
                 credentials: true,
             });
 
+            // 리뷰 작성한 상품 id 저장
             setReviewItemIds(res.data.data.reviews.map((item) => item.itemId));
             console.log("리뷰 불러옴");
         } catch (error) {
@@ -67,7 +68,7 @@ export default function UserOrder() {
             const res = await axios.get(`${serverUrl}/api/users/orders/${id}`, {
                 params: {
                     pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
-                    pageSize: 2,
+                    pageSize: 4,
                 },
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
@@ -112,7 +113,7 @@ export default function UserOrder() {
                 <div className={style.box}>
                     <NavBar />
                     {orders.length === 0 ? (
-                        <div style={{ display: "flex", justifyContent: "center" }}>
+                        <div className={style.noOrders}>
                             <h4>주문하신 상품이 없습니다.</h4>
                         </div>
                     ) : (
@@ -121,6 +122,7 @@ export default function UserOrder() {
                                 <div className={style.orderBox} key={idx}>
                                     <h4>{order.orderDate.split("T")[0]} 주문</h4>
                                     {order.orderDetails?.map((product, idx) => {
+                                        // 주문 상태 객체
                                         const orderStateByResult = {
                                             0: "입금 확인 중",
                                             1: "배송 전",
@@ -128,19 +130,12 @@ export default function UserOrder() {
                                             3: "배송 완료",
                                             9: "판매자 연락 요망",
                                         };
+                                        // key에 맞는 value값 저장
                                         const orderState = orderStateByResult[product.result];
                                         return (
                                             <div className={style.orderDetailBox} key={idx}>
-                                                <h5
-                                                    style={{
-                                                        fontWeight: "bold",
-                                                        marginTop: "10px",
-                                                        marginBottom: "20px",
-                                                    }}
-                                                >
-                                                    {orderState}
-                                                </h5>
-                                                <div style={{ display: "flex" }}>
+                                                <h5>{orderState}</h5>
+                                                <div className={style.productBox}>
                                                     <img
                                                         src={product.image}
                                                         alt="상품 이미지"
@@ -148,19 +143,15 @@ export default function UserOrder() {
                                                         height={100}
                                                     />
                                                     <div
-                                                        style={{
-                                                            display: "flex",
-                                                            flexDirection: "column",
-                                                            marginLeft: "14px",
-                                                            width: "60%",
-                                                        }}
+                                                        className={style.productInfo}
+                                                        onClick={() => navigate(`/product/detail/${product.itemId}`)}
                                                     >
                                                         <span>{product.itemName}</span>
                                                         <span>
                                                             {numberComma(product.price)}원 | {product.quantity}개
                                                         </span>
                                                     </div>
-                                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                                    <div className={style.reviewBox}>
                                                         {product.result === 3 &&
                                                             (!reviewItemIds?.includes(product.itemId) ? (
                                                                 <CreateReviewModal

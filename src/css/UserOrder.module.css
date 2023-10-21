@@ -3,6 +3,11 @@
     margin: 0 auto;
 }
 
+.noOrders {
+    display: flex;
+    justify-content: center;
+}
+
 .orderBox {
     width: 720px;
     margin: 0 auto;
@@ -19,6 +24,12 @@
     border-radius: 14px;
 }
 
+.orderDetailBox h5 {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 .orderState {
     font-weight: bold;
 }
@@ -30,15 +41,20 @@
 
 .productBox {
     display: flex;
-    margin-top: 24px;
 }
 
-.infoBox {
+.productInfo {
     display: flex;
     flex-direction: column;
-    width: 420px;
+    margin-left: 14px;
+    width: 60%;
 }
 
-.infoBox span {
-    margin-bottom: 10px;
+.productInfo:hover {
+    cursor: pointer;
+}
+
+.reviewBox {
+    display: flex;
+    align-items: center;
 }
