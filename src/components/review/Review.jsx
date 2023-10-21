@@ -20,22 +20,22 @@ const Review = forwardRef((props, ref) => {
         {
             name: "최신순",
             sort: "createdAt",
-            sortType: "asc",
+            sortType: "desc",
         },
         {
             name: "오래된순",
             sort: "createdAt",
-            sortType: "desc",
+            sortType: "asc",
         },
         {
             name: "높은 별점순",
             sort: "rate",
-            sortType: "asc",
+            sortType: "desc",
         },
         {
             name: "낮은 별점순",
             sort: "rate",
-            sortType: "desc",
+            sortType: "asc",
         },
     ];
 
