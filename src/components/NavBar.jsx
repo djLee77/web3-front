@@ -153,7 +153,7 @@ const NavBar = () => {
                 <div className={style.item}>
                     <div className={style.lilItem}>
                         {cookie.load("role") == "ROLE_ADMIN" || cookie.load("role" == "ROLE_SELLER") ? (
-                            <a type="button" onClick={() => navigate("/seller/order")}>
+                            <a type="button" onClick={() => navigate("/seller/product")}>
                                 <Tooltip title="상품 관리" arrow>
                                     <AdminPanelSettingsIcon color="primary" />
                                 </Tooltip>
