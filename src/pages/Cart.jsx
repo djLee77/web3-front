@@ -118,9 +118,7 @@ export default function Cart() {
                 <Loading content="장바구니 목록을 불러오는 중입니다.." />
             ) : (
                 <div className={style.box}>
-                    <h4 className={style.title} style={{ marginTop: "5%" }}>
-                        장바구니
-                    </h4>
+                    <h4 className={style.title}>장바구니</h4>
                     <CartList
                         cartList={cartList}
                         selectAll={selectAll}
