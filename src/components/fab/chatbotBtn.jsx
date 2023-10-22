@@ -11,7 +11,7 @@ export default function ChatbotBtn() {
         <>
             <div className={style.btnBox}>
                 {!isOpen && (
-                    <Tooltip title="챗봇" arrow>
+                    <Tooltip title="챗봇" placement="top" arrow>
                         <img width={48} height={48} src={ChatBotSVG} onClick={() => setIsOpen(!isOpen)} />
                     </Tooltip>
                 )}

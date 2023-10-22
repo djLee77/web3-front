@@ -3,11 +3,19 @@
     bottom: 5%;
     right: 5%;
     z-index: 99;
+    background-color: rgb(224, 232, 255);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnBox:hover {
     cursor: pointer;
 }
+
 
 .box {
     position: fixed;

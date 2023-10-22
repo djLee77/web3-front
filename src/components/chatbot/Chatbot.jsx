@@ -10,6 +10,7 @@ import Modal from "@mui/material/Modal";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SendIcon from "@mui/icons-material/Send";
 import ChatBotSVG from "./chatbot.svg";
+import SadChatBotSVG from "./sadChatbot.svg";
 
 const chatbotURL = process.env.REACT_APP_CHATBOT_URL;
 let socket;
@@ -179,7 +180,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
                                 {item.isBot && (
                                     <img
                                         className={style.botProfile}
-                                        src={ChatBotSVG}
+                                        src={item.message.includes("죄송") ? SadChatBotSVG : ChatBotSVG}
                                         alt="ChatBot"
                                         width={38}
                                         height={38}
