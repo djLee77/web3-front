@@ -16,9 +16,13 @@ import { useEffect } from "react";
 import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
 import numberComma from "../../lib/numberComma";
+import { useNavigate } from "react-router-dom";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
+
+    const navigate = useNavigate();
+
     // 상품 전체 선택 함수
     const handleSelectAll = (event) => {
         const checked = event.target.checked;
@@ -101,6 +105,11 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
         }
     };
 
+    // 상품 클릭시 상세페이지로 이동
+    const onClickProduct = (id) => {
+        navigate(`/product/detail/${id}`);
+    };
+
     return (
         <div>
             {cartList.length === 0 ? (
@@ -134,10 +143,18 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                             onChange={(e) => handleSelectOne(e, item.itemId, item.quantity)}
                                         />
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() => onClickProduct(item.itemId)}
+                                        sx={{ "&:hover": { cursor: "pointer" } }}
+                                    >
                                         <img src={item.image1} alt={item.name} width={100} height={100} />
                                     </TableCell>
-                                    <TableCell align="left" sx={{ fontSize: "16px" }}>
+                                    <TableCell
+                                        align="left"
+                                        onClick={() => onClickProduct(item.itemId)}
+                                        sx={{ fontSize: "16px", "&:hover": { cursor: "pointer" } }}
+                                    >
                                         {item.name}
                                     </TableCell>
                                     <TableCell align="center">
