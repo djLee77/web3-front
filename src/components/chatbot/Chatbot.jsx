@@ -137,7 +137,7 @@ export default function Chatbot({ setIsOpen, isOpen }) {
         // 에러
         socket.on("error", (data) => {
             const message = {
-                message: data.error,
+                message: "죄송합니다. 질문에 대한 정보가 없습니다.",
                 isBot: true,
             };
             setMessages((prevMessages) => [...prevMessages, message]); // 챗봇이 말한거 메세지에 저장
