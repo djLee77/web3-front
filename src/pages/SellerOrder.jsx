@@ -82,6 +82,7 @@ export default function SellerOrder() {
                 }
             );
             console.log("주문 상태 변경 ", res);
+            alert("주문 상태를 변경하였습니다.");
             getOrders();
             isSuccess = true;
         } catch (error) {
