@@ -1,19 +1,19 @@
-import { Fab } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import style from "../../css/ChatBot.module.css";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { useState } from "react";
 import Chatbot from "../chatbot/Chatbot";
+import ChatBotSVG from "../chatbot/chatbot.svg";
 
 export default function ChatbotBtn() {
     const [isOpen, setIsOpen] = useState(false);
-    
+
     return (
         <>
             <div className={style.btnBox}>
                 {!isOpen && (
-                    <Fab color="primary" aria-label="chatbot" onClick={() => setIsOpen(!isOpen)}>
-                        <SmartToyIcon />
-                    </Fab>
+                    <Tooltip title="챗봇" arrow>
+                        <img width={48} height={48} src={ChatBotSVG} onClick={() => setIsOpen(!isOpen)} />
+                    </Tooltip>
                 )}
             </div>
             {isOpen && <Chatbot setIsOpen={setIsOpen} isOpen={isOpen} />}

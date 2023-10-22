@@ -5,6 +5,10 @@
     z-index: 99;
 }
 
+.btnBox:hover {
+    cursor: pointer;
+}
+
 .box {
     position: fixed;
     bottom: 0%;
@@ -79,6 +83,16 @@
 .messageBox {
     display: flex;
     flex-direction: column;
+}
+
+.message {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.botProfile {
+    margin-right: 10px;
 }
 
 .userMessage {
