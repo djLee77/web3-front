@@ -33,6 +33,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
             setSelectedItems(
                 cartList.map((item) => ({
                     itemId: item.itemId,
+                    cartId: item.cartId,
                     quantity: item.quantity,
                 }))
             );
@@ -42,21 +43,21 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     };
 
     // 각 상품 선택 함수
-    const handleSelectOne = (event, itemId, quantity) => {
+    const handleSelectOne = (event, itemId, cartId, quantity) => {
         const checked = event.target.checked;
 
         if (checked) {
-            setSelectedItems((prevSelected) => [...prevSelected, { itemId, quantity }]);
+            setSelectedItems((prevSelected) => [...prevSelected, { itemId, cartId, quantity }]);
         } else {
-            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.itemId !== itemId));
+            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.cartId !== cartId));
         }
     };
 
     // 삭제 버튼 함수
-    const handleDelBtn = async (id) => {
+    const handleDelBtn = async (cartId) => {
         let isSuccess = false;
         try {
-            const res = await axios.delete(`${serverUrl}/api/users/carts/${id}`, {
+            const res = await axios.delete(`${serverUrl}/api/users/carts/${cartId}`, {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                 },
@@ -76,11 +77,11 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
     };
 
     // 상품 수량 변경 함수
-    const handleCountChange = async (id, e) => {
+    const handleCountChange = async (cartId, e) => {
         let isSuccess = false;
         try {
             const res = await axios.patch(
-                `${serverUrl}/api/users/carts/${id}`,
+                `${serverUrl}/api/users/carts/${cartId}`,
                 {
                     quantity: e.target.value,
                 },
@@ -138,9 +139,11 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                         <Checkbox
                                             defaultChecked={true}
                                             checked={selectedItems.some(
-                                                (selectedItem) => selectedItem.itemId === item.itemId
+                                                (selectedItem) => selectedItem.cartId === item.cartId
                                             )}
-                                            onChange={(e) => handleSelectOne(e, item.itemId, item.quantity)}
+                                            onChange={(e) =>
+                                                handleSelectOne(e, item.itemId, item.cartId, item.quantity)
+                                            }
                                         />
                                     </TableCell>
                                     <TableCell

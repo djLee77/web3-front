@@ -89,10 +89,15 @@ export default function Payment() {
                 }
             );
 
-            if (res.status === 200) {
+            console.log(res);
+
+            if (res.data.data !== null) {
                 alert("상품 구매 완료!");
                 navigate("/");
                 isSuccess = true;
+            } else {
+                alert("상품 재고가 부족합니다.");
+                navigate("/");
             }
 
             console.log(res);

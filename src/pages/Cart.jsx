@@ -21,13 +21,29 @@ export default function Cart() {
     const id = cookie.load("id"); // 사용자 ID
     const navigate = useNavigate();
 
+    // 중복된 상품 합치는 함수
+    const mergeDuplicateItems = (cartItems) => {
+        const mergedCart = [];
+        cartItems.forEach((item) => {
+            const existingItem = mergedCart.find((mergedItem) => mergedItem.itemId === item.itemId);
+            if (existingItem) {
+                // 중복된 아이템이 이미 존재하는 경우, 수량 합치기
+                existingItem.quantity += item.quantity;
+            } else {
+                // 중복되지 않은 아이템은 그대로 추가
+                mergedCart.push({ ...item });
+            }
+        });
+        return mergedCart;
+    };
+
     // 토탈 가격 구하기
     useEffect(() => {
         // 선택된 아이템들의 price 값을 합산하여 totalPrice 업데이트
         let total = 0;
         console.log(selectedItems);
         selectedItems.forEach((item) => {
-            const selectedItem = cartList.find((cart) => cart.itemId === item.itemId);
+            const selectedItem = cartList.find((cart) => cart.cartId === item.cartId);
             if (selectedItem) {
                 total += selectedItem.price * selectedItem.quantity; // 선택한 상품의 수량과 가격 곱해서 토탈에 더함
             }
@@ -48,6 +64,7 @@ export default function Cart() {
                 credentials: true,
             });
             console.log("장바구니 : ", res.data.data);
+            // const mergedCartList = mergeDuplicateItems(res.data.data); // 중복된 상품 합치기
             setCartList(res.data.data);
             setLoading(false);
             isSuccess = true; // 장바구니 목록 가져왔으면 isSuccess true로 변경
