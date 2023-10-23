@@ -137,6 +137,16 @@
     color: white;
 }
 
+.disabledPayBtn {
+    width: 180px;
+    height: 40px;
+    border: 0;
+    background-color: #f0f0f0;
+    border: 1px solid gray;
+    font-weight: bold;
+    color: rgb(201, 201, 201);
+}
+
 .cartBtn {
     width: 180px;
     height: 40px;

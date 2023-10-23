@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 import style from "../../../css/ProductDetail.module.css";
 import StarRating from "../../StarRating";
 import { useRef, useState } from "react";
@@ -136,10 +136,11 @@ export default function Detail({ product, reviewRef }) {
 
     // 구매 버튼 클릭 함수
     const onClickPayBtn = async (productId, quantity) => {
-        let isSuccess = false;
         if (!id) {
             return alert("로그인 후 이용 가능합니다.");
         }
+
+        let isSuccess = false;
 
         try {
             const data = `${productId}:${quantity}`;
@@ -176,7 +177,7 @@ export default function Detail({ product, reviewRef }) {
             value = 1;
         } else {
             // 숫자인 경우 범위 체크
-            value = Math.min(Math.max(1, value), 99);
+            value = Math.min(Math.max(1, value), product.stock === 0 ? 1 : product.stock);
         }
 
         setQuantity(value);
@@ -184,7 +185,7 @@ export default function Detail({ product, reviewRef }) {
 
     // 수량 바뀔때마다 총 금액 업데이트
     useEffect(() => {
-        setTotalPrice(numberComma(product.price * quantity));
+        setTotalPrice(numberComma(product.price * (quantity === 0 ? 1 : quantity)));
     }, [quantity]);
 
     return (
@@ -272,13 +273,22 @@ export default function Detail({ product, reviewRef }) {
 
                     {/* 버튼 영역 */}
                     <div className={style.btnBox}>
-                        <button className={style.payBtn} onClick={() => onClickPayBtn(product.itemId, quantity)}>
+                        <button
+                            className={product.stock === 0 ? style.disabledPayBtn : style.payBtn}
+                            disabled={product.stock === 0}
+                            onClick={() => onClickPayBtn(product.itemId, quantity)}
+                        >
                             바로 구매
                         </button>
                         <button className={style.cartBtn} onClick={() => onClickCartBtn(product.itemId)}>
                             장바구니
                         </button>
                     </div>
+                    {product.stock < quantity && (
+                        <Alert sx={{ marginTop: "18px" }} severity="error">
+                            현재 상품은 재고가 없습니다.
+                        </Alert>
+                    )}
                 </div>
             </div>
         </div>
