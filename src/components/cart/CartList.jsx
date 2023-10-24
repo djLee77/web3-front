@@ -1,22 +1,11 @@
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Select,
-    MenuItem,
-    Checkbox,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox } from "@mui/material";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useEffect } from "react";
 import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
 import numberComma from "../../lib/numberComma";
 import { useNavigate } from "react-router-dom";
+import ChangeQuantityModal from "./modal/ChangeQuantityModal";
 
 export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -76,36 +65,6 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
         }
     };
 
-    // 상품 수량 변경 함수
-    const handleCountChange = async (cartId, e) => {
-        let isSuccess = false;
-        try {
-            const res = await axios.patch(
-                `${serverUrl}/api/users/carts/${cartId}`,
-                {
-                    quantity: e.target.value,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${cookie.load("accessToken")}`,
-                    },
-                    credentials: true,
-                }
-            );
-
-            console.log("수량 변경 : ", res);
-            getCartList();
-            isSuccess = true;
-        } catch (error) {
-            // 만약 401(인증) 에러가 나면
-            if (error.response.status === 401) {
-                await reissueAccToken(); // 토큰 재발급 함수 실행
-                !isSuccess && handleCountChange(); // isSuccess가 false면은 장바구니 목록 함수 실행
-            }
-            console.log("에러:", error);
-        }
-    };
-
     // 상품 클릭시 상세페이지로 이동
     const onClickProduct = (id) => {
         navigate(`/product/detail/${id}`);
@@ -129,7 +88,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                 <TableCell align="center">상품명</TableCell>
                                 <TableCell align="center">수량</TableCell>
                                 <TableCell align="center">가격</TableCell>
-                                <TableCell align="center">삭제</TableCell>
+                                <TableCell align="center">주문 관리</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -160,30 +119,22 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                     >
                                         {item.name}
                                     </TableCell>
-                                    <TableCell align="center">
-                                        <Select
-                                            defaultValue={item.quantity}
-                                            onChange={(e) => handleCountChange(item.cartId, e)}
-                                        >
-                                            <MenuItem value={1}>1</MenuItem>
-                                            <MenuItem value={2}>2</MenuItem>
-                                            <MenuItem value={3}>3</MenuItem>
-                                            <MenuItem value={4}>4</MenuItem>
-                                            <MenuItem value={5}>5</MenuItem>
-                                            <MenuItem value={6}>6</MenuItem>
-                                            <MenuItem value={7}>7</MenuItem>
-                                            <MenuItem value={8}>8</MenuItem>
-                                            <MenuItem value={9}>9</MenuItem>
-                                            <MenuItem value={10}>10</MenuItem>
-                                        </Select>
-                                    </TableCell>
+                                    <TableCell align="center">{item.quantity}</TableCell>
                                     <TableCell align="center" sx={{ fontSize: "16px", fontWeight: "bold" }}>
                                         {numberComma(item.quantity * item.price)}원
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="error" onClick={() => handleDelBtn(item.cartId)}>
-                                            x
-                                        </Button>
+                                        <div style={{ display: "flex", justifyContent: "center" }}>
+                                            <ChangeQuantityModal
+                                                cartId={item.cartId}
+                                                getCartList={getCartList}
+                                                count={item.quantity}
+                                                stock={item.stock}
+                                            />
+                                            <Button color="error" onClick={() => handleDelBtn(item.cartId)}>
+                                                상품 삭제
+                                            </Button>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
