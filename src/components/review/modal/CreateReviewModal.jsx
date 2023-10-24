@@ -60,7 +60,6 @@ export default function CreateReviewModal({ product, getMyReviews }) {
             headers: {
               Authorization: `Bearer ${cookie.load("accessToken")}`,
             },
-            credentials: true,
           }
         );
         setImgURL(res.data.data);
@@ -98,7 +97,6 @@ export default function CreateReviewModal({ product, getMyReviews }) {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
 

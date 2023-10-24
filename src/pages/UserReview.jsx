@@ -44,7 +44,6 @@ export default function UserReview() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       setMyReviews(res.data.data.reviews);
@@ -79,7 +78,6 @@ export default function UserReview() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
       console.log(res);
       getMyReviews();

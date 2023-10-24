@@ -62,7 +62,6 @@ const Review = forwardRef((props, ref) => {
             pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
             pageSize: 10,
           },
-          credentials: true,
         }
       );
       setReviewList(res.data.data.reviews);

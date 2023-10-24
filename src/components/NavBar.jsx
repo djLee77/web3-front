@@ -73,9 +73,6 @@ const NavBar = () => {
         {
           checkId: checkId,
         },
-        {
-          credentials: true,
-        }
       );
 
       const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID

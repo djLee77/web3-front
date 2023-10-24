@@ -83,7 +83,6 @@ export default function Payment() {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
 

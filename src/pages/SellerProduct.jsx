@@ -42,7 +42,6 @@ export default function SellerProduct() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       console.log(res);
@@ -87,7 +86,6 @@ export default function SellerProduct() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       console.log("삭제", res);

@@ -32,7 +32,7 @@ const AddProduct = () => {
   const getProductInfo = async (id) => {
     try {
       const res = await axios.get(`${serverUrl}/api/public/items/${id}`, {
-        credentials: true,
+        
       });
       setImgURL1(res.data.data.image1);
       setImgURL2(res.data.data.image2);
@@ -92,7 +92,6 @@ const AddProduct = () => {
           `${serverUrl}/api/users/uploads/images`,
           formData,
           {
-            credentials: true,
             headers: {
               Authorization: `Bearer ${cookie.load("accessToken")}`,
             },
@@ -183,7 +182,6 @@ const AddProduct = () => {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
       console.log(res);
@@ -225,7 +223,6 @@ const AddProduct = () => {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
       console.log(res);

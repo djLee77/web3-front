@@ -43,7 +43,6 @@ export default function Cart() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
       console.log("장바구니 : ", res.data.data);
       setCartList(res.data.data);
@@ -85,7 +84,6 @@ export default function Cart() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       console.log(res);

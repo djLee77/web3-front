@@ -42,7 +42,6 @@ export default function UserOrder() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       setReviewItemIds(res.data.data.reviews.map((item) => item.itemId));
@@ -71,7 +70,6 @@ export default function UserOrder() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       console.log("주문목록 불러옴");

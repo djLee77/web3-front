@@ -36,7 +36,6 @@ export default function SellerOrder() {
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
 
       console.log(res);
@@ -77,7 +76,6 @@ export default function SellerOrder() {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
       console.log("주문 상태 변경 ", res);

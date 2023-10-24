@@ -22,7 +22,6 @@ const ToggleMenu = () => {
     console.log("Server URL:", serverUrl);
 
     const response = await axios.get(`${serverUrl}/api/public/categories`, {
-      credentials: true,
     });
     const categories = response.data.data[0].child;
 

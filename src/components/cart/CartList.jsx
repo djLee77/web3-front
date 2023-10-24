@@ -67,7 +67,6 @@ export default function CartList({
         headers: {
           Authorization: `Bearer ${cookie.load("accessToken")}`,
         },
-        credentials: true,
       });
       console.log("삭제 : ", res);
       getCartList();
@@ -95,7 +94,6 @@ export default function CartList({
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
 
