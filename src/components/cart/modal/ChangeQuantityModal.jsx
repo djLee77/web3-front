@@ -9,8 +9,8 @@ const style = {
     top: "40%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 300,
-    height: 250,
+    width: 380,
+    height: 200,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -21,6 +21,7 @@ export default function ChangeQuantityModal({ cartId, getCartList, count, stock 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const [quantity, setQuantity] = useState(count); // 상품 수량
     const [open, setOpen] = useState(false);
+    const [isMaxQuantity, setIsMaxQuantity] = useState(false); // 최대 수량인지 확인
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -35,6 +36,7 @@ export default function ChangeQuantityModal({ cartId, getCartList, count, stock 
         } else {
             // 숫자인 경우 범위 체크
             value = Math.min(Math.max(1, value), stock === 0 ? 1 : stock);
+            value === stock ? setIsMaxQuantity(true) : setIsMaxQuantity(false);
         }
 
         setQuantity(value);
@@ -80,15 +82,17 @@ export default function ChangeQuantityModal({ cartId, getCartList, count, stock 
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h4>변경할 수량</h4>
-                    <div>
+                    <h5>변경하실 수량을 입력해주세요.</h5>
+                    <div style={{ height: "70px", marginBottom: "10px" }}>
                         <TextField
                             type="number"
+                            error={isMaxQuantity ? true : false}
+                            helperText={isMaxQuantity && `선택 가능한 최대 수량입니다.`}
                             inputProps={{
                                 maxLength: 2,
                                 min: 1,
                                 max: 99,
-                                style: { width: "40px", height: "24px" },
+                                style: { width: "191px", height: "24px" },
                             }}
                             value={quantity}
                             id="count_id"
@@ -99,12 +103,12 @@ export default function ChangeQuantityModal({ cartId, getCartList, count, stock 
                             sx={{ backgroundColor: "white" }}
                         />
                     </div>
-                    <div>
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <Button sx={{ marginRight: "10px" }} variant="outlined" color="error" onClick={handleClose}>
+                            취소
+                        </Button>
                         <Button variant="outlined" onClick={() => handleCountChange(cartId)}>
                             변경
-                        </Button>
-                        <Button variant="outlined" color="error" onClick={handleClose}>
-                            취소
                         </Button>
                     </div>
                 </Box>

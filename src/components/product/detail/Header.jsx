@@ -8,52 +8,32 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import reissueAccToken from "../../../lib/reissueAccToken";
 import numberComma from "../../../lib/numberComma";
+import Scanner from "./Scanner";
+import ZoomView from "./ZoomView";
+import AddCartAlert from "./AddCartAlert";
 
 export default function Detail({ product, reviewRef }) {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-
     const [mainImg, setMainImg] = useState(""); // 메인 이미지
     const [quantity, setQuantity] = useState(1); // 상품 수량
     const [totalPrice, setTotalPrice] = useState(""); // 총 금액
-    const [mainImgRect, setMainImgRect] = useState({});
+    const [mainImgRect, setMainImgRect] = useState({}); // 메인이미지 위치 값
     const [scannerPosition, setScannerPosition] = useState(null); // 이미지 스캐너 위치
+    const [isAddCart, setIsAddCart] = useState(false); // 장바구니에 담았는지 확인
 
     const mainImgRef = useRef(null); // 메인 이미지 ref
+    const buttonRef = useRef(null);
+    const id = cookie.load("id"); // 사용자 ID
+    const navigate = useNavigate();
 
     useEffect(() => {
         setMainImgRect(mainImgRef.current?.getBoundingClientRect()); // 메인이미지 위치 값
     }, [mainImgRect]);
 
-    const id = cookie.load("id"); // 사용자 ID
-    const navigate = useNavigate();
-
-    const scannerStyle = {
-        position: "absolute",
-        top: scannerPosition?.y,
-        left: scannerPosition?.x,
-        width: 150,
-        height: 150,
-        border: "1px solid #000",
-        backgroundColor: "rgba(255,255,255,0.7)",
-        cursor: "pointer",
-        display: scannerPosition ? "block" : "none",
-    };
-
-    const zoomViewStyle = {
-        zIndex: 1,
-        position: "absolute",
-        top: 0,
-        left: mainImgRect?.right + 40 + "px",
-        width: 440,
-        height: 440,
-        border: "1px solid gray",
-        backgroundColor: "white",
-        backgroundImage: `url(${mainImg})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: `${(scannerPosition?.x - mainImgRect.left) * -3}px ${scannerPosition?.y * -3}px`,
-        backgroundSize: "300% 300%",
-        display: scannerPosition ? "block" : "none",
-    };
+    // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
+    useEffect(() => {
+        setMainImg(product.image1);
+    }, [product]);
 
     // 상세 이미지 스캐너 움직이는 함수
     const onMouseMove = (e) => {
@@ -77,15 +57,8 @@ export default function Detail({ product, reviewRef }) {
             scannerPostionY = 290;
         }
 
-        console.log(scannerPosition?.x, scannerPosition?.y);
-
         setScannerPosition({ x: scannerPostionX, y: scannerPostionY });
     };
-
-    // product 바뀔때 메인 이미지 설정해주기 (proudct 처음에 undefined였다가 product 불러와지면 메인 이미지 설정)
-    useEffect(() => {
-        setMainImg(product.image1);
-    }, [product]);
 
     // 리뷰 보러가는 함수
     const onReviewClick = () => {
@@ -121,7 +94,7 @@ export default function Detail({ product, reviewRef }) {
 
             console.log(res);
             if (res.status === 200) {
-                alert("장바구니에 상품을 담았습니다.");
+                setIsAddCart(true);
                 isSuccess = true;
             }
         } catch (error) {
@@ -211,10 +184,10 @@ export default function Detail({ product, reviewRef }) {
                         ref={mainImgRef}
                     >
                         <img src={mainImg} alt="메인 이미지" />
-                        <span style={scannerStyle} />
+                        <Scanner scannerPosition={scannerPosition} />
                     </div>
                 </div>
-                <div style={zoomViewStyle} />
+                <ZoomView scannerPosition={scannerPosition} mainImgRect={mainImgRect} mainImg={mainImg} />
                 <div className={style.inpoBox}>
                     <div className={style.rateBox}>
                         <StarRating
@@ -270,9 +243,8 @@ export default function Detail({ product, reviewRef }) {
                         <span>총 주문 금액({quantity})개</span>
                         <span>{totalPrice}원</span>
                     </div>
-
                     {/* 버튼 영역 */}
-                    <div className={style.btnBox}>
+                    <div className={style.btnBox} ref={buttonRef}>
                         <button
                             className={product.stock === 0 ? style.disabledPayBtn : style.payBtn}
                             disabled={product.stock === 0}
@@ -283,6 +255,10 @@ export default function Detail({ product, reviewRef }) {
                         <button className={style.cartBtn} onClick={() => onClickCartBtn(product.itemId)}>
                             장바구니
                         </button>
+
+                        {isAddCart && (
+                            <AddCartAlert isAddCart={isAddCart} setIsAddCart={setIsAddCart} navigate={navigate} />
+                        )}
                     </div>
                     {product.stock < quantity && (
                         <Alert sx={{ marginTop: "18px" }} severity="error">
