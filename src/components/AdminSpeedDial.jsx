@@ -7,6 +7,7 @@ import SmartToyIcon from "@mui/icons-material/SmartToy";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Chatbot from "./chatbot/Chatbot";
 import UserRoleModal from "./admin/UserRoleModal";
+import ChatBotSVG from "./chatbot/chatbot.svg";
 
 export default function AdminSpeedDial() {
     const [open, setOpen] = useState(false);
@@ -17,7 +18,7 @@ export default function AdminSpeedDial() {
     const USER_ROLE = "유저 권한 설정";
 
     const actions = [
-        { icon: <SmartToyIcon />, name: CHATBOT },
+        { icon: <img src={ChatBotSVG} width={30} height={30} />, name: CHATBOT },
         { icon: <ManageAccountsIcon />, name: USER_ROLE },
     ];
     const handleOpen = () => setOpen(true);
@@ -36,7 +37,7 @@ export default function AdminSpeedDial() {
             <Box>
                 <SpeedDial
                     ariaLabel="SpeedDial controlled open example"
-                    sx={{ position: "fixed", bottom: "5%", right: "5%" }}
+                    sx={{ position: "fixed", bottom: "5%", right: "5%", zIndex: 2 }}
                     icon={<SpeedDialIcon />}
                     onClose={onClickIcon}
                     onOpen={handleOpen}

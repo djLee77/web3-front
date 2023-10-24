@@ -2,8 +2,20 @@
     position: fixed;
     bottom: 5%;
     right: 5%;
-    z-index: 999;
+    z-index: 99;
+    background-color: rgb(224, 232, 255);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.btnBox:hover {
+    cursor: pointer;
+}
+
 
 .box {
     position: fixed;
@@ -11,7 +23,7 @@
     right: 0%;
     width: 400px;
     height: 500px;
-    z-index: 9999;
+    z-index: 99;
     border: 1px solid rgb(207, 206, 206);
 }
 
@@ -81,6 +93,16 @@
     flex-direction: column;
 }
 
+.message {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.botProfile {
+    margin-right: 10px;
+}
+
 .userMessage {
     max-width: 70%;
     border-radius: 10px;
@@ -135,6 +157,44 @@
     margin-left: -9px;
 }
 
+.imageBox {
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    margin-left: 14px;
+    margin-right: 14px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.imageBox::-webkit-scrollbar {
+    height: 4px;
+    /* 스크롤바의 너비 */
+}
+
+.imageBox::-webkit-scrollbar-thumb {
+    height: 3%;
+    /* 스크롤바의 길이 */
+    background: rgb(84, 84, 84);
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+.imageBox::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);
+    /*스크롤바 뒷 배경 색상*/
+}
+
+
+.imageBox img {
+    border: 1px solid gray;
+    margin-left: 14px;
+}
+
+.imageBox img:hover {
+    cursor: pointer;
+}
+
 .upScroll {
     position: fixed;
     right: 2%;
@@ -150,6 +210,7 @@
 .inputBox {
     width: 100%;
     display: flex;
+    background-color: white;
 }
 
 .inputBox input {
