@@ -51,26 +51,28 @@ const Review = forwardRef((props, ref) => {
         setPage(1);
     };
 
-    // 리뷰 가져오는 함수
-    const getReview = async () => {
-        console.log(page);
-        try {
-            const res = await axios.get(`${serverUrl}/api/public/reviews/${props.id}`, {
-                params: {
-                    sort: sort,
-                    sortType: sortType,
-                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
-                    pageSize: 10,
-                },
-                credentials: true,
-            });
-            setReviewList(res.data.data.reviews);
-            setTotalPage(res.data.data.totalPage);
-            console.log(res);
-        } catch (error) {
-            console.log(error);
+  // 리뷰 가져오는 함수
+  const getReview = async () => {
+    console.log(page);
+    try {
+      const res = await axios.get(
+        `${serverUrl}/api/public/reviews/${props.id}`,
+        {
+          params: {
+            sort: sort,
+            sortType: sortType,
+            pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
+            pageSize: 10,
+          },
         }
-    };
+      );
+      setReviewList(res.data.data.reviews);
+      setTotalPage(res.data.data.totalPage);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
     // 페이지, 정렬 방법 바뀔때 마다 리뷰 가져오기
     useEffect(() => {

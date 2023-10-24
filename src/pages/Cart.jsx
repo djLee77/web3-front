@@ -61,10 +61,8 @@ export default function Cart() {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                 },
-                credentials: true,
             });
             console.log("장바구니 : ", res.data.data);
-            // const mergedCartList = mergeDuplicateItems(res.data.data); // 중복된 상품 합치기
             setCartList(res.data.data);
             setLoading(false);
             isSuccess = true; // 장바구니 목록 가져왔으면 isSuccess true로 변경
@@ -102,7 +100,6 @@ export default function Cart() {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                 },
-                credentials: true,
             });
 
             console.log(res);

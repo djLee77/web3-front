@@ -22,7 +22,6 @@ const Home = () => {
             pageNum: 0,
             pageSize: 6, // 카드로 보여줄 상품 수
           },
-          credentials: true,
         });
 
         if (response.data.code === 200) {

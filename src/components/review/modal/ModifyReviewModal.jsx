@@ -58,7 +58,6 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
             headers: {
               Authorization: `Bearer ${cookie.load("accessToken")}`,
             },
-            credentials: true,
           }
         );
         setImgURL(res.data.data);
@@ -94,7 +93,6 @@ export default function ModifyReviewModal({ id, review, getMyReviews }) {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
 

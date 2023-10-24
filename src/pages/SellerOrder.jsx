@@ -34,11 +34,10 @@ export default function SellerOrder() {
                     pageSize: 10,
                 },
 
-                headers: {
-                    Authorization: `Bearer ${cookie.load("accessToken")}`,
-                },
-                credentials: true,
-            });
+        headers: {
+          Authorization: `Bearer ${cookie.load("accessToken")}`,
+        },
+      });
 
             console.log(res);
             setOrders(res.data.data.orders);
@@ -78,7 +77,6 @@ export default function SellerOrder() {
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
                     },
-                    credentials: true,
                 }
             );
             console.log("주문 상태 변경 ", res);

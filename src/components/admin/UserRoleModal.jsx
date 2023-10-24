@@ -40,7 +40,6 @@ export default function UserRoleModal({ setIsOpen, isOpen }) {
           headers: {
             Authorization: `Bearer ${cookie.load("accessToken")}`,
           },
-          credentials: true,
         }
       );
 

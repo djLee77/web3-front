@@ -50,7 +50,6 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                 },
-                credentials: true,
             });
             console.log("삭제 : ", res);
             getCartList();

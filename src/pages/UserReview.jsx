@@ -29,24 +29,23 @@ export default function UserReview() {
         navigate(`/user/review?page=${value}`);
     };
 
-    // 작성한 리뷰 목록 가져오기
-    const getMyReviews = async () => {
-        let isSuccess = false;
-        const urlPage = searchParams.get("page");
-        const pageNum = urlPage ? parseInt(urlPage, 10) : 1;
-        setPage(pageNum);
-        try {
-            console.log(id);
-            const res = await axios.get(`${serverUrl}/api/users/reviews/${id}`, {
-                params: {
-                    pageNum: pageNum - 1, // 백엔드 페이징은 0부터 시작해서 -1
-                    pageSize: 10,
-                },
-                headers: {
-                    Authorization: `Bearer ${cookie.load("accessToken")}`,
-                },
-                credentials: true,
-            });
+  // 작성한 리뷰 목록 가져오기
+  const getMyReviews = async () => {
+    let isSuccess = false;
+    const urlPage = searchParams.get("page");
+    const pageNum = urlPage ? parseInt(urlPage, 10) : 1;
+    setPage(pageNum);
+    try {
+      console.log(id);
+      const res = await axios.get(`${serverUrl}/api/users/reviews/${id}`, {
+        params: {
+          pageNum: pageNum - 1, // 백엔드 페이징은 0부터 시작해서 -1
+          pageSize: 10,
+        },
+        headers: {
+          Authorization: `Bearer ${cookie.load("accessToken")}`,
+        },
+      });
 
             setMyReviews(res.data.data.reviews);
             setTotalPage(res.data.totalPage);
@@ -72,27 +71,26 @@ export default function UserReview() {
         }
     }, [page]);
 
-    // 리뷰 삭제 버튼 함수
-    const onClickReviewDelBtn = async (id) => {
-        let isSuccess = false;
-        try {
-            const res = await axios.delete(`${serverUrl}/api/users/reviews/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${cookie.load("accessToken")}`,
-                },
-                credentials: true,
-            });
-            console.log(res);
-            getMyReviews();
-            isSuccess = true;
-        } catch (error) {
-            // 만약 401(인증) 에러가 나면
-            if (error.response.status === 401) {
-                await reissueAccToken(); // 토큰 재발급 함수 실행
-                !isSuccess && onClickReviewDelBtn(); // 함수 다시 실행
-            }
-        }
-    };
+  // 리뷰 삭제 버튼 함수
+  const onClickReviewDelBtn = async (id) => {
+    let isSuccess = false;
+    try {
+      const res = await axios.delete(`${serverUrl}/api/users/reviews/${id}`, {
+        headers: {
+          Authorization: `Bearer ${cookie.load("accessToken")}`,
+        },
+      });
+      console.log(res);
+      getMyReviews();
+      isSuccess = true;
+    } catch (error) {
+      // 만약 401(인증) 에러가 나면
+      if (error.response.status === 401) {
+        await reissueAccToken(); // 토큰 재발급 함수 실행
+        !isSuccess && onClickReviewDelBtn(); // 함수 다시 실행
+      }
+    }
+  };
 
     const onClickProduct = (id) => {
         navigate(`/product/detail/${id}`);

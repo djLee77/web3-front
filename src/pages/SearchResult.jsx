@@ -44,7 +44,6 @@ const SearchResult = () => {
             pageNum: pageNum - 1, // 기본값
             pageSize: 9, // 기본값
           },
-          credentials: true,
         });
         if (res.data.code === 200) {
           setProducts(res.data.data.items);

@@ -65,18 +65,15 @@ const NavBar = () => {
         });
     };
 
-    const handleLogin = async (id, checkId) => {
-        console.log("계정 : ", id, checkId);
-        try {
-            const res = await axios.post(
-                `${serverUrl}/api/public/login/${id}`,
-                {
-                    checkId: checkId,
-                },
-                {
-                    credentials: true,
-                }
-            );
+  const handleLogin = async (id, checkId) => {
+    console.log("계정 : ", id, checkId);
+    try {
+      const res = await axios.post(
+        `${serverUrl}/api/public/login/${id}`,
+        {
+          checkId: checkId,
+        },
+      );
 
             const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
 

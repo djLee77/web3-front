@@ -57,7 +57,7 @@ const CategoryResult = () => {
       try {
         const categoryRes = await axios.get(
           `${serverUrl}/api/public/categories`,
-          { credentials: true }
+          
         );
         if (categoryRes.data.code === 200) {
           const pathNames = findNodeAndPath(
@@ -74,7 +74,6 @@ const CategoryResult = () => {
             pageNum: pageNum - 1, // 기본값
             pageSize: 9, // 기본값
           },
-          credentials: true,
         });
 
         if (res.data.code === 200) {

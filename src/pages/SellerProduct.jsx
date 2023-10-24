@@ -28,23 +28,22 @@ export default function SellerProduct() {
         navigate(`/seller/product?page=${value}`);
     };
 
-    // 판매 상품 목록 가져오는 상품
-    const getProducts = async () => {
-        let isSuccess = false;
-        const urlPage = searchParams.get("page");
-        const pageNum = urlPage ? parseInt(urlPage) : 1;
-        setPage(pageNum);
-        try {
-            const res = await axios.get(`${serverUrl}/api/sellers/items/${id}`, {
-                params: {
-                    pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
-                    pageSize: 10,
-                },
-                headers: {
-                    Authorization: `Bearer ${cookie.load("accessToken")}`,
-                },
-                credentials: true,
-            });
+  // 판매 상품 목록 가져오는 상품
+  const getProducts = async () => {
+    let isSuccess = false;
+    const urlPage = searchParams.get("page");
+    const pageNum = urlPage ? parseInt(urlPage) : 1;
+    setPage(pageNum);
+    try {
+      const res = await axios.get(`${serverUrl}/api/sellers/items/${id}`, {
+        params: {
+          pageNum: page - 1, // 백엔드 페이징은 0부터 시작해서 -1
+          pageSize: 10,
+        },
+        headers: {
+          Authorization: `Bearer ${cookie.load("accessToken")}`,
+        },
+      });
 
             console.log(res);
             setProducts(res.data.data.items);
@@ -80,16 +79,15 @@ export default function SellerProduct() {
         navigate(`/product/add?id=${id}`);
     };
 
-    // 상품 삭제 버튼 함수
-    const onClickDeleteBtn = async (id) => {
-        let isSuccess = false;
-        try {
-            const res = await axios.delete(`${serverUrl}/api/sellers/items/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${cookie.load("accessToken")}`,
-                },
-                credentials: true,
-            });
+  // 상품 삭제 버튼 함수
+  const onClickDeleteBtn = async (id) => {
+    let isSuccess = false;
+    try {
+      const res = await axios.delete(`${serverUrl}/api/sellers/items/${id}`, {
+        headers: {
+          Authorization: `Bearer ${cookie.load("accessToken")}`,
+        },
+      });
 
             console.log("삭제", res);
 

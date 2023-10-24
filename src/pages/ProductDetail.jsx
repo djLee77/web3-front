@@ -50,9 +50,7 @@ export default function ProductDetail() {
   // 상품 정보 가져오는 함수
   const getProductInfo = async (id) => {
     try {
-      const res = await axios.get(`${serverUrl}/api/public/items/${id}`, {
-        credentials: true,
-      });
+      const res = await axios.get(`${serverUrl}/api/public/items/${id}`,);
       console.log("상품 정보 : ", res);
       setProduct(res.data.data);
       setLoading(false);

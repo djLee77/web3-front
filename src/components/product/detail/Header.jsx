@@ -88,7 +88,6 @@ export default function Detail({ product, reviewRef }) {
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
                     },
-                    credentials: true,
                 }
             );
 
@@ -125,7 +124,6 @@ export default function Detail({ product, reviewRef }) {
                 headers: {
                     Authorization: `Bearer ${cookie.load("accessToken")}`,
                 },
-                credentials: true,
             });
 
             console.log(res);

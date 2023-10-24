@@ -42,7 +42,6 @@ export default function SelectCategoryModal({ category, setCategory }) {
 
     const getCategrories = async () => {
         const response = await axios.get(`${serverUrl}/api/public/categories`, {
-            credentials: true,
         });
         console.log("data:", response.data.data[0]);
         const categories = response.data.data[0].child;
