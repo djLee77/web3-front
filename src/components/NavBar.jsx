@@ -17,28 +17,17 @@ import { Tooltip } from "@mui/material";
 
 const NavBar = () => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-    // 사용자가 연결된 네트워크를 id가 아닌 name 또는 symbol로 보여주기 위한 배열
-    const chainIds = {
-        1: { name: "Ethereum mainnet", symbol: "ETH" },
-        3: { name: "Ropsten", symbol: "RopstenETH" },
-        4: { name: "Rinkeby", symbol: "RinkebyETH" },
-        5: { name: "Goerli", symbol: "GoerliETH" },
-        42: { name: "Kovan", symbol: "KovanETH" },
-        11155111: { name: "Sepolia", symbol: "SepoliaETH" },
-        56: { name: "Binance Smart Chain Mainnet", symbol: "BNB" },
-        97: { name: "Binance Smart Chain Testnet", symbol: "tBNB" },
-        43114: { name: "Avalanche C-Chain", symbol: "AVAX" },
-        137: { name: "Polygon Mainnet", symbol: "MATIC" },
-        80001: { name: "Mumbai", symbol: "MATIC" },
-        42161: { name: "Arbitrum One", symbol: "ETH" },
-        10: { name: "Optimism", symbol: "ETH" },
-        250: { name: "Fantom Opera", symbol: "FTM" },
-        8217: { name: "Klaytn Mainnet Cypress", symbol: "KLAY" },
-        1001: { name: "baobob", symbol: "KLAY" },
-        61: { name: "Ethereum Classic Mainnet", symbol: "ETC" },
-    };
 
-    const [balance, setBalance] = useState("");
+    /*
+    connector: 현재 dapp에 연결된 월렛의 connector 값
+    library: web3 provider 제공
+    chainId: dapp에 연결된 account의 chainId
+    account: dapp에 연결된 account address
+    active: dapp 유저가 로그인 된 상태인지 체크
+    activate: dapp 월렛 연결 기능 수행함수
+    deactivate: dapp 월렛 해제 수행함수
+    */
+
     const { chainId, account, library, active, activate, deactivate } = useWeb3React();
     const [isLogin, setIsLogin] = useState(cookie.load("id")); // 로그인 했는지 확인
     const navigate = useNavigate();
@@ -51,6 +40,7 @@ const NavBar = () => {
             cookie.remove("refreshToken", { path: "/" });
             cookie.remove("id", { path: "/" });
             cookie.remove("role", { path: "/" });
+            cookie.remove("address", { path: "/" });
             setIsLogin(false);
             deactivate();
             return;
@@ -65,15 +55,12 @@ const NavBar = () => {
         });
     };
 
-  const handleLogin = async (id, checkId) => {
-    console.log("계정 : ", id, checkId);
-    try {
-      const res = await axios.post(
-        `${serverUrl}/api/public/login/${id}`,
-        {
-          checkId: checkId,
-        },
-      );
+    const handleLogin = async (id, checkId) => {
+        console.log("계정 : ", id, checkId);
+        try {
+            const res = await axios.post(`${serverUrl}/api/public/login/${id}`, {
+                checkId: checkId,
+            });
 
             const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
 
@@ -93,6 +80,11 @@ const NavBar = () => {
 
             // 토큰에 쇼핑몰 ID 저장
             cookie.save("id", mallId, {
+                path: "/",
+            });
+
+            // 토큰에 메타마스크 지갑 계정 저장
+            cookie.save("address", account, {
                 path: "/",
             });
             console.log(res);
@@ -122,12 +114,6 @@ const NavBar = () => {
             }).toString();
 
             handleLogin(account, encryptedId); // 로그인 하기
-
-            // 계정에 연결된 네트워크 코인 가져오기
-            library?.getBalance(account).then((result) => {
-                setBalance(result._hex / 10 ** 18); // 16진수로 보기 힘들게 나와서 바꿔주기
-                console.log("result : ", result);
-            });
 
             setIsLogin(true);
         }
