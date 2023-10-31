@@ -4,9 +4,6 @@ import Web3 from "web3";
 import cookie from "react-cookies";
 
 export default function TestSend() {
-    // Ganache에 연결할 URL
-    const ganacheUrl = "http://localhost:7545"; // Ganache의 주소로 설정하세요.
-
     // Ganache 계정 주소 (from 계정)와 수신자 주소를 상태로 관리합니다.
     const [fromAccount, setFromAccount] = useState("");
     const [toAddress, setToAddress] = useState("");
@@ -21,8 +18,14 @@ export default function TestSend() {
         setFromAccount(cookie.load("address"));
     }, []);
 
+    // Ganache에 연결할 URL, 로컬 환경에서만 가능..
+    // const ganacheUrl = "http://localhost:7545"; // Ganache의 주소로 설정하세요.
+
     // Ganache와 연결
-    const web3 = new Web3(new Web3.providers.HttpProvider(ganacheUrl));
+    // const web3 = new Web3(new Web3.providers.HttpProvider(ganacheUrl));
+
+    // seporia 연결
+    const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6");
 
     // 트랜잭션을 보내는 함수
     const sendTransaction = async () => {
@@ -30,16 +33,28 @@ export default function TestSend() {
             // 이더 양을 Wei로 변환
             const weiAmount = web3.utils.toWei(ethAmount, "ether");
 
+            const gasLimit = "21000"; // 가스 한도 (기본값)
+            const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
+
+            console.log(weiAmount);
+
             // 트랜잭션 정보 설정
             const transactionData = {
-                from: fromAccount,
-                to: toAddress,
-                value: weiAmount,
+                from: fromAccount, // 보내는 계정 주소
+                to: toAddress, // 받는 계정 주소
+                value: weiAmount, // 이더 양
+                gas: gasLimit, // 가스 한도 설정
+                gasPrice: gasPrice, // 가스 가격 설정
             };
 
             // 트랜잭션 전송
-            const receipt = await web3.eth.sendTransaction(transactionData);
-            setTransactionHash(receipt.transactionHash);
+            // 메타마스크로 트랜잭션 보내기
+            const result = await window.ethereum.request({
+                method: "eth_sendTransaction",
+                params: [transactionData],
+            });
+            console.log("영수증 : ", result);
+            setTransactionHash(result);
             setTransactionError("");
         } catch (error) {
             setTransactionHash("");
