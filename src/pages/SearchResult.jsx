@@ -19,10 +19,10 @@ const SearchResult = () => {
   const [sortTypes, setSortTypes] = useState(["createdAt", "desc"]);
   const [selectedType, setSelectedType] = useState("최신순");
   const typesObj = {
-    판매량순: ["sales", "desc"],
-    낮은가격순: ["price", "asc"],
-    높은가격순: ["price", "desc"],
-    최신순: ["createdAt", "desc"],
+    "판매량순": ["sales", "desc"],
+    "낮은가격순": ["price", "asc"],
+    "높은가격순": ["price", "desc"],
+    "최신순": ["createdAt", "desc"],
     "별점 높은순": ["avgRating", "desc"],
   };
   const handleSortType = (event) => {
