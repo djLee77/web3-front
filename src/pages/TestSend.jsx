@@ -24,13 +24,13 @@ export default function TestSend() {
     // Ganache와 연결
     // const web3 = new Web3(new Web3.providers.HttpProvider(ganacheUrl));
 
-    // seporia 연결
+    // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
     const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6");
 
     // 트랜잭션을 보내는 함수
     const sendTransaction = async () => {
         try {
-            // 이더 양을 Wei로 변환
+            // 이더 양을 Wei로 변환, 0.0001 입력시 0.07205759 나옴 수정 필요 오또케 오또케
             const weiAmount = web3.utils.toWei(ethAmount, "ether");
 
             const gasLimit = "21000"; // 가스 한도 (기본값)
