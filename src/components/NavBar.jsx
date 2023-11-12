@@ -32,6 +32,7 @@ const NavBar = () => {
     const [isLogin, setIsLogin] = useState(cookie.load("id")); // 로그인 했는지 확인
     const navigate = useNavigate();
 
+    // 메타마스크 연동 성공시 account 가져옴
     const handleConnect = () => {
         // 만약 이미 연결 돼있으면 연결 해제
         if (isLogin) {
@@ -62,7 +63,7 @@ const NavBar = () => {
                 checkId: checkId,
             });
 
-            const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 ID
+            const mallId = res.data.data.userId; // 쇼핑몰에서 사용할 암호화된 ID
 
             // 쿠키에 액세스 토큰 저장
             cookie.save("accessToken", res.data.data.accessToken, {
@@ -92,15 +93,6 @@ const NavBar = () => {
             console.log(error);
         }
     };
-
-    const OnClickAlert = () => {
-        alert("로그인 후 이용해주십시오.");
-    };
-
-    const OnClickLink = (url) => {
-        navigate(url);
-    };
-
     // 계정 연결 됐으면
     useEffect(() => {
         if (account) {
@@ -134,46 +126,39 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
                 <div className={style.item}>
-                    <div className={style.lilItem}>
-                        {cookie.load("role") == "ROLE_ADMIN" || cookie.load("role" == "ROLE_SELLER") ? (
+                    {(cookie.load("role") === "ROLE_ADMIN" || cookie.load("role") === "ROLE_SELLER") && (
+                        <div className={style.lilItem}>
                             <a type="button" onClick={() => navigate("/seller/product")}>
                                 <Tooltip title="상품 관리" arrow>
                                     <AdminPanelSettingsIcon color="primary" />
                                 </Tooltip>
                             </a>
-                        ) : (
-                            <a></a>
-                        )}
-                    </div>
+                        </div>
+                    )}
+
                     <div className={style.lilItem}>
-                        {cookie.load("refreshToken") ? (
-                            <a type="button" onClick={() => navigate("/user/order")}>
-                                <Tooltip title="마이페이지" arrow>
-                                    <PersonOutlineRoundedIcon color="primary" />
-                                </Tooltip>
-                            </a>
-                        ) : (
-                            <a type="button" onClick={OnClickAlert}>
+                        <a
+                            type="button"
+                            onClick={() => (isLogin ? navigate("/user/order") : alert("로그인 후 이용해주십시오."))}
+                        >
+                            <Tooltip title="마이페이지" arrow>
                                 <PersonOutlineRoundedIcon color="primary" />
-                            </a>
-                        )}
+                            </Tooltip>
+                        </a>
                     </div>
                     <div className={style.lilItem}>
-                        {cookie.load("refreshToken") ? (
-                            <a type="button" onClick={() => navigate("/cart")}>
-                                <Tooltip title="장바구니" arrow>
-                                    <ShoppingCartIcon color="primary" />
-                                </Tooltip>
-                            </a>
-                        ) : (
-                            <a type="button" onClick={OnClickAlert}>
+                        <a
+                            type="button"
+                            onClick={() => (isLogin ? navigate("/cart") : alert("로그인 후 이용해주십시오."))}
+                        >
+                            <Tooltip title="장바구니" arrow>
                                 <ShoppingCartIcon color="primary" />
-                            </a>
-                        )}
+                            </Tooltip>
+                        </a>
                     </div>
                     <div className={style.lilItem}>
                         <a type="button" onClick={handleConnect}>
-                            {cookie.load("refreshToken") ? "로그아웃" : "로그인"}
+                            {isLogin ? "로그아웃" : "로그인"}
                         </a>
                     </div>
                 </div>

@@ -30,19 +30,17 @@ export default function TestSend() {
     // 트랜잭션을 보내는 함수
     const sendTransaction = async () => {
         try {
-            // 이더 양을 Wei로 변환, 0.0001 입력시 0.07205759 나옴 수정 필요 오또케 오또케
-            const weiAmount = web3.utils.toWei(ethAmount, "ether");
-
+            // 이더 양을 Wei로 변환, 0.0001 입력시 0.07205759 나옴;; 수정 필요!!
+            const weiAmount = web3.utils.toWei(ethAmount.toString(), "ether");
             const gasLimit = "21000"; // 가스 한도 (기본값)
             const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
-
-            console.log(weiAmount);
+            const hexValue = web3.utils.numberToHex(weiAmount); // 16진수로 변환 (이더리움은 16진수로 되어있음)
 
             // 트랜잭션 정보 설정
             const transactionData = {
                 from: fromAccount, // 보내는 계정 주소
                 to: toAddress, // 받는 계정 주소
-                value: weiAmount, // 이더 양
+                value: hexValue, // 이더 양
                 gas: gasLimit, // 가스 한도 설정
                 gasPrice: gasPrice, // 가스 가격 설정
             };
