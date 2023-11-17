@@ -68,25 +68,25 @@ export default function Payment() {
             return setIsDetailAddressInput(false);
         }
 
-    try {
-      const res = await axios.post(
-        `${serverUrl}/api/users/payments/${id}`,
-        {
-          recipient: name,
-          address: roadAddress,
-          detailAddress: detailAddress,
-          phone: phone,
-          zipCode: zipCode,
-        },
-        {
-          params: {
-            items: data,
-          },
-          headers: {
-            Authorization: `Bearer ${cookie.load("accessToken")}`,
-          },
-        }
-      );
+        try {
+            const res = await axios.post(
+                `${serverUrl}/api/users/payments/${id}`,
+                {
+                    recipient: name,
+                    address: roadAddress,
+                    detailAddress: detailAddress,
+                    phone: phone,
+                    zipCode: zipCode,
+                },
+                {
+                    params: {
+                        items: data,
+                    },
+                    headers: {
+                        Authorization: `Bearer ${cookie.load("accessToken")}`,
+                    },
+                }
+            );
 
             console.log(res);
 
@@ -188,7 +188,7 @@ export default function Payment() {
             </div>
             <div className={style.btnBox}>
                 <button className={style.payBtn} onClick={onClickPaymentBtn}>
-                    결제하기
+                    주문서 작성 완료
                 </button>
                 <button className={style.backBtn} onClick={() => navigate("/")}>
                     취소

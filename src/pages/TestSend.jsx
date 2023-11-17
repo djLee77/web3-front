@@ -4,9 +4,8 @@ import Web3 from "web3";
 import cookie from "react-cookies";
 
 export default function TestSend() {
-    // Ganache 계정 주소 (from 계정)와 수신자 주소를 상태로 관리합니다.
-    const [fromAccount, setFromAccount] = useState("");
-    const [toAddress, setToAddress] = useState("");
+    const [fromAccount, setFromAccount] = useState(""); // 보내는 계정 주소
+    const [toAddress, setToAddress] = useState(""); // 받는 계정 주소
     const [ethAmount, setEthAmount] = useState(""); // 보낼 이더 양
 
     // 트랜잭션 상태를 관리합니다.
@@ -25,7 +24,7 @@ export default function TestSend() {
     // const web3 = new Web3(new Web3.providers.HttpProvider(ganacheUrl));
 
     // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
-    const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6");
+    const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825c77b6");
 
     // 트랜잭션을 보내는 함수
     const sendTransaction = async () => {
