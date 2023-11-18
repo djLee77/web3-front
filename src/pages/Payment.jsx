@@ -101,9 +101,8 @@ export default function Payment() {
             });
             console.log("영수증 : ", result);
             if (result !== "") {
-                createOrder();
+                sendPaymentInfo();
             }
-            setTransactionHash(result);
             setTransactionError("");
         } catch (error) {
             setTransactionHash("");
@@ -111,8 +110,8 @@ export default function Payment() {
         }
     };
 
-    // 결제 버튼 함수
-    const createOrder = async () => {
+    // 결제 정보 보내기
+    const sendPaymentInfo = async () => {
         const id = cookie.load("id");
         let isSuccess = false;
         try {
