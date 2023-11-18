@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
-export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode, setRoadAddress }) {
+export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode, setRoadAddress, isDisabled }) {
     const handleOpen = () => setModalOpen(true);
     const handleClose = () => {
         setModalOpen(false);
@@ -33,7 +33,7 @@ export default function DaumPostCodeModal({ modalOpen, setModalOpen, setZipcode,
 
     return (
         <div>
-            <Button variant="contained" sx={{ marginRight: "20px" }} onClick={handleOpen}>
+            <Button variant="contained" sx={{ marginRight: "20px" }} onClick={handleOpen} disabled={isDisabled}>
                 우편번호 검색
             </Button>
             <Modal

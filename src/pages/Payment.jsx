@@ -22,14 +22,10 @@ export default function Payment() {
     const [detailAddress, setDetailAddress] = useState(""); // 상세 주소
     const [isDetailAddressInput, setIsDetailAddressInput] = useState(true); // 상세주소 입력했는지 확인
     const [modalOpen, setModalOpen] = useState(false); // 우편번호 모달창 여닫기
-
+    const [isDisabled, setIsDisabled] = useState(false); // 메타마스크 결제 창 열릴시 배송지 변경 못하게
     const [fromAccount, setFromAccount] = useState("0x2c879C9Fc9399024E3FD17e5cF6ccd02Bb6f0dD0"); // 보내는 계정 주소
     const [toAddress, setToAddress] = useState("0x700ABc8484329FfB828ee2B76D2758a1233E6742"); // 받는 계정 주소
-    const [ethAmount, setEthAmount] = useState("0.0001"); // 보낼 이더 양
-
-    // 트랜잭션 상태를 관리합니다.
-    const [transactionHash, setTransactionHash] = useState("");
-    const [transactionError, setTransactionError] = useState("");
+    const [orderProduct, setOrderProduct] = useState([]); // 주문 상품
 
     // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
     const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825c77b6");
@@ -41,14 +37,31 @@ export default function Payment() {
     const phoneRef = useRef(); //전화번호 인풋창 ref
     const detailAddressRef = useRef(); // 상세주소 인풋창 ref
 
-    const orders = location.state.orders; // location에 있는 주문서 폼
-    const data = location.state.data; // location에 있는 상품 id, 수량
+    // const orders = location.state.orders; // location에 있는 주문서 폼
+    const data = location.state.data.split(":"); // location에 있는 productId, quantity
+    const productId = data[0];
+    const quantity = data[1];
 
     // 전화번호 형식으로 정규화 함수
     const onChangePhone = (e) => {
         const regex = /^[0-9\b -]{0,13}$/;
         if (regex.test(e.target.value)) {
             setPhone(e.target.value);
+        }
+    };
+
+    useEffect(() => {
+        getProductInfo(productId);
+    }, []);
+
+    // 상품 정보 가져오는 함수
+    const getProductInfo = async (id) => {
+        try {
+            const res = await axios.get(`${serverUrl}/api/public/items/${id}`);
+            console.log("상품 정보 : ", res.data.data);
+            setOrderProduct(res.data.data);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -79,10 +92,8 @@ export default function Payment() {
         }
 
         try {
-            const weiAmount = web3.utils.toWei(
-                exchangeWonToEth(orders[0].price * orders[0].quantity).toString(),
-                "ether"
-            );
+            setIsDisabled(true);
+            const weiAmount = web3.utils.toWei(exchangeWonToEth(orderProduct.price * quantity).toString(), "ether");
             const gasLimit = "21000"; // 가스 한도 (기본값)
             const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
             const hexValue = web3.utils.numberToHex(weiAmount); // 16진수로 변환 (이더리움은 16진수로 되어있음)
@@ -105,11 +116,11 @@ export default function Payment() {
             console.log("영수증 : ", result);
             if (result !== "") {
                 sendPaymentInfo();
+                setIsDisabled(false);
             }
-            setTransactionError("");
         } catch (error) {
-            setTransactionHash("");
-            setTransactionError(error.message);
+            console.log(error);
+            setIsDisabled(false);
         }
     };
 
@@ -130,7 +141,7 @@ export default function Payment() {
                 },
                 {
                     params: {
-                        items: data,
+                        items: location.state.data,
                     },
                     headers: {
                         Authorization: `Bearer ${cookie.load("accessToken")}`,
@@ -186,6 +197,7 @@ export default function Payment() {
                             onChange={(e) => setName(e.target.value)}
                             sx={{ marginRight: "10px" }}
                             inputRef={nameRef}
+                            disabled={isDisabled}
                         />
                         <TextField
                             error={isPhoneInput ? false : true}
@@ -196,6 +208,7 @@ export default function Payment() {
                             value={phone}
                             onChange={onChangePhone}
                             inputRef={phoneRef}
+                            disabled={isDisabled}
                         />
                     </div>
                     <div style={{ display: "flex", marginTop: "20px", marginBottom: "20px", alignItems: "center" }}>
@@ -205,6 +218,7 @@ export default function Payment() {
                             setModalOpen={setModalOpen}
                             setZipcode={setZipcode}
                             setRoadAddress={setRoadAddress}
+                            isDisabled={isDisabled}
                         />
                     </div>
                     <TextField label="도로명 주소" size="small" value={roadAddress} sx={{ marginBottom: "20px" }} />
@@ -216,26 +230,25 @@ export default function Payment() {
                         value={detailAddress}
                         onChange={(e) => setDetailAddress(e.target.value)}
                         inputRef={detailAddressRef}
+                        disabled={isDisabled}
                     />
                 </div>
                 <div className={style.orderListBox}>
                     <h4>주문 상품 목록</h4>
                     <div style={{ width: "420px", height: "300px", overflow: "auto" }}>
-                        {orders?.map((item, idx) => (
-                            <div key={idx} style={{ display: "flex" }}>
-                                <div>
-                                    <img src={item.image} alt="상품 이미지" width={150} height={150} />
-                                </div>
-                                <div className={style.orderProductBox}>
-                                    <span>{item.itemName}</span>
-                                    <span>수량 {item.quantity}개</span>
-                                    <span>
-                                        가격 {numberComma(item.quantity * item.price)}원 /{" "}
-                                        {exchangeWonToEth(item.quantity * item.price)} eth
-                                    </span>
-                                </div>
+                        <div style={{ display: "flex" }}>
+                            <div>
+                                <img src={orderProduct.image1} alt="상품 이미지" width={150} height={150} />
                             </div>
-                        ))}
+                            <div className={style.orderProductBox}>
+                                <span>{orderProduct.name}</span>
+                                <span>수량 {quantity}개</span>
+                                <span>
+                                    가격 {numberComma(quantity * orderProduct.price)}원 /{" "}
+                                    {exchangeWonToEth(quantity * orderProduct.price)} eth
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
