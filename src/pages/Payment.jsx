@@ -7,6 +7,8 @@ import axios from "axios";
 import cookie from "react-cookies";
 import reissueAccToken from "../lib/reissueAccToken";
 import numberComma from "../lib/numberComma";
+import exchangeWonToEth from "../lib/exchangeWonToEth";
+import Web3 from "web3";
 
 export default function Payment() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -20,6 +22,17 @@ export default function Payment() {
     const [detailAddress, setDetailAddress] = useState(""); // 상세 주소
     const [isDetailAddressInput, setIsDetailAddressInput] = useState(true); // 상세주소 입력했는지 확인
     const [modalOpen, setModalOpen] = useState(false); // 우편번호 모달창 여닫기
+
+    const [fromAccount, setFromAccount] = useState("0x2c879C9Fc9399024E3FD17e5cF6ccd02Bb6f0dD0"); // 보내는 계정 주소
+    const [toAddress, setToAddress] = useState("0x700ABc8484329FfB828ee2B76D2758a1233E6742"); // 받는 계정 주소
+    const [ethAmount, setEthAmount] = useState("0.0001"); // 보낼 이더 양
+
+    // 트랜잭션 상태를 관리합니다.
+    const [transactionHash, setTransactionHash] = useState("");
+    const [transactionError, setTransactionError] = useState("");
+
+    // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
+    const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825c77b6");
 
     const navigate = useNavigate();
     const location = useLocation(); // url 정보 가져오기
@@ -39,11 +52,8 @@ export default function Payment() {
         }
     };
 
-    // 결제 버튼 함수
+    // 트랜잭션을 보내는 함수
     const onClickPaymentBtn = async () => {
-        const id = cookie.load("id");
-        let isSuccess = false;
-
         // 값들 제대로 썼는지 확인 제대로 안 썼으면 인풋창 포커스 한 후 false 리턴
         if (name === "") {
             nameRef.current.focus();
@@ -69,6 +79,43 @@ export default function Payment() {
         }
 
         try {
+            const weiAmount = web3.utils.toWei(ethAmount.toString(), "ether");
+            const gasLimit = "21000"; // 가스 한도 (기본값)
+            const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
+            const hexValue = web3.utils.numberToHex(weiAmount); // 16진수로 변환 (이더리움은 16진수로 되어있음)
+
+            // 트랜잭션 정보 설정
+            const transactionData = {
+                from: fromAccount, // 보내는 계정 주소
+                to: toAddress, // 받는 계정 주소
+                value: hexValue, // 이더 양
+                gas: gasLimit, // 가스 한도 설정
+                gasPrice: gasPrice, // 가스 가격 설정
+            };
+
+            // 트랜잭션 전송
+            // 메타마스크로 트랜잭션 보내기
+            const result = await window.ethereum.request({
+                method: "eth_sendTransaction",
+                params: [transactionData],
+            });
+            console.log("영수증 : ", result);
+            if (result !== "") {
+                createOrder();
+            }
+            setTransactionHash(result);
+            setTransactionError("");
+        } catch (error) {
+            setTransactionHash("");
+            setTransactionError(error.message);
+        }
+    };
+
+    // 결제 버튼 함수
+    const createOrder = async () => {
+        const id = cookie.load("id");
+        let isSuccess = false;
+        try {
             const res = await axios.post(
                 `${serverUrl}/api/users/payments/${id}`,
                 {
@@ -77,6 +124,7 @@ export default function Payment() {
                     detailAddress: detailAddress,
                     phone: phone,
                     zipCode: zipCode,
+                    //transactionHash 보내기
                 },
                 {
                     params: {
@@ -95,7 +143,7 @@ export default function Payment() {
                 navigate("/");
                 isSuccess = true;
             } else {
-                alert("상품 재고가 부족합니다.");
+                alert("상품 구매 실패 관리자에게 문의 바랍니다.");
                 navigate("/");
             }
 
@@ -179,7 +227,10 @@ export default function Payment() {
                                 <div className={style.orderProductBox}>
                                     <span>{item.itemName}</span>
                                     <span>수량 {item.quantity}개</span>
-                                    <span>가격 {numberComma(item.quantity * item.price)}원</span>
+                                    <span>
+                                        가격 {numberComma(item.quantity * item.price)}원 /{" "}
+                                        {exchangeWonToEth(item.quantity * item.price)} eth
+                                    </span>
                                 </div>
                             </div>
                         ))}

@@ -5,40 +5,73 @@ import cookie from "react-cookies";
 import reissueAccToken from "../../lib/reissueAccToken";
 import numberComma from "../../lib/numberComma";
 import { useNavigate } from "react-router-dom";
+import style from "../../css/Cart.module.css";
 import ChangeQuantityModal from "./modal/ChangeQuantityModal";
 
-export default function CartList({ cartList, selectAll, setSelectAll, selectedItems, setSelectedItems, getCartList }) {
+export default function CartList({ cartList, getCartList }) {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const navigate = useNavigate();
 
-    // 상품 전체 선택 함수
-    const handleSelectAll = (event) => {
-        const checked = event.target.checked;
-        setSelectAll(checked);
+    // // 상품 전체 선택 함수
+    // const handleSelectAll = (event) => {
+    //     const checked = event.target.checked;
+    //     setSelectAll(checked);
 
-        //  체크하면 선택한 상품 배열에 모든 값 넣기 해제하면 빈 배열로 상태 저장
-        if (checked) {
-            setSelectedItems(
-                cartList.map((item) => ({
-                    itemId: item.itemId,
-                    cartId: item.cartId,
-                    quantity: item.quantity,
-                }))
-            );
-        } else {
-            setSelectedItems([]);
-        }
-    };
+    //     //  체크하면 선택한 상품 배열에 모든 값 넣기 해제하면 빈 배열로 상태 저장
+    //     if (checked) {
+    //         setSelectedItems(
+    //             cartList.map((item) => ({
+    //                 itemId: item.itemId,
+    //                 cartId: item.cartId,
+    //                 quantity: item.quantity,
+    //             }))
+    //         );
+    //     } else {
+    //         setSelectedItems([]);
+    //     }
+    // };
 
-    // 각 상품 선택 함수
-    const handleSelectOne = (event, itemId, cartId, quantity) => {
-        const checked = event.target.checked;
+    // // 각 상품 선택 함수
+    // const handleSelectOne = (event, itemId, cartId, quantity) => {
+    //     const checked = event.target.checked;
 
-        if (checked) {
-            setSelectedItems((prevSelected) => [...prevSelected, { itemId, cartId, quantity }]);
-        } else {
-            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.cartId !== cartId));
+    //     if (checked) {
+    //         setSelectedItems((prevSelected) => [...prevSelected, { itemId, cartId, quantity }]);
+    //     } else {
+    //         setSelectedItems((prevSelected) => prevSelected.filter((item) => item.cartId !== cartId));
+    //     }
+    // };
+
+    // 주문서 데이터 생성
+    const onClickOrderBtn = async (productId, quantity) => {
+        let isSuccess = false;
+        try {
+            // console.log(selectedItems);
+            // const data = selectedItems.map(({ itemId, quantity }) => `${itemId}:${quantity}`).join(",");
+            const data = `${productId}:${quantity}`;
+            console.log(data);
+            const id = cookie.load("id");
+            const res = await axios.get(`${serverUrl}/api/users/form/orders/${id}`, {
+                params: {
+                    items: data,
+                },
+                headers: {
+                    Authorization: `Bearer ${cookie.load("accessToken")}`,
+                },
+            });
+
+            console.log(res);
+            const orders = res.data.data; // 주문서 저장
+            isSuccess = true;
+            navigate("/payment", { state: { orders: orders, data: data } }); // 결제 페이지에 주문서 데이터 보내주기
+        } catch (error) {
+            // 만약 401(인증) 에러가 나면
+            if (error.response.status === 401) {
+                await reissueAccToken(); // 토큰 재발급 함수 실행
+                !isSuccess && onClickOrderBtn(); // 함수 다시 실행
+            }
+            console.log("에러:", error);
         }
     };
 
@@ -80,20 +113,21 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                     <Checkbox checked={selectAll} onChange={handleSelectAll} defaultChecked={true} />
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell align="center">상품 사진</TableCell>
                                 <TableCell align="center">상품명</TableCell>
                                 <TableCell align="center">수량</TableCell>
                                 <TableCell align="center">가격</TableCell>
                                 <TableCell align="center">주문 관리</TableCell>
+                                <TableCell align="center">결제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {cartList.map((item) => (
                                 <TableRow key={item.cartId}>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         <Checkbox
                                             defaultChecked={true}
                                             checked={selectedItems.some(
@@ -103,7 +137,7 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                                 handleSelectOne(e, item.itemId, item.cartId, item.quantity)
                                             }
                                         />
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell
                                         align="center"
                                         onClick={() => onClickProduct(item.itemId)}
@@ -134,6 +168,18 @@ export default function CartList({ cartList, selectAll, setSelectAll, selectedIt
                                                 상품 삭제
                                             </Button>
                                         </div>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {item.stock === 0 ? (
+                                            <span>상품 재고가 없습니다.</span>
+                                        ) : (
+                                            <button
+                                                className={style.payBtn}
+                                                onClick={() => onClickOrderBtn(item.itemId, item.quantity)}
+                                            >
+                                                주문하기
+                                            </button>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
