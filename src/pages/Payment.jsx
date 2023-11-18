@@ -188,7 +188,7 @@ export default function Payment() {
             </div>
             <div className={style.btnBox}>
                 <button className={style.payBtn} onClick={onClickPaymentBtn}>
-                    주문서 작성 완료
+                    결제하기
                 </button>
                 <button className={style.backBtn} onClick={() => navigate("/")}>
                     취소
