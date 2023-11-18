@@ -79,7 +79,10 @@ export default function Payment() {
         }
 
         try {
-            const weiAmount = web3.utils.toWei(ethAmount.toString(), "ether");
+            const weiAmount = web3.utils.toWei(
+                exchangeWonToEth(orders[0].price * orders[0].quantity).toString(),
+                "ether"
+            );
             const gasLimit = "21000"; // 가스 한도 (기본값)
             const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
             const hexValue = web3.utils.numberToHex(weiAmount); // 16진수로 변환 (이더리움은 16진수로 되어있음)
