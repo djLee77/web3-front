@@ -28,9 +28,7 @@ export default function Payment() {
   const [orderProduct, setOrderProduct] = useState([]); // 주문 상품
 
   // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
-  const web3 = new Web3(
-    "https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6"
-  );
+  const web3 = new Web3(window.ethereum);
 
   const navigate = useNavigate();
   const location = useLocation(); // url 정보 가져오기
@@ -44,7 +42,7 @@ export default function Payment() {
   const productId = data[0];
   const quantity = data[1];
 
-  const contractAddress = "0x9859c20d78703614Db3728287d16c24E1cA0E868"; // 컨트랙트 주소
+  const contractAddress = "0x0038d3C6EF6f58dD4a1881bEe32Bb65420085c3C"; // 컨트랙트 주소
   const contractABI = [
     {
       inputs: [],
@@ -134,7 +132,7 @@ export default function Payment() {
   const getProductInfo = async (id) => {
     try {
       const res = await axios.get(`${serverUrl}/api/public/items/${id}`);
-      console.log("상품 정보 : ", res.data.data);
+      console.log("판매자 지갑 주소 : ", res.data.data.sellerId);
       setOrderProduct(res.data.data);
       setToAddress(res.data.data.sellerId);
     } catch (error) {
@@ -167,6 +165,43 @@ export default function Payment() {
       detailAddressRef.current.focus();
       return setIsDetailAddressInput(false);
     }
+
+    const checkTransactionReceipt = async (
+      hash,
+      attempts = 30,
+      interval = 3000
+    ) => {
+      if (attempts <= 0) {
+        console.error("트랜잭션 영수증 조회 시도 횟수 초과");
+        return;
+      }
+
+      try {
+        const receipt = await web3.eth.getTransactionReceipt(hash);
+        if (receipt) {
+          if (receipt.status) {
+            console.log("트랜잭션이 성공적으로 처리되었습니다:", receipt);
+            sendPaymentInfo();
+            setIsDisabled(false);
+          } else {
+            console.log("트랜잭션 실패:", receipt);
+          }
+        } else {
+          // 영수증이 아직 준비되지 않았으면 재귀적으로 다시 조회
+          setTimeout(
+            () => checkTransactionReceipt(hash, attempts - 1, interval),
+            interval
+          );
+        }
+      } catch (error) {
+        console.error("트랜잭션 조회 중 오류 발생:", error);
+        // 오류가 발생했을 때도 재귀적으로 다시 조회
+        setTimeout(
+          () => checkTransactionReceipt(hash, attempts - 1, interval),
+          interval
+        );
+      }
+    };
 
     try {
       setIsDisabled(true);
@@ -203,20 +238,7 @@ export default function Payment() {
 
       console.log("영수증 : ", transactionHash);
 
-      web3.eth.getTransactionReceipt(transactionHash, (error, receipt) => {
-        if (error) {
-          console.error("트랜잭션 조회 중 오류 발생:", error);
-        } else if (receipt) {
-          // 트랜잭션 영수증 분석
-          if (receipt.status) {
-            console.log("트랜잭션이 성공적으로 처리되었습니다:", receipt);
-            sendPaymentInfo();
-            setIsDisabled(false);
-          } else {
-            alert("트랜잭션 실패");
-          }
-        }
-      });
+      checkTransactionReceipt(transactionHash);
     } catch (error) {
       console.log(error);
       setIsDisabled(false);
