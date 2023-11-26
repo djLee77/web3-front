@@ -28,7 +28,9 @@ export default function Payment() {
   const [orderProduct, setOrderProduct] = useState([]); // 주문 상품
 
   // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
-  const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825c77b6");
+  const web3 = new Web3(
+    "https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6"
+  );
 
   const navigate = useNavigate();
   const location = useLocation(); // url 정보 가져오기
@@ -41,6 +43,79 @@ export default function Payment() {
   const data = location.state.data.split(":"); // location에 있는 productId, quantity
   const productId = data[0];
   const quantity = data[1];
+
+  const contractAddress = "0x9859c20d78703614Db3728287d16c24E1cA0E868"; // 컨트랙트 주소
+  const contractABI = [
+    {
+      inputs: [],
+      name: "confirmPurchase",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "_buyer",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "_amount",
+          type: "uint256",
+        },
+        {
+          internalType: "address payable",
+          name: "_seller",
+          type: "address",
+        },
+      ],
+      name: "setSellerDetails",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "amount",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "buyer",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "seller",
+      outputs: [
+        {
+          internalType: "address payable",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ]; // 컨트랙트 ABI
 
   // 전화번호 형식으로 정규화 함수
   const onChangePhone = (e) => {
@@ -95,32 +170,53 @@ export default function Payment() {
 
     try {
       setIsDisabled(true);
-      const weiAmount = web3.utils.toWei(exchangeWonToEth(orderProduct.price * quantity).toString(), "ether");
+      const weiAmount = web3.utils.toWei(
+        exchangeWonToEth(orderProduct.price * quantity).toString(),
+        "ether"
+      );
       const gasLimit = "21000"; // 가스 한도 (기본값)
       const gasPrice = web3.utils.toWei("1", "gwei"); // 가스 가격 (Gwei 단위, 예: 50 Gwei)
       const hexValue = web3.utils.numberToHex(weiAmount); // 16진수로 변환 (이더리움은 16진수로 되어있음)
 
+      const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+      await contract.methods
+        .setSellerDetails(fromAccount, hexValue, toAddress)
+        .send({ from: fromAccount });
+
       // 트랜잭션 정보 설정
-      const transactionData = {
+      const transactionParameters = {
         from: fromAccount, // 보내는 계정 주소
-        to: toAddress, // 받는 계정 주소
+        to: contractAddress, // 받는 계정 주소
         value: hexValue, // 이더 양
         gas: gasLimit, // 가스 한도 설정
         gasPrice: gasPrice, // 가스 가격 설정
+        data: contract.methods.confirmPurchase().encodeABI(),
       };
 
       // 트랜잭션 전송
       // 메타마스크로 트랜잭션 보내기
-      const result = await window.ethereum.request({
+      const transactionHash = await window.ethereum.request({
         method: "eth_sendTransaction",
-        params: [transactionData],
+        params: [transactionParameters],
       });
 
-      console.log("영수증 : ", result);
-      if (result !== "") {
-        sendPaymentInfo();
-        setIsDisabled(false);
-      }
+      console.log("영수증 : ", transactionHash);
+
+      web3.eth.getTransactionReceipt(transactionHash, (error, receipt) => {
+        if (error) {
+          console.error("트랜잭션 조회 중 오류 발생:", error);
+        } else if (receipt) {
+          // 트랜잭션 영수증 분석
+          if (receipt.status) {
+            console.log("트랜잭션이 성공적으로 처리되었습니다:", receipt);
+            sendPaymentInfo();
+            setIsDisabled(false);
+          } else {
+            alert("트랜잭션 실패");
+          }
+        }
+      });
     } catch (error) {
       console.log(error);
       setIsDisabled(false);
@@ -180,7 +276,9 @@ export default function Payment() {
       setPhone(phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
     }
     if (phone.length === 13) {
-      setPhone(phone.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
+      setPhone(
+        phone.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      );
     }
   }, [phone]);
 
@@ -204,7 +302,9 @@ export default function Payment() {
             />
             <TextField
               error={isPhoneInput ? false : true}
-              helperText={!isPhoneInput && "받으실 분의 전화번호를 입력해주세요"}
+              helperText={
+                !isPhoneInput && "받으실 분의 전화번호를 입력해주세요"
+              }
               label="전화번호"
               placeholder="010-1234-5678"
               size="small"
@@ -214,8 +314,20 @@ export default function Payment() {
               disabled={isDisabled}
             />
           </div>
-          <div style={{ display: "flex", marginTop: "20px", marginBottom: "20px", alignItems: "center" }}>
-            <TextField label="우편번호" size="small" value={zipCode} sx={{ marginRight: "10px" }} />
+          <div
+            style={{
+              display: "flex",
+              marginTop: "20px",
+              marginBottom: "20px",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              label="우편번호"
+              size="small"
+              value={zipCode}
+              sx={{ marginRight: "10px" }}
+            />
             <DaumPostCodeModal
               modalOpen={modalOpen}
               setModalOpen={setModalOpen}
@@ -224,10 +336,17 @@ export default function Payment() {
               isDisabled={isDisabled}
             />
           </div>
-          <TextField label="도로명 주소" size="small" value={roadAddress} sx={{ marginBottom: "20px" }} />
+          <TextField
+            label="도로명 주소"
+            size="small"
+            value={roadAddress}
+            sx={{ marginBottom: "20px" }}
+          />
           <TextField
             error={isDetailAddressInput ? false : true}
-            helperText={!isDetailAddressInput && "받으실 분의 상세 주소를 입력해주세요"}
+            helperText={
+              !isDetailAddressInput && "받으실 분의 상세 주소를 입력해주세요"
+            }
             label="상세 주소"
             size="small"
             value={detailAddress}
@@ -241,7 +360,12 @@ export default function Payment() {
           <div style={{ width: "420px", height: "300px", overflow: "auto" }}>
             <div style={{ display: "flex" }}>
               <div>
-                <img src={orderProduct.image1} alt="상품 이미지" width={150} height={150} />
+                <img
+                  src={orderProduct.image1}
+                  alt="상품 이미지"
+                  width={150}
+                  height={150}
+                />
               </div>
               <div className={style.orderProductBox}>
                 <span>{orderProduct.name}</span>
