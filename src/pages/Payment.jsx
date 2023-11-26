@@ -29,7 +29,6 @@ export default function Payment() {
 
   // seporia 연결, infura 활용해서 sepolia 테스트넷 원격 이더리움 노드에 접근할 수 있도록 엔드포인트 제공
   const web3 = new Web3(window.ethereum);
-  const web3 = new Web3("https://sepolia.infura.io/v3/54bf52443e4f442c8dc927eaf1825cb6");
 
   const navigate = useNavigate();
   const location = useLocation(); // url 정보 가져오기
