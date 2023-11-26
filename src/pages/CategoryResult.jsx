@@ -72,7 +72,7 @@ const CategoryResult = () => {
             sort: sortTypes[0],
             sortType: sortTypes[1], // 기본값
             pageNum: pageNum - 1, // 기본값
-            pageSize: 9, // 기본값
+            pageSize: 12, // 기본값
           },
         });
 
