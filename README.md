@@ -46,6 +46,9 @@ Web3 쇼핑몰은 Metamask 암호화폐 지갑을 사용하는 쇼핑몰 플랫�
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
+## ERD 다이어그램
+![ERD](/public/imgs/ERD.png)
+
 ## ⛵배포 방법
 * netlify - web
 * cloudType - server
