@@ -66,7 +66,7 @@
 ### 6.3. 🏡협업 환경
 * [노션](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)
 
-# 📑 7. Api Docs
+## 📑 7. Api Docs
 https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html
 
 ## 🎁 8. 실행 방법
