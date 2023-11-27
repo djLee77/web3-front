@@ -22,11 +22,17 @@
 ### 메인 페이지
 ![실행화면-메인페이지](/public/imgs/MainPage.gif)
 
+---
+
 ### 상품 목록 페이지 - 카테고리 선택
 ![실행화면-카테고리 결과 화면](/public/imgs/CategoryResultPage.gif)
 
+---
+
 ### 상품 사진 확대 기능 - 상품 상세 페이지
 ![실행화면-상품 상세 화면](/public/imgs/ProductDetail.gif)
+
+---
 
 ### 상품 결제 기능 - 상품 결제 페이지
 
