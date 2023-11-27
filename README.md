@@ -1,8 +1,8 @@
 # 🌐Web3 쇼핑몰
 
-## 협업 리포지토리
-### [Back-End](https://github.com/dlqudtjs/mall-backend) 
-### [스마트 컨트랙트(Solidity)](https://github.com/djLee77/smart-contract)
+## 🌈 협업 리포지토리
+- [Back-End](https://github.com/dlqudtjs/mall-backend) 
+- [Solidity(Smart Contract)](https://github.com/djLee77/smart-contract)
 
 ## 📒목차
 
