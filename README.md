@@ -55,16 +55,18 @@
 * cloudType - server
 
 ## 👨‍👩‍👧‍👦 6. 팀원 소개
-### 6.1. 🌞Front-end
-* [이대준](https://github.com/djLee77) <br>
-* 김동건
 
-### 6.2. 🌚Back-end
-* [이병선](https://github.com/dlqudtjs) <br>
-* 김봉준 - (챗봇)
+### 🌞Front-end
+### 🌚Back-end
 
-### 6.3. 🏡협업 환경
-* [노션](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)
+| 🌞 [이대준](https://github.com/djLee77) | 🌞 [김동건](https://github.com/ehdrjs4502) | 🌚 [이병선](https://github.com/dlqudtjs) | 🌚 [김봉준](https://github.com/Brazen-Story) |
+| ------------------ | ---------------------------- | -------------------------- | -------- |
+| 웹 디자인  | 웹 프론트 개발 | ERD 설계 | DB 구현 |
+| 웹 프론트 개발 | 챗봇 개발 | 쇼핑몰 부문 Api 개발 | 챗봇 부문 Api 개발 |
+| 스마트 컨트랙트 개발 | Web3 부문 개발 |  |  |
+
+### 🏡협업 환경
+[노션](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)
 
 ## 📑 7. Api Docs
 https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html
