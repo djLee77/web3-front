@@ -33,6 +33,11 @@ __🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
 
 ---
 
+### 로그인 기능
+![실행화면-로그인](/public/imgs/Login.gif)
+
+---
+
 ### 상품 목록 페이지 - 카테고리 선택
 ![실행화면-카테고리 결과 화면](/public/imgs/CategoryResultPage.gif)
 
