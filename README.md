@@ -9,9 +9,10 @@ __🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
 1. [✏ 프로젝트 소개](#-1-프로젝트-소개)
 2. [🚀 실행 방법](#-2-실행-방법)
 3. [✨ 기술 스택](#-3-기술-스택)
-4. [📐 ERD 다이어그램](#-4-ERD-다이어그램)
-5. [👨‍👩‍👧‍👦 팀원 소개](#-5-팀원-소개)
-6. [📑 Api Docs](#-6-Api-Docs)
+4. [⛵ 결제 기능 플로우 차트](#-4-결제-기능-플로우-차트)
+5. [📐 ERD 다이어그램](#-5-ERD-다이어그램)
+6. [👨‍👩‍👧‍👦 팀원 소개](#-6-팀원-소개)
+7. [📑 Api Docs](#-7-Api-Docs)
 
 
 ## ✏ 1. 프로젝트 소개
@@ -71,10 +72,13 @@ __🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
 
 <br>
 
-## 📐 4. ERD 다이어그램
+## ⛵ 4. 결제 기능 플로우 차트
+<img src="./pay-flowchart.drawio.png" alt="플로우 차트">
+
+## 📐 5. ERD 다이어그램
 ![ERD](/public/imgs/ERD.png)
 
-## 👨‍👩‍👧‍👦 5. 팀원 소개
+## 👨‍👩‍👧‍👦 6. 팀원 소개
 
 ### 🌞Front-end 🌚Back-end
 | 🌞 [이대준](https://github.com/djLee77) | 🌞 [김동건](https://github.com/ehdrjs4502) | 🌚 [이병선](https://github.com/dlqudtjs) | 🌚 [김봉준](https://github.com/Brazen-Story) |
@@ -83,10 +87,10 @@ __🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
 | 웹 프론트 개발 | 챗봇 개발 | 쇼핑몰 부문 Api 설계 | 챗봇 부문 Api 설계 |
 | 스마트 컨트랙트 개발 | Web3 부문 개발 | 쇼핑몰 부문 Api 개발 | 챗봇 부문 Api 개발 |
 
-## 📑 6. Api Docs, Notion
+## 📑 7. Api Docs, Notion
 ✅ __[Notion](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)__ 
 ✅ __[Api Docs](https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html)__
 
-## 🎁 7. 시작하기
+## 🎁 8. 시작하기
 ✅❗본 쇼핑몰을 이용하기 위해서는 MetaMask 확장 설치 및 MetaMask 계정 회원가입이 선행되어 있어야 합니다. <br>
 ✅ __[여기](https://mallba.netlify.app/cart)__ 에서 실제 사이트를 사용해 볼 수 있습니다.
