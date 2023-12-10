@@ -73,7 +73,7 @@ __🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
 <br>
 
 ## ⛵ 4. 결제 기능 플로우 차트
-<img src="./pay-flowchart.drawio.png" alt="플로우 차트">
+<img src="./pay-flowchart.drawio.svg" alt="플로우 차트">
 
 ## 📐 5. ERD 다이어그램
 ![ERD](/public/imgs/ERD.png)
