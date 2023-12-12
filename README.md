@@ -1,7 +1,8 @@
 # 🛒 Web3 쇼핑몰
 
 ## 🌈 협업 리포지토리
-__🌐 [Back-End](https://github.com/dlqudtjs/mall-backend) <br>
+__🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
+🌐 [Back-End(ChatBot)](https://github.com/Brazen-Story/mall_chatbot) <br>
 🌐 [Solidity(Smart Contract)](https://github.com/djLee77/smart-contract)__
 
 ## 📒목차
