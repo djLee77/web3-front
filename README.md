@@ -8,12 +8,13 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 ## 📒목차
 
 1. [✏ 프로젝트 소개](#-1-프로젝트-소개)
-2. [🚀 실행 방법](#-2-실행-방법)
-3. [✨ 기술 스택](#-3-기술-스택)
+2. [✨ 기술 스택](#-2-기술-스택)
+3. [🚀 실행 방법](#-3-실행-방법)
 4. [⛵ 결제 기능 플로우 차트](#-4-결제-기능-플로우-차트)
 5. [📐 ERD 다이어그램](#-5-ERD-다이어그램)
 6. [👨‍👩‍👧‍👦 팀원 소개](#-6-팀원-소개)
 7. [📑 Api Docs](#-7-Api-Docs)
+8. [🌈 배포 페이지](#-8-시작하기기)
 
 
 ## ✏ 1. 프로젝트 소개
@@ -23,7 +24,7 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 ✅ __탈중앙화된 결제__: 결제 시스템은 스마트 컨트랙트를 기반으로 구축되어 투명하고 조작할 수 없는 거래 과정을 제공합니다. 이를 통해 거래가 보안되며 사용자는 거래의 무결성을 신뢰할 수 있습니다. <br><br>
 ✅ __블록체인 강화 보안__: 블록체인 기술을 활용함으로써, 기존 전자상거래 플랫폼보다 높은 수준의 보안을 제공합니다. 이는 사기 및 무단 접근으로부터 보호를 포함합니다.
 
-### ✨ 기술 스택
+## ✨ 2. 기술 스택
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Solidity](https://img.shields.io/badge/Solidity-%23363636.svg?style=for-the-badge&logo=solidity&logoColor=white)
@@ -33,7 +34,7 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 <br>
 
-## 🚀 2. 주요 기능 목록
+## 🚀 3. 주요 기능 목록
 
 ### 메인 페이지
 ![실행화면-메인페이지](/public/imgs/MainPage.gif)
