@@ -90,7 +90,7 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 
 ## 📑 7. Api Docs, Notion
 ✅ __[Notion](https://www.notion.so/da5c6765c8184f86b72e0be2064c47a6?v=3c3021bbaa294ba48b94de2b15e81ec3&pvs=4)__ 
-✅ __[Api Docs](https://port-0-mall-deploy-jvvy2blm8p9dcp.sel5.cloudtype.app/docs/index.html)__
+✅ __[Api Docs](https://dlqudtjs.github.io/mall-backend/)__
 
 ## 🎁 8. 시작하기
 ✅❗본 쇼핑몰을 이용하기 위해서는 MetaMask 확장 설치 및 MetaMask 계정 회원가입이 선행되어 있어야 합니다. <br>
