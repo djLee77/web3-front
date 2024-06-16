@@ -78,7 +78,7 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 <img src="./pay-flowchart.drawio.svg" alt="플로우 차트">
 
 ## 📐 5. ERD 다이어그램
-![ERD](/public/imgs/ERD.png)
+![image](https://github.com/djLee77/web3-front/assets/117016295/f8a35067-5374-4f98-bbe2-0dd8b5718327)
 
 ## 👨‍👩‍👧‍👦 6. 팀원 소개
 
