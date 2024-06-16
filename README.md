@@ -13,8 +13,8 @@ __🌐 [Back-End(Shop)](https://github.com/dlqudtjs/mall-backend) <br>
 4. [⛵ 결제 기능 플로우 차트](#-4-결제-기능-플로우-차트)
 5. [📐 ERD 다이어그램](#-5-ERD-다이어그램)
 6. [👨‍👩‍👧‍👦 팀원 소개](#-6-팀원-소개)
-7. [📑 Api Docs](#-7-Api-Docs)
-8. [🌈 배포 페이지](#-8-시작하기기)
+7. [📑 Api Docs](#-7-Api-Docs,-Notion)
+8. [🌈 배포 페이지](#-8-시작하기)
 
 
 ## ✏ 1. 프로젝트 소개
